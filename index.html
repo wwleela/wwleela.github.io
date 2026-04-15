@@ -214,7 +214,7 @@
       </ul>
 
       <!-- NAV CTA BUTTON — Edit href and label -->
-      <a href="#razorpay"
+      <a href="javascript:void(0)" onclick="seedhapePay('enroll')"
          class="hidden sm:inline-flex items-center gap-2 bg-mustard hover:bg-amber-500 text-charcoal font-semibold text-sm px-5 py-2 rounded-full shadow-md transition-all duration-200 hover:shadow-lg hover:scale-105">
         <!-- BUTTON LABEL — Edit this text -->
         Enroll Now ↗
@@ -236,7 +236,7 @@
         <a href="#community" class="nav-link text-base">Community</a>
         <a href="#programs" class="nav-link text-base">Programs</a>
         <!-- MOBILE NAV CTA — Edit href -->
-        <a href="#razorpay" class="mt-2 text-center bg-mustard text-charcoal font-semibold py-2 rounded-full">Enroll Now ↗</a>
+        <a href="javascript:void(0)" onclick="seedhapePay('enroll')" class="mt-2 text-center bg-mustard text-charcoal font-semibold py-2 rounded-full">Enroll Now ↗</a>
       </div>
 
     </div>
@@ -302,12 +302,12 @@
       </p>
 
       <!-- HERO BUTTONS
-           PRIMARY BUTTON — Edit href="#razorpay" to your actual payment link
+           PRIMARY BUTTON — Edit href="javascript:void(0)" onclick="seedhapePay('enroll')" to your actual payment link
            SECONDARY BUTTON — Edit href="#whatsapp" to your WhatsApp group link -->
       <div class="fade-up delay-3 flex flex-col sm:flex-row items-center justify-center gap-4">
 
         <!-- PRIMARY CTA BUTTON — Edit href and label text -->
-        <a href="#razorpay"
+        <a href="javascript:void(0)" onclick="seedhapePay('enroll')"
            class="group inline-flex items-center gap-3 bg-mustard hover:bg-amber-500 text-charcoal font-heading font-bold text-lg px-8 py-4 rounded-full shadow-xl transition-all duration-200 hover:scale-105 hover:shadow-2xl">
           <!-- PRIMARY BUTTON LABEL — Edit this text -->
           Enroll in Summer Camp
@@ -622,7 +622,7 @@
             </p>
 
             <!-- CARD 1 BUTTON — Edit href and label -->
-            <a href="#razorpay-summercamp"
+            <a href="javascript:void(0)" onclick="seedhapePay('society-summer-camp')"
                class="group/btn inline-flex justify-center items-center gap-2 bg-mustard hover:bg-amber-500 text-charcoal font-heading font-bold px-7 py-3 rounded-full shadow-md transition-all duration-200 hover:scale-105">
               <!-- CARD 1 BUTTON LABEL — Edit this text -->
               Secure Your Spot
@@ -657,7 +657,7 @@
             </p>
 
             <!-- CARD 2 BUTTON — Edit href and label -->
-            <a href="#razorpay-elite1"
+            <a href="javascript:void(0)" onclick="seedhapePay('ugh-elite-1on1')"
                class="group/btn inline-flex justify-center items-center gap-2 bg-amber-50 hover:bg-white text-teal font-heading font-bold px-7 py-3 rounded-full shadow-md transition-all duration-200 hover:scale-105">
               <!-- CARD 2 BUTTON LABEL — Edit this text -->
               Book Session
@@ -689,7 +689,7 @@
             </p>
 
             <!-- CARD 3 BUTTON — Edit href and label -->
-            <a href="#razorpay-eliteduo"
+            <a href="javascript:void(0)" onclick="seedhapePay('elite-duo-session')"
                class="group/btn inline-flex justify-center items-center gap-2 bg-white hover:bg-gray-200 text-charcoal font-heading font-bold px-7 py-3 rounded-full shadow-md transition-all duration-200 hover:scale-105">
               <!-- CARD 3 BUTTON LABEL — Edit this text -->
               Book Duo
@@ -833,6 +833,47 @@
       </div>
     </div>
   </footer>
+
+
+  <!-- ============================================================
+       SEEDHAPE PAYMENT WEBHOOK
+       Replace the BASE_URL below with your actual domain.
+       Each button calls seedhapePay(eventName) which POSTs to
+       https://api.yoursite.com/webhooks/seedhape
+       ============================================================ -->
+  <script>
+    const SEEDHAPE_WEBHOOK = "https://api.yoursite.com/webhooks/seedhape";
+
+    async function seedhapePay(plan) {
+      try {
+        const response = await fetch(SEEDHAPE_WEBHOOK, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            event: "checkout.initiated",
+            plan: plan,
+            source: "urbangliding.hyd",
+            timestamp: new Date().toISOString()
+          })
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          // If Seedhape returns a checkout URL, redirect there
+          if (data && data.checkout_url) {
+            window.location.href = data.checkout_url;
+          } else {
+            alert("Payment session started! You will be redirected shortly.");
+          }
+        } else {
+          alert("Could not initiate payment. Please try again or contact us on WhatsApp.");
+        }
+      } catch (err) {
+        console.error("Seedhape webhook error:", err);
+        alert("Network error. Please check your connection and try again.");
+      }
+    }
+  </script>
 
 </body>
 </html>

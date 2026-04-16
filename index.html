@@ -621,11 +621,12 @@
               Bring UGH to your neighborhood. Comprehensive multi-day clinics focusing on fundamentals, safety, and group riding.
             </p>
 
-            <!-- CARD 1 BUTTON — SeedhaPe UPI Payment -->
-            <button onclick="openPayment('summercamp', 399900, 'Society Summer Camps', 'Summer Camp — Urban Gliding Hyderabad')"
-               class="group/btn inline-flex justify-center items-center gap-2 bg-mustard hover:bg-amber-500 text-charcoal font-heading font-bold px-7 py-3 rounded-full shadow-md transition-all duration-200 hover:scale-105 w-full cursor-pointer border-0">
+            <!-- CARD 1 BUTTON — Edit href and label -->
+            <a href="https://www.seedhape.com/pay/link/sp_lnk_kt4tn5jjb8ruslbs"
+               class="group/btn inline-flex justify-center items-center gap-2 bg-mustard hover:bg-amber-500 text-charcoal font-heading font-bold px-7 py-3 rounded-full shadow-md transition-all duration-200 hover:scale-105">
+              <!-- CARD 1 BUTTON LABEL — Edit this text -->
               Secure Your Spot
-            </button>
+            </a>
 
           </div>
         </div>
@@ -655,11 +656,12 @@
               Hyper-focused, individualized coaching. Perfect for accelerated learning, overcoming fear, and technical mastery.
             </p>
 
-            <!-- CARD 2 BUTTON — SeedhaPe UPI Payment -->
-            <button onclick="openPayment('elite1', 599900, 'UGH Elite 1-on-1', 'Elite 1-on-1 Session — Urban Gliding Hyderabad')"
-               class="group/btn inline-flex justify-center items-center gap-2 bg-amber-50 hover:bg-white text-teal font-heading font-bold px-7 py-3 rounded-full shadow-md transition-all duration-200 hover:scale-105 w-full cursor-pointer border-0">
+            <!-- CARD 2 BUTTON — Edit href and label -->
+            <a href="https://www.seedhape.com/pay/link/sp_lnk_kj8tqvay5lvl9xyq"
+               class="group/btn inline-flex justify-center items-center gap-2 bg-amber-50 hover:bg-white text-teal font-heading font-bold px-7 py-3 rounded-full shadow-md transition-all duration-200 hover:scale-105">
+              <!-- CARD 2 BUTTON LABEL — Edit this text -->
               Book Session
-            </button>
+            </a>
 
           </div>
         </div>
@@ -686,11 +688,12 @@
               Train with a partner. Shared motivation, competitive progression, and premium technical instruction for two.
             </p>
 
-            <!-- CARD 3 BUTTON — SeedhaPe UPI Payment -->
-            <button onclick="openPayment('eliteduo', 899900, 'Elite Duo Sessions', 'Elite Duo Session — Urban Gliding Hyderabad')"
-               class="group/btn inline-flex justify-center items-center gap-2 bg-white hover:bg-gray-200 text-charcoal font-heading font-bold px-7 py-3 rounded-full shadow-md transition-all duration-200 hover:scale-105 w-full cursor-pointer border-0">
+            <!-- CARD 3 BUTTON — Edit href and label -->
+            <a href="https://www.seedhape.com/pay/link/sp_lnk_1mfgu3yjry0218l9"
+               class="group/btn inline-flex justify-center items-center gap-2 bg-white hover:bg-gray-200 text-charcoal font-heading font-bold px-7 py-3 rounded-full shadow-md transition-all duration-200 hover:scale-105">
+              <!-- CARD 3 BUTTON LABEL — Edit this text -->
               Book Duo
-            </button>
+            </a>
 
           </div>
         </div>
@@ -830,324 +833,6 @@
       </div>
     </div>
   </footer>
-
-
-  <!-- ============================================================
-       SEEDHAPE UPI PAYMENT MODAL
-       Styled to match Urban Gliding Hyderabad brand theme
-       ============================================================ -->
-
-  <!-- Modal Backdrop -->
-  <div id="sp-backdrop"
-       onclick="closePayment()"
-       style="display:none; position:fixed; inset:0; background:rgba(26,36,14,0.65); backdrop-filter:blur(4px); z-index:9998;">
-  </div>
-
-  <!-- Modal Panel -->
-  <div id="sp-modal"
-       style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
-              width:min(480px,94vw); background:#fdf6e3; border-radius:24px;
-              border:2px solid rgba(217,119,6,0.35); box-shadow:0 32px 80px rgba(26,92,90,0.25);
-              z-index:9999; overflow:hidden; font-family:'Inter',sans-serif;">
-
-    <!-- Top accent bar matching brand -->
-    <div style="height:5px; background:linear-gradient(90deg,#1a5c5a,#d97706,#1a5c5a);"></div>
-
-    <!-- Header -->
-    <div style="background:#1a5c5a; padding:20px 24px 18px; display:flex; align-items:center; justify-content:space-between;">
-      <div style="display:flex; align-items:center; gap:12px;">
-        <!-- Skateboard icon -->
-        <div style="width:38px;height:38px;background:rgba(217,119,6,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;">
-          <svg width="20" height="20" viewBox="0 0 32 32" fill="none">
-            <rect x="4" y="12" width="24" height="6" rx="3" fill="#d97706"/>
-            <circle cx="9" cy="22" r="3" fill="#fdf6e3" stroke="#d97706" stroke-width="1.5"/>
-            <circle cx="23" cy="22" r="3" fill="#fdf6e3" stroke="#d97706" stroke-width="1.5"/>
-            <path d="M8 12 Q16 6 24 12" stroke="#fdf6e3" stroke-width="1.5" stroke-linecap="round" fill="none"/>
-          </svg>
-        </div>
-        <div>
-          <p style="color:#fde68a;font-family:'Rokkitt',serif;font-size:1.05rem;font-weight:700;margin:0;" id="sp-plan-name">Book Your Session</p>
-          <p style="color:rgba(253,230,138,0.6);font-size:0.72rem;margin:0;">Urban Gliding Hyderabad</p>
-        </div>
-      </div>
-      <button onclick="closePayment()" style="background:rgba(255,255,255,0.1);border:none;color:#fdf6e3;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;">✕</button>
-    </div>
-
-    <!-- Body -->
-    <div style="padding:24px;">
-
-      <!-- Amount display -->
-      <div style="text-align:center;margin-bottom:20px;">
-        <p style="font-family:'Rokkitt',serif;font-size:2.4rem;font-weight:900;color:#2d2416;margin:0;" id="sp-amount-display">₹0</p>
-        <p style="color:#1a5c5a;font-size:0.8rem;margin:4px 0 0;opacity:0.7;" id="sp-desc-display"></p>
-      </div>
-
-      <!-- Step 1: Customer details form -->
-      <div id="sp-step-details">
-        <p style="font-family:'Rokkitt',serif;font-size:0.78rem;letter-spacing:0.12em;text-transform:uppercase;color:#d97706;margin:0 0 14px;">Your Details</p>
-        <div style="display:flex;flex-direction:column;gap:12px;">
-          <input id="sp-name" type="text" placeholder="Your full name (as in UPI app) *"
-                 style="width:100%;padding:12px 14px;border:1.5px solid #d4eeec;border-radius:12px;font-size:0.9rem;background:#fff;color:#2d2416;outline:none;font-family:'Inter',sans-serif;"
-                 onfocus="this.style.borderColor='#d97706'" onblur="this.style.borderColor='#d4eeec'"/>
-          <input id="sp-email" type="email" placeholder="Email address"
-                 style="width:100%;padding:12px 14px;border:1.5px solid #d4eeec;border-radius:12px;font-size:0.9rem;background:#fff;color:#2d2416;outline:none;font-family:'Inter',sans-serif;"
-                 onfocus="this.style.borderColor='#d97706'" onblur="this.style.borderColor='#d4eeec'"/>
-          <input id="sp-phone" type="tel" placeholder="Phone number"
-                 style="width:100%;padding:12px 14px;border:1.5px solid #d4eeec;border-radius:12px;font-size:0.9rem;background:#fff;color:#2d2416;outline:none;font-family:'Inter',sans-serif;"
-                 onfocus="this.style.borderColor='#d97706'" onblur="this.style.borderColor='#d4eeec'"/>
-        </div>
-        <p id="sp-error" style="color:#c2400e;font-size:0.8rem;margin:10px 0 0;display:none;"></p>
-        <button onclick="submitDetails()"
-                style="margin-top:16px;width:100%;padding:14px;background:#1a5c5a;color:#fdf6e3;font-family:'Rokkitt',serif;font-size:1rem;font-weight:700;border:none;border-radius:14px;cursor:pointer;transition:background 0.2s;"
-                onmouseover="this.style.background='#d97706';this.style.color='#2d2416'"
-                onmouseout="this.style.background='#1a5c5a';this.style.color='#fdf6e3'"
-                id="sp-details-btn">
-          Proceed to Pay →
-        </button>
-      </div>
-
-      <!-- Step 2: QR / UPI payment -->
-      <div id="sp-step-qr" style="display:none; text-align:center;">
-        <p style="font-family:'Rokkitt',serif;font-size:0.78rem;letter-spacing:0.12em;text-transform:uppercase;color:#d97706;margin:0 0 14px;">Scan & Pay via UPI</p>
-
-        <!-- QR code -->
-        <div style="display:inline-block;padding:12px;background:#fff;border-radius:16px;border:2px solid #d4eeec;margin-bottom:14px;">
-          <img id="sp-qr-img" src="" alt="UPI QR Code" style="width:200px;height:200px;display:block;"/>
-        </div>
-
-        <!-- UPI deep link button (mobile) -->
-        <div style="margin-bottom:16px;">
-          <a id="sp-upi-link" href="#"
-             style="display:inline-flex;align-items:center;gap:8px;background:#d97706;color:#2d2416;font-family:'Rokkitt',serif;font-weight:700;padding:12px 24px;border-radius:100px;text-decoration:none;font-size:0.95rem;transition:background 0.2s;"
-             onmouseover="this.style.background='#1a5c5a';this.style.color='#fdf6e3'"
-             onmouseout="this.style.background='#d97706';this.style.color='#2d2416'">
-            Open UPI App →
-          </a>
-        </div>
-
-        <!-- Status polling indicator -->
-        <div id="sp-status-msg" style="display:flex;align-items:center;justify-content:center;gap:8px;color:#1a5c5a;font-size:0.85rem;">
-          <span id="sp-spinner" style="display:inline-block;width:16px;height:16px;border:2px solid #d4eeec;border-top-color:#1a5c5a;border-radius:50%;animation:spin 0.8s linear infinite;"></span>
-          Waiting for payment…
-        </div>
-
-        <!-- Dispute / screenshot upload -->
-        <div id="sp-dispute-area" style="display:none;margin-top:16px;padding:14px;background:#fef3c7;border-radius:12px;border:1.5px solid #d97706;">
-          <p style="font-size:0.82rem;color:#2d2416;margin:0 0 10px;font-weight:600;">Payment expired or under review?</p>
-          <p style="font-size:0.78rem;color:#2d2416;margin:0 0 10px;opacity:0.75;">Upload a screenshot of your UPI payment confirmation and we'll verify it manually.</p>
-          <input type="file" id="sp-screenshot" accept="image/*" style="font-size:0.8rem;margin-bottom:10px;width:100%;"/>
-          <button onclick="submitDispute()"
-                  style="width:100%;padding:10px;background:#d97706;color:#2d2416;font-family:'Rokkitt',serif;font-weight:700;border:none;border-radius:10px;cursor:pointer;font-size:0.9rem;">
-            Submit for Review
-          </button>
-        </div>
-
-        <p style="font-size:0.72rem;color:#2d2416;opacity:0.45;margin-top:14px;">
-          Payment goes directly to UGH's UPI. Secured by SeedhaPe.
-        </p>
-      </div>
-
-      <!-- Step 3: Success -->
-      <div id="sp-step-success" style="display:none; text-align:center; padding:10px 0;">
-        <div style="width:72px;height:72px;background:#d4eeec;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
-          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#1a5c5a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="20 6 9 17 4 12"/>
-          </svg>
-        </div>
-        <p style="font-family:'Rokkitt',serif;font-size:1.5rem;font-weight:800;color:#1a5c5a;margin:0 0 8px;">Payment Confirmed!</p>
-        <p style="color:#2d2416;font-size:0.9rem;opacity:0.7;margin:0 0 20px;">We'll reach out via WhatsApp to schedule your session. See you on the pavement! 🛹</p>
-        <button onclick="closePayment()" style="padding:12px 32px;background:#d97706;color:#2d2416;font-family:'Rokkitt',serif;font-weight:700;border:none;border-radius:100px;cursor:pointer;font-size:1rem;">
-          Close
-        </button>
-      </div>
-
-    </div>
-  </div>
-
-  <style>
-    @keyframes spin { to { transform: rotate(360deg); } }
-  </style>
-
-  <!-- ============================================================
-       SEEDHAPE PAYMENT LOGIC
-       Replace YOUR_API_KEY with your actual sp_live_... key
-       Replace YOUR_BACKEND_URL with your webhook server URL
-       ============================================================ -->
-  <script>
-    // ──────────────────────────────────────────────────────────────
-    // CONFIGURATION — Update these values
-    // ──────────────────────────────────────────────────────────────
-    const SEEDHAPE_API_URL = 'https://seedhape.onrender.com';
-    const SEEDHAPE_API_KEY = 'sp_live_hltkem0irnfw3tcqxi7st87d1cyreuni'; // ⚠️ Replace with your key
-    // NOTE: For production, move order creation to a backend and never
-    // expose your API key in frontend code. See webhook.js for the server.
-    // ──────────────────────────────────────────────────────────────
-
-    let currentOrderId = null;
-    let pollInterval   = null;
-    let currentPlan    = null;
-
-    // Called when a "Book" button is clicked
-    function openPayment(plan, amountPaise, planName, description) {
-      currentPlan = { plan, amountPaise, planName, description };
-
-      // Reset modal state
-      showStep('details');
-      document.getElementById('sp-error').style.display = 'none';
-      document.getElementById('sp-name').value  = '';
-      document.getElementById('sp-email').value = '';
-      document.getElementById('sp-phone').value = '';
-
-      // Populate header
-      document.getElementById('sp-plan-name').textContent = planName;
-      document.getElementById('sp-amount-display').textContent = '₹' + (amountPaise / 100).toLocaleString('en-IN');
-      document.getElementById('sp-desc-display').textContent = description;
-
-      // Show modal
-      document.getElementById('sp-backdrop').style.display = 'block';
-      document.getElementById('sp-modal').style.display    = 'block';
-      document.body.style.overflow = 'hidden';
-    }
-
-    function closePayment() {
-      document.getElementById('sp-backdrop').style.display = 'none';
-      document.getElementById('sp-modal').style.display    = 'none';
-      document.body.style.overflow = '';
-      if (pollInterval) { clearInterval(pollInterval); pollInterval = null; }
-    }
-
-    function showStep(step) {
-      document.getElementById('sp-step-details').style.display = step === 'details' ? 'block' : 'none';
-      document.getElementById('sp-step-qr').style.display      = step === 'qr'      ? 'block' : 'none';
-      document.getElementById('sp-step-success').style.display = step === 'success' ? 'block' : 'none';
-    }
-
-    async function submitDetails() {
-      const name  = document.getElementById('sp-name').value.trim();
-      const email = document.getElementById('sp-email').value.trim();
-      const phone = document.getElementById('sp-phone').value.trim();
-      const errEl = document.getElementById('sp-error');
-      const btn   = document.getElementById('sp-details-btn');
-
-      if (!name) {
-        errEl.textContent = 'Please enter your full name exactly as it appears in your UPI app.';
-        errEl.style.display = 'block';
-        return;
-      }
-
-      btn.textContent = 'Creating order…';
-      btn.disabled = true;
-      errEl.style.display = 'none';
-
-      try {
-        // Create order via SeedhaPe API
-        const res = await fetch(`${SEEDHAPE_API_URL}/v1/orders`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${SEEDHAPE_API_KEY}`
-          },
-          body: JSON.stringify({
-            amount: currentPlan.amountPaise,
-            description: currentPlan.description,
-            externalOrderId: `ugh_${currentPlan.plan}_${Date.now()}`,
-            expectedSenderName: name,
-            customerEmail: email || undefined,
-            customerPhone: phone || undefined,
-            expiresInMinutes: 15,
-            metadata: { plan: currentPlan.plan, source: 'website' }
-          })
-        });
-
-        if (!res.ok) {
-          const err = await res.json().catch(() => ({}));
-          throw new Error(err.message || 'Order creation failed. Please try again.');
-        }
-
-        const order = await res.json();
-        currentOrderId = order.id;
-
-        // Populate QR step
-        document.getElementById('sp-qr-img').src = order.qrCode;
-        document.getElementById('sp-upi-link').href = order.upiUri;
-        document.getElementById('sp-dispute-area').style.display = 'none';
-
-        showStep('qr');
-        startPolling(order.id);
-
-        // Show dispute option after 12 minutes
-        setTimeout(() => {
-          const disputeArea = document.getElementById('sp-dispute-area');
-          if (disputeArea) disputeArea.style.display = 'block';
-        }, 12 * 60 * 1000);
-
-      } catch (err) {
-        errEl.textContent = err.message;
-        errEl.style.display = 'block';
-      } finally {
-        btn.textContent = 'Proceed to Pay →';
-        btn.disabled = false;
-      }
-    }
-
-    function startPolling(orderId) {
-      const statusMsg = document.getElementById('sp-status-msg');
-
-      pollInterval = setInterval(async () => {
-        try {
-          const res = await fetch(`${SEEDHAPE_API_URL}/v1/orders/${orderId}/status`, {
-            headers: { 'Authorization': `Bearer ${SEEDHAPE_API_KEY}` }
-          });
-          if (!res.ok) return;
-          const data = await res.json();
-
-          if (data.status === 'VERIFIED' || data.status === 'RESOLVED') {
-            clearInterval(pollInterval);
-            pollInterval = null;
-            showStep('success');
-          } else if (data.status === 'EXPIRED') {
-            clearInterval(pollInterval);
-            pollInterval = null;
-            statusMsg.innerHTML = '⚠️ Order expired. Upload a screenshot below to raise a dispute.';
-            document.getElementById('sp-dispute-area').style.display = 'block';
-          } else if (data.status === 'DISPUTED') {
-            statusMsg.innerHTML = '⏳ Payment under review…';
-          }
-        } catch (e) { /* network blip — keep polling */ }
-      }, 4000); // poll every 4 seconds
-    }
-
-    async function submitDispute() {
-      if (!currentOrderId) return;
-      const fileInput = document.getElementById('sp-screenshot');
-      if (!fileInput.files.length) {
-        alert('Please select a screenshot file first.');
-        return;
-      }
-      const form = new FormData();
-      form.append('screenshot', fileInput.files[0]);
-
-      try {
-        const res = await fetch(`${SEEDHAPE_API_URL}/v1/pay/${currentOrderId}/screenshot`, {
-          method: 'POST',
-          body: form
-        });
-        if (res.ok) {
-          document.getElementById('sp-dispute-area').innerHTML =
-            '<p style="color:#1a5c5a;font-weight:600;font-size:0.88rem;margin:0;">✅ Screenshot submitted! We\'ll review and confirm via WhatsApp.</p>';
-        } else {
-          alert('Upload failed. Please try again or contact us on WhatsApp.');
-        }
-      } catch (e) {
-        alert('Network error. Please try again.');
-      }
-    }
-
-    // Close modal on Escape key
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closePayment();
-    });
-  </script>
 
 </body>
 </html>

@@ -1,42 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- ============================================================
-       SECURITY META TAGS
-       ============================================================ -->
-  <!-- Prevents MIME sniffing -->
-  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
-  <!-- Controls referrer info sent to external sites -->
-  <meta name="referrer" content="strict-origin-when-cross-origin" />
-  <!-- Prevents clickjacking (for browsers that respect meta CSP) -->
-  <meta http-equiv="X-Frame-Options" content="SAMEORIGIN" />
-  <!-- Content Security Policy — allows Clerk, Supabase, GSAP, GA4, Clarity -->
-  <meta http-equiv="Content-Security-Policy" content="
-    default-src 'self';
-    script-src 'self' 'unsafe-inline'
-      https://cdn.tailwindcss.com
-      https://cdnjs.cloudflare.com
-      https://cdn.jsdelivr.net
-      https://powerful-redfish-50.clerk.accounts.dev
-      https://www.googletagmanager.com
-      https://www.clarity.ms
-      https://www.google-analytics.com;
-    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-    font-src 'self' https://fonts.gstatic.com;
-    img-src 'self' data: blob: https:;
-    connect-src 'self'
-      https://tatepjlilnfsvxnqxlud.supabase.co
-      wss://tatepjlilnfsvxnqxlud.supabase.co
-      https://powerful-redfish-50.clerk.accounts.dev
-      https://api.resend.com
-      https://www.google-analytics.com
-      https://region1.analytics.google.com
-      https://www.clarity.ms;
-    frame-src https://powerful-redfish-50.clerk.accounts.dev;
-    object-src 'none';
-    base-uri 'self';
-  " />
-
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
@@ -70,8 +34,8 @@
   <!-- ============================================================
        GSAP + ScrollTrigger — Scroll-driven animations
        ============================================================ -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha512-7eHRwcbYkK4d9g/6tD/mhkf++eoTHwpNM9woBxtPUBWm67zeAfFC+HrdoE2GanKeocly/VxeLvIqwvCdk7qScg==" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" integrity="sha512-IQLehpLoVS4fNzl7IfH8Iowfbjc5/H4bkAdVe2Y9HlqBK2OVV5mNdTf/9Pu/T0XDl3V9/5f2R3yCQnY8t0A==" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
 
 
@@ -84,7 +48,7 @@
     async
     crossorigin="anonymous"
     data-clerk-publishable-key="pk_test_cG93ZXJmdWwtcmVkZmlzaC01MC5jbGVyay5hY2NvdW50cy5kZXYk"
-    src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js"
+    src="https://powerful-redfish-50.clerk.accounts.dev/npm/@clerk/clerk-js@latest/dist/clerk.browser.js"
     type="text/javascript">
   </script>
 
@@ -347,29 +311,22 @@
       background-color: rgba(26,92,90,0.92);
     }
 
-    /* ── SPRINT 7 MOTION + DELIGHT ─────────────────────── */
+    /* ── POLISH & MOTION ───────────────────────────── */
     html { scroll-padding-top: 72px; }
-    nav { transition: background .35s, box-shadow .35s; }
-    nav.scrolled { background: rgba(26,92,90,.97) !important; box-shadow: 0 4px 32px rgba(45,36,22,.25); }
-    .card-hover { transition: transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s; will-change: transform; }
-    .card-hover:hover { transform: translateY(-6px) scale(1.015); box-shadow: 0 16px 48px rgba(45,36,22,.18); }
-    @keyframes shimmer { 0%{background-position:-200% center} 100%{background-position:200% center} }
-    a[href="#programs"][class*="bg-mustard"] { background-size:200% auto; background-image:linear-gradient(105deg,#d97706 0%,#fbbf24 40%,#d97706 100%); animation:shimmer 3.5s linear infinite; }
-    .retro-badge { transition: letter-spacing .3s, box-shadow .3s; cursor: default; }
-    .retro-badge:hover { letter-spacing: .25em; box-shadow: 0 0 0 3px rgba(217,119,6,.2); }
-    #photo-grid .group:hover { transform: scale(1.03) rotate(.4deg); }
-    #chat-btn { position: relative; }
-    #chat-btn::before { content:''; position:absolute; inset:-4px; border-radius:50%; border:2px solid rgba(26,92,90,.4); animation:ping-ring 2.5s ease-out infinite; }
-    @keyframes ping-ring { 0%{transform:scale(1);opacity:.6} 70%,100%{transform:scale(1.4);opacity:0} }
+    nav { transition: background .35s ease, box-shadow .35s ease; }
+    nav.scrolled { background: rgba(22,52,50,.97) !important; box-shadow: 0 2px 40px rgba(0,0,0,.3); }
+    .card-hover { transition: transform .35s cubic-bezier(.34,1.56,.64,1), box-shadow .35s ease; will-change: transform; }
+    .card-hover:hover { transform: translateY(-8px) scale(1.012); box-shadow: 0 20px 60px rgba(45,36,22,.15); }
+    #photo-grid .group { cursor: pointer; }
+    #chat-btn { position: relative; isolation: isolate; }
+    #chat-btn::before { content:''; position:absolute; inset:-5px; border-radius:50%; border:2px solid rgba(26,92,90,.45); animation:ping-ring 2.8s ease-out infinite; pointer-events:none; }
+    @keyframes ping-ring { 0%{transform:scale(1);opacity:.7} 70%,100%{transform:scale(1.5);opacity:0} }
     button:focus-visible, a:focus-visible { outline: 2px solid #d97706; outline-offset: 3px; border-radius: 4px; }
-    #chat-input:focus { border-color: #1a5c5a !important; box-shadow: 0 0 0 3px rgba(26,92,90,.15) !important; }
     @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration:.01ms !important; transition-duration:.01ms !important; } }
-    @media (min-width: 1280px) { h1.font-heading { font-size: clamp(4rem,6vw,6rem); } }
   </style>
 </head>
 
 <body class="font-body">
-  <div style="position:fixed;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#1a5c5a,#d97706,#c2400e);z-index:99999;pointer-events:none;" aria-hidden="true"></div>
 
   <!-- ============================================================
        NAVIGATION BAR
@@ -411,7 +368,7 @@
           </a>
         </div>
         <!-- Shows when logged IN -->
-        <div id="nav-signed-in" class="hidden items-center gap-3">
+        <div id="nav-signed-in" style="display:none" class="items-center gap-3">
           <a href="#member-zone"
             class="text-amber-100/70 hover:text-amber-50 text-sm font-medium transition-colors">
             My Zone
@@ -446,7 +403,7 @@
           <button onclick="window.clerkSignIn()" class="text-amber-100/60 text-sm font-medium text-left">Login / Sign up</button>
           <a href="#programs" class="text-center bg-mustard text-charcoal font-semibold py-2 rounded-full">Enroll Now ↗</a>
         </div>
-        <div id="mob-signed-in" class="hidden flex-col gap-2">
+        <div id="mob-signed-in" style="display:none" class="flex-col gap-2">
           <a href="#member-zone" class="text-amber-50 text-sm font-medium">My Zone ↓</a>
           <button onclick="window.clerkSignOut()" class="text-left text-amber-100/50 text-sm">Sign out</button>
         </div>
@@ -492,14 +449,14 @@
 
       <!-- HERO BADGE LABEL — Edit this small label text -->
       <div class="fade-up flex justify-center mb-6">
-        <span class="retro-badge">Hyderabad's Premier Skate Community · IOC Certified · Est. 2024</span>
+        <span class="retro-badge">Hyderabad's Skate Community · Est. 2024</span>
       </div>
 
       <!-- HERO HEADLINE — Edit the main heading text below -->
       <h1 class="fade-up delay-1 font-heading text-5xl sm:text-6xl md:text-7xl font-black leading-tight text-amber-50 mb-6">
         Master the
         <span class="relative inline-block">
-          <span class="text-mustard" style="text-shadow:0 0 80px rgba(217,119,6,.45),0 0 30px rgba(217,119,6,.25)">Pavement.</span>
+          <span class="text-mustard">Pavement.</span>
           <!-- decorative underline squiggle -->
           <svg class="absolute -bottom-2 left-0 w-full" height="6" viewBox="0 0 200 6" preserveAspectRatio="none" fill="none">
             <path d="M0 3 Q25 0 50 3 Q75 6 100 3 Q125 0 150 3 Q175 6 200 3" stroke="#d97706" stroke-width="2" stroke-linecap="round"/>
@@ -530,7 +487,7 @@
         </a>
 
         <!-- SECONDARY CTA BUTTON — Edit href and label text -->
-        <a rel="noopener noreferrer" href="https://chat.whatsapp.com/CeSGQhqpUMX8XamdJ7Uf2N?mode=gi_t"
+        <a href="https://chat.whatsapp.com/CeSGQhqpUMX8XamdJ7Uf2N?mode=gi_t"
            class="group inline-flex items-center gap-3 border-2 border-amber-200/60 hover:border-amber-300 text-amber-100 hover:text-amber-50 font-heading font-semibold text-lg px-8 py-4 rounded-full transition-all duration-200 hover:bg-white/5">
           <!-- SECONDARY BUTTON LABEL — Edit this text -->
           Join the Community
@@ -552,8 +509,7 @@
       </div>
 
     </div>
-  
-      <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 opacity-40 animate-bounce" aria-hidden="true"><span style="font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(253,246,227,.6)">Scroll</span><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2v12M3 9l5 5 5-5" stroke="rgba(253,246,227,.6)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></section>
+  </section>
 
 
   <!-- ============================================================
@@ -909,7 +865,7 @@
             </p>
 
             <!-- CARD 1 BUTTON — Edit href and label -->
-            <a target="_blank" rel="noopener noreferrer" href="https://www.seedhape.com/pay/link/sp_lnk_dnh36l8mhc3n9x2w"
+            <a href="https://www.seedhape.com/pay/link/sp_lnk_dnh36l8mhc3n9x2w"
                class="group/btn inline-flex justify-center items-center gap-2 bg-mustard hover:bg-amber-500 text-charcoal font-heading font-bold px-7 py-3 rounded-full shadow-md transition-all duration-200 hover:scale-105">
               <!-- CARD 1 BUTTON LABEL — Edit this text -->
               Secure Your Spot
@@ -944,7 +900,7 @@
             </p>
 
             <!-- CARD 2 BUTTON — Edit href and label -->
-            <a target="_blank" rel="noopener noreferrer" href="https://www.seedhape.com/pay/link/sp_lnk_kj8tqvay5lvl9xyq"
+            <a href="https://www.seedhape.com/pay/link/sp_lnk_kj8tqvay5lvl9xyq"
                class="group/btn inline-flex justify-center items-center gap-2 bg-amber-50 hover:bg-white text-teal font-heading font-bold px-7 py-3 rounded-full shadow-md transition-all duration-200 hover:scale-105">
               <!-- CARD 2 BUTTON LABEL — Edit this text -->
               Book Session
@@ -976,7 +932,7 @@
             </p>
 
             <!-- CARD 3 BUTTON — Edit href and label -->
-            <a target="_blank" rel="noopener noreferrer" href="https://www.seedhape.com/pay/link/sp_lnk_1mfgu3yjry0218l9"
+            <a href="https://www.seedhape.com/pay/link/sp_lnk_1mfgu3yjry0218l9"
                class="group/btn inline-flex justify-center items-center gap-2 bg-white hover:bg-gray-200 text-charcoal font-heading font-bold px-7 py-3 rounded-full shadow-md transition-all duration-200 hover:scale-105">
               <!-- CARD 3 BUTTON LABEL — Edit this text -->
               Book Duo
@@ -1002,7 +958,7 @@
           <p class="text-amber-100/70 text-sm">Come to a Saturday meetup. No commitment. Just good vibes and good pavement.</p>
         </div>
         <!-- BOTTOM CTA BUTTON — Edit href and label -->
-        <a rel="noopener noreferrer" href="https://www.instagram.com/urbangliding.hyd?igsh=MWc2ZzcwcnJua2Vkcw=="
+        <a href="https://www.instagram.com/urbangliding.hyd?igsh=MWc2ZzcwcnJua2Vkcw=="
            class="relative flex-shrink-0 inline-flex items-center gap-2 bg-mustard hover:bg-amber-400 text-charcoal font-heading font-bold px-7 py-3 rounded-full shadow-lg transition-all duration-200 hover:scale-105">
           <!-- BOTTOM BAND BUTTON LABEL — Edit this text -->
           Join Saturday Ride
@@ -1087,7 +1043,7 @@
        MEMBER ZONE — Unlocks on login
        Sits between Update Grid and Footer
        ============================================================ -->
-  <section id="member-zone" class="bg-charcoal py-20 px-5 sm:px-8 hidden">
+  <section id="member-zone" style="display:none" class="bg-charcoal py-20 px-5 sm:px-8">
     <div class="max-w-5xl mx-auto">
 
       <div class="text-center mb-12">
@@ -1172,7 +1128,7 @@
         <nav class="flex items-center gap-6">
 
           <!-- INSTAGRAM LINK — Edit href to your actual Instagram URL -->
-          <a rel="noopener noreferrer" href="https://www.instagram.com/urbangliding.hyd?igsh=MWc2ZzcwcnJua2Vkcw=="
+          <a href="https://www.instagram.com/urbangliding.hyd?igsh=MWc2ZzcwcnJua2Vkcw=="
              class="text-amber-100/60 hover:text-mustard text-sm transition-colors flex items-center gap-1.5">
             <!-- Instagram icon -->
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -1185,7 +1141,7 @@
           </a>
 
           <!-- CONTACT LINK — Edit href to your actual contact page or email -->
-          <a target="_blank" rel="noopener noreferrer" href="https://wa.me/916304895686"
+          <a href="https://wa.me/916304895686"
              class="text-amber-100/60 hover:text-mustard text-sm transition-colors flex items-center gap-1.5">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
               <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
@@ -1196,7 +1152,7 @@
           </a>
 
           <!-- WHATSAPP LINK — Edit href to your WhatsApp group link -->
-          <a rel="noopener noreferrer" href="https://chat.whatsapp.com/CeSGQhqpUMX8XamdJ7Uf2N?mode=gi_t"
+          <a href="https://chat.whatsapp.com/CeSGQhqpUMX8XamdJ7Uf2N?mode=gi_t"
              class="text-amber-100/60 hover:text-mustard text-sm transition-colors flex items-center gap-1.5">
             <svg width="15" height="15" viewBox="0 0 20 20" fill="currentColor">
               <path d="M10 1.5A8.5 8.5 0 0 0 2.1 13.7L1.5 18.5l4.9-.6A8.5 8.5 0 1 0 10 1.5zm3.8 11.74c-.2-.1-1.2-.59-1.39-.66-.18-.07-.32-.1-.45.1-.13.2-.5.66-.62.8-.11.13-.23.15-.43.05a5.4 5.4 0 0 1-1.6-.99 6 6 0 0 1-1.1-1.38c-.12-.2-.01-.3.09-.4l.3-.35c.1-.12.13-.2.2-.33.06-.13.03-.25-.02-.35-.05-.1-.45-1.08-.62-1.48-.16-.38-.33-.33-.45-.34h-.38c-.13 0-.35.05-.53.25-.18.2-.7.68-.7 1.66s.72 1.93.82 2.06c.1.13 1.41 2.16 3.42 3.03.48.2.85.33 1.14.42.48.15.92.13 1.26.08.38-.06 1.18-.48 1.35-.95.16-.47.16-.87.11-.95-.05-.08-.18-.13-.38-.23z"/>
@@ -1302,62 +1258,43 @@
   </div>
 
 
-  <!-- ============================================================
-       SPRINT 7 — FULL GSAP MOTION + REVIEW POPUP
-       ============================================================ -->
+  <!-- GSAP Motion + Review Popup -->
   <script>
   (function(){
+    if(typeof gsap === 'undefined') return;
     gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
     // PAGE ENTRANCE
-    gsap.from('nav',{ y:-60, opacity:0, duration:0.7, ease:'power3.out', clearProps:'all' });
-    gsap.from(['.retro-badge','h1','h1 ~ p','h1 ~ div','h1 ~ a'],{
-      y:40, opacity:0, duration:0.75, stagger:0.12, ease:'power3.out', delay:0.2, clearProps:'all'
-    });
+    gsap.from('nav',{ y:-50, opacity:0, duration:.7, ease:'power3.out', clearProps:'all' });
+    gsap.from(['.retro-badge','h1','h1 ~ p','h1 ~ div a'],{ y:36, opacity:0, duration:.7, stagger:.1, ease:'power3.out', delay:.15, clearProps:'all' });
 
     // SCROLL REVEALS
-    gsap.utils.toArray('section').forEach(function(sec){
-      var els=sec.querySelectorAll('h2,h3,p,blockquote,li,.retro-badge');
+    gsap.utils.toArray('section').forEach(function(s){
+      var els=s.querySelectorAll('h2,h3,p,.retro-badge');
       if(!els.length) return;
-      gsap.from(els,{ scrollTrigger:{ trigger:sec, start:'top 80%', toggleActions:'play none none none' }, y:32, opacity:0, duration:0.65, stagger:0.07, ease:'power2.out', clearProps:'all' });
+      gsap.from(els,{ scrollTrigger:{trigger:s,start:'top 82%',toggleActions:'play none none none'}, y:28, opacity:0, duration:.6, stagger:.07, ease:'power2.out', clearProps:'all' });
     });
 
-    // PROGRAM CARDS 3D
-    gsap.utils.toArray('.card-hover').forEach(function(card,i){
-      gsap.from(card,{ scrollTrigger:{ trigger:card, start:'top 88%', toggleActions:'play none none none' }, y:60, opacity:0, rotationY:8, transformOrigin:'left center', duration:0.75, delay:i*0.1, ease:'back.out(1.5)', clearProps:'all' });
+    // PROGRAM CARDS
+    gsap.utils.toArray('.card-hover').forEach(function(c,i){
+      gsap.from(c,{ scrollTrigger:{trigger:c,start:'top 90%',toggleActions:'play none none none'}, y:50, opacity:0, rotationY:6, duration:.7, delay:i*.09, ease:'back.out(1.4)', clearProps:'all' });
     });
 
-    // STAT TILES POP
+    // STAT TILES
     gsap.utils.toArray('[class*="bg-white/10"],[class*="bg-white/5"]').forEach(function(el,i){
-      gsap.from(el,{ scrollTrigger:{ trigger:el, start:'top 87%', toggleActions:'play none none none' }, scale:0.88, opacity:0, duration:0.55, delay:i*0.08, ease:'back.out(1.8)', clearProps:'all' });
+      gsap.from(el,{ scrollTrigger:{trigger:el,start:'top 88%',toggleActions:'play none none none'}, scale:.9, opacity:0, duration:.5, delay:i*.07, ease:'back.out(1.7)', clearProps:'all' });
     });
 
-    // SOCIAL PROOF COUNT-UP
+    // COUNTER COUNT-UP
     var pe=document.getElementById('proof-count');
-    if(pe){ gsap.from(pe,{ scrollTrigger:{ trigger:pe, start:'top 90%' }, textContent:0, duration:1.6, ease:'power2.out', snap:{ textContent:1 }, onUpdate:function(){ pe.textContent=Math.round(parseFloat(pe.textContent||'0'))+'+'; } }); }
-
-    // SUPABASE COUNTER HOOK
-    window._animateCounter=function(n){
-      var el=document.getElementById('update-counter'); if(!el) return;
-      var o={val:0};
-      gsap.to(o,{ scrollTrigger:{ trigger:el, start:'top 88%' }, val:n, duration:1.8, ease:'power2.out', onUpdate:function(){ el.textContent=Math.round(o.val)+'+'; } });
-    };
-
-    // PARALLAX SPIN
-    gsap.utils.toArray('[class*="animate-spin"],[class*="spin-slow"]').forEach(function(el){
-      gsap.to(el,{ scrollTrigger:{ trigger:el, start:'top bottom', end:'bottom top', scrub:1.5 }, rotation:'+=180', ease:'none' });
-    });
+    if(pe){ var ov={n:0}; gsap.to(ov,{ scrollTrigger:{trigger:pe,start:'top 92%'}, n:160, duration:1.6, ease:'power2.out', onUpdate:function(){ pe.textContent=Math.round(ov.n)+'+'; } }); }
+    window._animateCounter=function(n){ var el=document.getElementById('update-counter'); if(!el) return; var o={v:0}; gsap.to(o,{ scrollTrigger:{trigger:el,start:'top 88%'}, v:n, duration:1.8, ease:'power2.out', onUpdate:function(){ el.textContent=Math.round(o.v)+'+'; } }); };
 
     // MAGNETIC BUTTONS
-    function mag(sel){
-      document.querySelectorAll(sel).forEach(function(btn){
-        btn.addEventListener('mousemove',function(e){
-          var r=btn.getBoundingClientRect();
-          gsap.to(btn,{ x:(e.clientX-r.left-r.width/2)*0.35, y:(e.clientY-r.top-r.height/2)*0.35, duration:0.3, ease:'power2.out' });
-        });
-        btn.addEventListener('mouseleave',function(){ gsap.to(btn,{ x:0, y:0, duration:0.5, ease:'elastic.out(1,0.4)' }); });
-      });
-    }
+    function mag(sel){ document.querySelectorAll(sel).forEach(function(b){
+      b.addEventListener('mousemove',function(e){ var r=b.getBoundingClientRect(); gsap.to(b,{ x:(e.clientX-r.left-r.width/2)*.3, y:(e.clientY-r.top-r.height/2)*.3, duration:.3, ease:'power2.out' }); });
+      b.addEventListener('mouseleave',function(){ gsap.to(b,{ x:0, y:0, duration:.55, ease:'elastic.out(1,.4)' }); });
+    }); }
     mag('a[href="#programs"][class*="rounded-full"]');
     mag('a[href*="seedhape"][class*="rounded-full"]');
     mag('#review-cta');
@@ -1366,28 +1303,26 @@
     document.querySelectorAll('a[href^="#"]').forEach(function(a){
       a.addEventListener('click',function(e){
         var t=document.querySelector(a.getAttribute('href')); if(!t) return;
-        e.preventDefault();
-        gsap.to(window,{ scrollTo:{ y:t, offsetY:72 }, duration:0.9, ease:'power3.inOut' });
+        e.preventDefault(); gsap.to(window,{ scrollTo:{y:t,offsetY:68}, duration:.85, ease:'power3.inOut' });
       });
     });
 
+    // NAV DARKENS ON SCROLL
+    (function(){ var n=document.querySelector('nav'); if(!n) return; window.addEventListener('scroll',function(){ n.classList.toggle('scrolled',window.scrollY>50); },{passive:true}); })();
+
     // REVIEW POPUP
     (function(){
-      var K='ugh_review_dismissed';
-      var p=document.getElementById('review-popup');
-      var cb=document.getElementById('review-close');
-      var lb=document.getElementById('review-later');
-      var ca=document.getElementById('review-cta');
+      var K='ugh_review_v2'; var p=document.getElementById('review-popup');
+      var cb=document.getElementById('review-close'); var lb=document.getElementById('review-later'); var ca=document.getElementById('review-cta');
       if(!p||localStorage.getItem(K)) return;
-      function show(){ p.classList.remove('pointer-events-none'); gsap.to(p,{ opacity:1, y:0, duration:0.45, ease:'back.out(1.6)' }); }
-      function hide(perm){ gsap.to(p,{ opacity:0, y:16, duration:0.3, ease:'power2.in', onComplete:function(){ p.classList.add('pointer-events-none'); } }); if(perm) localStorage.setItem(K,'1'); }
-      var sf=false,tf=false;
-      function ms(){ if(sf&&tf) show(); }
-      window.addEventListener('scroll',function(){ if(sf) return; if((window.scrollY/(document.body.scrollHeight-window.innerHeight))*100>=60){ sf=true; ms(); } },{ passive:true });
-      setTimeout(function(){ tf=true; ms(); },8000);
+      function show(){ p.classList.remove('pointer-events-none'); gsap.to(p,{opacity:1,y:0,duration:.4,ease:'back.out(1.5)'}); }
+      function hide(perm){ gsap.to(p,{opacity:0,y:14,duration:.28,ease:'power2.in',onComplete:function(){ p.classList.add('pointer-events-none'); }}); if(perm) localStorage.setItem(K,'1'); }
+      var sf=false,tf=false; function ms(){ if(sf&&tf) show(); }
+      window.addEventListener('scroll',function(){ if(sf) return; if((window.scrollY/(document.body.scrollHeight-window.innerHeight))*100>=60){ sf=true; ms(); } },{passive:true});
+      setTimeout(function(){ tf=true; ms(); },10000);
       if(cb) cb.addEventListener('click',function(){ hide(true); });
       if(lb) lb.addEventListener('click',function(){ hide(false); });
-      if(ca) ca.addEventListener('click',function(){ hide(true); if(typeof gtag!=='undefined') gtag('event','google_review_click',{event_category:'social_proof'}); });
+      if(ca) ca.addEventListener('click',function(){ hide(true); if(typeof gtag!=='undefined') gtag('event','review_click',{event_category:'cta'}); });
     })();
 
   })();
@@ -1519,7 +1454,7 @@
 
     <!-- Input row -->
     <div style="padding:10px 14px 14px;display:flex;gap:8px;border-top:1px solid rgba(217,119,6,.1);">
-      <input id="chat-input" type="text" placeholder="Type your question…" maxlength="300" autocomplete="off" spellcheck="false"
+      <input id="chat-input" type="text" placeholder="Type your question…"
         style="flex:1;border:1px solid rgba(217,119,6,.25);border-radius:999px;padding:8px 14px;
                font-size:13px;outline:none;font-family:inherit;color:#2d2416;background:#fdf6e3;"/>
       <button id="chat-send"
@@ -1534,13 +1469,6 @@
 
   <script>
   (function() {
-
-    // ── XSS SANITIZER ──────────────────────────────────────────
-    function sanitize(str) {
-      var d = document.createElement('div');
-      d.textContent = str;
-      return d.innerHTML;
-    }
 
     // ── FAQ DATA ────────────────────────────────────────────────
     var FAQS = [
@@ -1740,7 +1668,6 @@
     function handleInput() {
       var text = input.value.trim();
       if (!text) return;
-      if (text.length > 300) { text = text.slice(0,300); } // max length
       input.value = '';
       var faq = findFAQ(text);
       if (faq) {
@@ -1783,88 +1710,76 @@
 
 
   <!-- ============================================================
-       CLERK INIT — Runs after DOM ready
+       CLERK INIT — Login / Logout
        ============================================================ -->
   <script>
-    window.addEventListener('load', async function() {
+    document.getElementById('clerk-script').addEventListener('load', async function() {
       try {
         var clerk = window.Clerk;
         if (!clerk) return;
 
-        await clerk.load();
+        await clerk.load({
+          publishableKey: 'pk_test_cG93ZXJmdWwtcmVkZmlzaC01MC5jbGVyay5hY2NvdW50cy5kZXYk'
+        });
 
         function updateUI() {
-          var user       = clerk.user;
-          var signedIn   = !!user;
-          var firstName  = signedIn ? (user.firstName || user.emailAddresses[0].emailAddress.split('@')[0]) : '';
-          var avatarUrl  = signedIn ? user.imageUrl : '';
+          var user      = clerk.user;
+          var signedIn  = !!user;
+          var firstName = signedIn ? (user.firstName || user.emailAddresses[0].emailAddress.split('@')[0]) : '';
+          var avatarUrl = signedIn ? (user.imageUrl || '') : '';
 
-          // Desktop nav
-          var navOut = document.getElementById('nav-signed-out');
-          var navIn  = document.getElementById('nav-signed-in');
-          var navEl  = document.getElementById('nav-auth');
-          if (navEl)  navEl.classList.remove('hidden');
-          if (navOut) navOut.classList.toggle('hidden', signedIn);
-          if (navIn)  { navIn.classList.toggle('hidden', !signedIn); navIn.style.display = signedIn ? 'flex' : 'none'; }
+          // Desktop nav — use style.display, not Tailwind hidden class
+          var navOut  = document.getElementById('nav-signed-out');
+          var navIn   = document.getElementById('nav-signed-in');
+          if (navOut)  navOut.style.display  = signedIn ? 'none' : 'flex';
+          if (navIn)   navIn.style.display   = signedIn ? 'flex' : 'none';
+
+          // Nav name + avatar
           var nameEl   = document.getElementById('nav-name');
           var avatarEl = document.getElementById('nav-avatar');
-          if (nameEl   && firstName)  nameEl.textContent = firstName;
-          if (avatarEl && avatarUrl)  { avatarEl.src = avatarUrl; avatarEl.classList.remove('hidden'); }
+          if (nameEl && firstName)   nameEl.textContent = firstName;
+          if (avatarEl && avatarUrl) { avatarEl.src = avatarUrl; avatarEl.style.display = 'block'; }
 
           // Mobile nav
           var mobOut = document.getElementById('mob-signed-out');
           var mobIn  = document.getElementById('mob-signed-in');
-          if (mobOut) mobOut.classList.toggle('hidden', signedIn);
-          if (mobIn)  { mobIn.classList.toggle('hidden', !signedIn); mobIn.style.display = signedIn ? 'flex' : 'none'; }
+          if (mobOut) mobOut.style.display = signedIn ? 'none' : 'flex';
+          if (mobIn)  mobIn.style.display  = signedIn ? 'flex' : 'none';
 
-          // Member zone section
-          var zone       = document.getElementById('member-zone');
-          var memberName = document.getElementById('member-name');
-          if (zone)       zone.classList.toggle('hidden', !signedIn);
-          if (memberName && firstName) memberName.textContent = firstName;
+          // Member zone
+          var zone = document.getElementById('member-zone');
+          var memName = document.getElementById('member-name');
+          if (zone)    zone.style.display   = signedIn ? 'block' : 'none';
+          if (memName && firstName) memName.textContent = firstName;
 
-          // Scroll to member zone if just signed in
+          // Scroll to member zone on first sign-in
           if (signedIn && window._clerkJustSignedIn) {
             window._clerkJustSignedIn = false;
             setTimeout(function() {
               var z = document.getElementById('member-zone');
               if (z) z.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }, 400);
+            }, 600);
           }
+
+          console.log('Clerk UI updated — signed ' + (signedIn ? 'in as ' + firstName : 'out'));
         }
 
-        // Expose global helpers for onclick attributes
         window.clerkSignIn = function() {
           window._clerkJustSignedIn = true;
-          clerk.openSignIn({
-            afterSignInUrl:  window.location.href,
-            afterSignUpUrl:  window.location.href,
-          });
+          clerk.openSignIn({ afterSignInUrl: window.location.href, afterSignUpUrl: window.location.href });
         };
         window.clerkSignOut = function() {
-          clerk.signOut().then(function() { updateUI(); });
+          clerk.signOut().then(updateUI);
         };
 
-        // Initial render
         updateUI();
-
-        // Re-render whenever auth state changes
-        clerk.addListener(function() { updateUI(); });
+        clerk.addListener(updateUI);
 
       } catch(e) {
-        console.warn('Clerk init error:', e);
+        console.warn('Clerk error:', e.message);
       }
     });
   </script>
 
-
-  <script>
-  // Nav darkens on scroll
-  (function(){ var n=document.querySelector('nav'); if(!n) return; window.addEventListener('scroll',function(){ n.classList.toggle('scrolled',window.scrollY>40); },{ passive:true }); })();
-  // Cursor glow on CTAs
-  document.querySelectorAll('a[href*="seedhape"],a[href="#programs"][class*="bg-mustard"]').forEach(function(b){
-    b.addEventListener('mousemove',function(e){ var r=b.getBoundingClientRect(); b.style.setProperty('--mx',((e.clientX-r.left)/r.width*100).toFixed(1)+'%'); b.style.setProperty('--my',((e.clientY-r.top)/r.height*100).toFixed(1)+'%'); });
-  });
-  </script>
 </body>
 </html>

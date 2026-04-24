@@ -1359,5 +1359,315 @@
     }
     document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeLightbox(); });
   </script>
+
+  <!-- ============================================================
+       FAQ CHATBOT WIDGET
+       Floating bottom-left. Keyword matching across 8 real FAQs.
+       WhatsApp fallback for anything unmatched.
+       ============================================================ -->
+
+  <!-- Toggle button -->
+  <button id="chat-btn"
+    aria-label="Open FAQ chat"
+    style="position:fixed;bottom:24px;left:24px;z-index:9997;
+           width:52px;height:52px;border-radius:50%;border:none;cursor:pointer;
+           background:#1a5c5a;box-shadow:0 4px 20px rgba(26,92,90,.45);
+           display:flex;align-items:center;justify-content:center;
+           transition:transform .2s,box-shadow .2s;">
+    <svg id="chat-icon-open" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fdf6e3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+    </svg>
+    <svg id="chat-icon-close" width="18" height="18" viewBox="0 0 18 18" fill="none" style="display:none">
+      <path d="M2 2l14 14M16 2L2 16" stroke="#fdf6e3" stroke-width="2.2" stroke-linecap="round"/>
+    </svg>
+  </button>
+
+  <!-- Chat panel -->
+  <div id="chat-panel"
+    role="dialog" aria-label="UGH FAQ Assistant"
+    style="position:fixed;bottom:88px;left:24px;z-index:9996;
+           width:320px;max-width:calc(100vw - 48px);
+           background:#fff;border-radius:20px;
+           box-shadow:0 8px 40px rgba(45,36,22,.18);
+           border:1px solid rgba(217,119,6,.15);
+           display:flex;flex-direction:column;overflow:hidden;
+           opacity:0;pointer-events:none;transform:translateY(16px);
+           transition:opacity .3s,transform .3s;">
+
+    <!-- Header -->
+    <div style="background:#1a5c5a;padding:14px 18px;display:flex;align-items:center;gap:10px;">
+      <div style="width:34px;height:34px;border-radius:50%;background:#d97706;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:900;font-size:14px;color:#2d2416;">UG</div>
+      <div>
+        <p style="margin:0;color:#fdf6e3;font-weight:700;font-size:14px;line-height:1.2;">UGH Assistant</p>
+        <p style="margin:0;color:rgba(253,246,227,.55);font-size:11px;">Ask anything about Urban Gliding</p>
+      </div>
+      <div style="margin-left:auto;width:8px;height:8px;border-radius:50%;background:#4ade80;flex-shrink:0;" title="Online"></div>
+    </div>
+
+    <!-- Messages -->
+    <div id="chat-messages"
+      style="flex:1;overflow-y:auto;padding:16px 14px;display:flex;flex-direction:column;gap:10px;max-height:300px;
+             scrollbar-width:thin;scrollbar-color:rgba(217,119,6,.2) transparent;">
+    </div>
+
+    <!-- Quick questions -->
+    <div id="chat-suggestions" style="padding:0 14px 10px;display:flex;flex-direction:column;gap:6px;"></div>
+
+    <!-- Input row -->
+    <div style="padding:10px 14px 14px;display:flex;gap:8px;border-top:1px solid rgba(217,119,6,.1);">
+      <input id="chat-input" type="text" placeholder="Type your question…"
+        style="flex:1;border:1px solid rgba(217,119,6,.25);border-radius:999px;padding:8px 14px;
+               font-size:13px;outline:none;font-family:inherit;color:#2d2416;background:#fdf6e3;"/>
+      <button id="chat-send"
+        style="width:36px;height:36px;border-radius:50%;border:none;cursor:pointer;
+               background:#d97706;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M1 13L13 7 1 1v4.5l8 1.5-8 1.5V13z" fill="#2d2416"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <script>
+  (function() {
+
+    // ── FAQ DATA ────────────────────────────────────────────────
+    var FAQS = [
+      {
+        keywords: ['where','location','place','society','today','venue','address','happening','aparna','pbel','session'],
+        q: 'Where is today's session?',
+        a: 'Sessions rotate across Hyderabad societies — Aparna Heights, PBEL City, and others. <strong>The exact location for each day is shared in the WhatsApp community group.</strong> Join the group to get live updates and pins. →',
+        cta: { label: 'Join WhatsApp for Location', href: 'https://wa.me/91REPLACE_PHONE' }
+      },
+      {
+        keywords: ['fee','fees','cost','price','pay','paid','month','subscription','₹','3999','phase 2','charges','how much'],
+        q: 'What are the fees?',
+        a: '<strong>Phase 1 workshops are free</strong> — no cost to attend a trial session at your society.<br/><br/><strong>Phase 2 (ongoing coaching):</strong> ₹3,999/month. This includes 2 physical sessions per week + 2 digital coaching video guides per week. Gear is provided during sessions.'
+      },
+      {
+        keywords: ['gear','skateboard','skates','own','bring','equipment','decathlon','oxelo','have','need','buy'],
+        q: 'Do I need to own a skateboard or skates?',
+        a: '<strong>No gear needed for Phase 1.</strong> We bring equipment to the society workshop — just show up in comfortable clothes and closed shoes.<br/><br/>For Phase 2 ongoing sessions, we recommend the Decathlon Oxelo line, but we guide you on exactly what to get after your trial.'
+      },
+      {
+        keywords: ['safe','safety','5','year','old','child','kid','age','young','helmet','pads','protect','certified','ioc','credential'],
+        q: 'Is it safe for young children?',
+        a: 'Yes — safety is our top priority. <strong>Every student wears a helmet, knee pads, and wrist guards</strong> before stepping on skates. Coach Leela is <strong>IOC certified</strong>. We accept children from age 5. Parents are welcome to watch every session.'
+      },
+      {
+        keywords: ['form','register','registration','missed','google','sign up','signup','late','still','join','come'],
+        q: 'I missed the registration form — can I still come?',
+        a: 'Registration is mandatory for society access and safety headcount. <strong>WhatsApp us directly</strong> and we'll try to add you to the list before the session. Last-minute spots depend on availability. →',
+        cta: { label: 'WhatsApp to Register Now', href: 'https://wa.me/91REPLACE_PHONE?text=Hi%20Coach%20Leela%2C%20I%20missed%20the%20registration%20form%20%E2%80%94%20can%20I%20still%20join%3F' }
+      },
+      {
+        keywords: ['video','guide','digital','online','technical','hybrid','watch','access','link','how'],
+        q: 'How do the Technical Video Guides work?',
+        a: 'Our hybrid model gives you <strong>2 physical sessions + 2 video guides per week.</strong><br/><br/>The video guides are technique-specific — drills, form correction, and progression steps you practice at home. Links are shared in the member WhatsApp group after each physical session.'
+      },
+      {
+        keywords: ['weekend','sunday','saturday','weekday','schedule','timing','flexible','batch','when','morning','evening','time'],
+        q: 'Are there weekend-only batches?',
+        a: 'Yes — we have <strong>morning and evening batches including weekends.</strong> Exact timings vary by society and phase. <strong>WhatsApp us with your preferred days</strong> and Coach Leela will match you to the right batch. →',
+        cta: { label: 'Ask About Schedule', href: 'https://wa.me/91REPLACE_PHONE?text=Hi%20Coach%20Leela%2C%20what%20batches%20are%20available%20for%20my%20schedule%3F' }
+      },
+      {
+        keywords: ['coming','my society','new society','when','expand','start','nearby','neighbor','area','complex','apartment'],
+        q: 'When is UGH coming to my society?',
+        a: 'We're expanding across Hyderabad! <strong>WhatsApp us your society name and area</strong> and we'll add you to the waitlist for the next Phase 1 workshop near you. The more residents from one society who sign up, the faster we arrive. →',
+        cta: { label: 'Request My Society', href: 'https://wa.me/91REPLACE_PHONE?text=Hi%20Coach%20Leela%2C%20I'd%20love%20UGH%20to%20come%20to%20my%20society%20%E2%80%94%20' }
+      },
+    ];
+
+    var WA_FALLBACK = 'https://wa.me/91REPLACE_PHONE?text=Hi%20Coach%20Leela%2C%20I%20have%20a%20question%20about%20UGH';
+
+    // ── INITIAL SUGGESTIONS (show 4) ────────────────────────────
+    var INITIAL = [0, 2, 3, 7];  // Fees, gear, safety, society
+
+    // ── STATE ───────────────────────────────────────────────────
+    var isOpen      = false;
+    var hasGreeted  = false;
+
+    var btn         = document.getElementById('chat-btn');
+    var panel       = document.getElementById('chat-panel');
+    var messagesEl  = document.getElementById('chat-messages');
+    var suggestEl   = document.getElementById('chat-suggestions');
+    var input       = document.getElementById('chat-input');
+    var sendBtn     = document.getElementById('chat-send');
+    var iconOpen    = document.getElementById('chat-icon-open');
+    var iconClose   = document.getElementById('chat-icon-close');
+
+    // ── OPEN / CLOSE ────────────────────────────────────────────
+    function toggleChat() {
+      isOpen = !isOpen;
+      panel.style.opacity        = isOpen ? '1' : '0';
+      panel.style.pointerEvents  = isOpen ? 'auto' : 'none';
+      panel.style.transform      = isOpen ? 'translateY(0)' : 'translateY(16px)';
+      iconOpen.style.display     = isOpen ? 'none'  : 'flex';
+      iconClose.style.display    = isOpen ? 'flex'  : 'none';
+      if (isOpen && !hasGreeted) {
+        greet();
+        hasGreeted = true;
+      }
+      if (isOpen) setTimeout(function() { input.focus(); }, 350);
+    }
+
+    btn.addEventListener('click', toggleChat);
+    btn.addEventListener('mouseover', function() {
+      btn.style.transform  = 'scale(1.08)';
+      btn.style.boxShadow  = '0 6px 28px rgba(26,92,90,.55)';
+    });
+    btn.addEventListener('mouseout', function() {
+      btn.style.transform  = 'scale(1)';
+      btn.style.boxShadow  = '0 4px 20px rgba(26,92,90,.45)';
+    });
+
+    // ── MESSAGES ────────────────────────────────────────────────
+    function addMsg(text, isUser) {
+      var d = document.createElement('div');
+      d.style.cssText = [
+        'max-width:88%',
+        'padding:9px 13px',
+        'border-radius:' + (isUser ? '16px 16px 4px 16px' : '16px 16px 16px 4px'),
+        'font-size:13px',
+        'line-height:1.55',
+        'align-self:' + (isUser ? 'flex-end' : 'flex-start'),
+        'background:' + (isUser ? '#1a5c5a' : '#fdf6e3'),
+        'color:'       + (isUser ? '#fdf6e3' : '#2d2416'),
+        'border:1px solid ' + (isUser ? 'transparent' : 'rgba(217,119,6,.15)'),
+        'animation:fadeUp .25s ease',
+      ].join(';');
+      d.innerHTML = text;
+      messagesEl.appendChild(d);
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
+
+    function addCTA(label, href) {
+      var a = document.createElement('a');
+      a.href   = href;
+      a.target = '_blank';
+      a.rel    = 'noopener';
+      a.style.cssText = 'display:inline-block;background:#d97706;color:#2d2416;text-decoration:none;' +
+        'padding:7px 16px;border-radius:999px;font-size:12px;font-weight:700;margin-top:4px;' +
+        'align-self:flex-start;transition:opacity .2s';
+      a.textContent = label + ' ↗';
+      a.onmouseover = function() { a.style.opacity = '.8'; };
+      a.onmouseout  = function() { a.style.opacity = '1'; };
+      messagesEl.appendChild(a);
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
+
+    function greet() {
+      addMsg('👋 Hey! I'm the UGH assistant.<br/>Ask me anything about sessions, fees, safety, or schedule.', false);
+      showSuggestions(INITIAL);
+    }
+
+    // ── SUGGESTIONS ─────────────────────────────────────────────
+    function showSuggestions(indices) {
+      suggestEl.innerHTML = '';
+      indices.forEach(function(i) {
+        var faq = FAQS[i];
+        var btn2 = document.createElement('button');
+        btn2.style.cssText = 'text-align:left;background:#fdf6e3;border:1px solid rgba(217,119,6,.25);' +
+          'border-radius:10px;padding:7px 12px;font-size:12px;color:#2d2416;cursor:pointer;' +
+          'font-family:inherit;line-height:1.4;transition:background .15s;';
+        btn2.textContent = faq.q;
+        btn2.onmouseover = function() { btn2.style.background = '#fef3c7'; };
+        btn2.onmouseout  = function() { btn2.style.background = '#fdf6e3'; };
+        btn2.addEventListener('click', function() { answer(faq); });
+        suggestEl.appendChild(btn2);
+      });
+    }
+
+    // ── ANSWER ──────────────────────────────────────────────────
+    function answer(faq) {
+      suggestEl.innerHTML = '';
+      addMsg(faq.q, true);
+      setTimeout(function() {
+        addMsg(faq.a, false);
+        if (faq.cta) addCTA(faq.cta.label, faq.cta.href);
+        // Show "anything else?" suggestions
+        setTimeout(function() { showFollowUp(); }, 400);
+      }, 280);
+    }
+
+    function showFollowUp() {
+      // Pick 3 random different FAQs
+      var indices = [];
+      while (indices.length < 3) {
+        var r = Math.floor(Math.random() * FAQS.length);
+        if (!indices.includes(r)) indices.push(r);
+      }
+      suggestEl.innerHTML = '';
+      var lbl = document.createElement('p');
+      lbl.style.cssText = 'margin:0 0 5px;font-size:11px;color:rgba(45,36,22,.4);padding:0 2px';
+      lbl.textContent = 'More questions:';
+      suggestEl.appendChild(lbl);
+      showSuggestions(indices);
+      // Always add WhatsApp fallback
+      var wa = document.createElement('button');
+      wa.style.cssText = 'text-align:left;background:rgba(37,211,102,.08);border:1px solid rgba(37,211,102,.3);' +
+        'border-radius:10px;padding:7px 12px;font-size:12px;color:#166534;cursor:pointer;' +
+        'font-family:inherit;font-weight:600;';
+      wa.textContent = '💬 Ask Coach Leela directly on WhatsApp';
+      wa.addEventListener('click', function() { window.open(WA_FALLBACK, '_blank'); });
+      suggestEl.appendChild(wa);
+    }
+
+    // ── SEARCH ──────────────────────────────────────────────────
+    function findFAQ(text) {
+      var lower = text.toLowerCase();
+      var best  = null;
+      var score = 0;
+      FAQS.forEach(function(faq) {
+        var hits = faq.keywords.filter(function(k) { return lower.includes(k); }).length;
+        if (hits > score) { score = hits; best = faq; }
+      });
+      return score > 0 ? best : null;
+    }
+
+    function handleInput() {
+      var text = input.value.trim();
+      if (!text) return;
+      input.value = '';
+      var faq = findFAQ(text);
+      if (faq) {
+        answer(faq);
+      } else {
+        addMsg(text, true);
+        setTimeout(function() {
+          addMsg('I'm not sure about that one! <strong>Coach Leela can answer directly on WhatsApp</strong> — usually replies within a few hours.', false);
+          addCTA('Message Coach Leela', WA_FALLBACK);
+          setTimeout(showFollowUp, 400);
+        }, 280);
+      }
+    }
+
+    sendBtn.addEventListener('click', handleInput);
+    input.addEventListener('keydown', function(e) { if (e.key === 'Enter') handleInput(); });
+
+    // Close on Escape
+    document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && isOpen) toggleChat(); });
+
+    // ── ANIMATION KEYFRAME ──────────────────────────────────────
+    var style = document.createElement('style');
+    style.textContent = '@keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}';
+    document.head.appendChild(style);
+
+    // GSAP pulse on button to draw attention (runs once, 5s after page load)
+    if (typeof gsap !== 'undefined') {
+      setTimeout(function() {
+        gsap.fromTo('#chat-btn',
+          { scale: 1 },
+          { scale: 1.18, duration: .4, yoyo: true, repeat: 3, ease: 'power1.inOut',
+            onComplete: function() { gsap.set('#chat-btn', { scale: 1 }); }
+          }
+        );
+      }, 5000);
+    }
+
+  })();
+  </script>
+
 </body>
 </html>

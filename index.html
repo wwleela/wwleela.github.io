@@ -37,6 +37,20 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
+
+  <!-- ============================================================
+       CLERK — Login / Logout / User accounts
+       Pure frontend, works on GitHub Pages static hosting
+       Dashboard: dashboard.clerk.com
+       ============================================================ -->
+  <script
+    async
+    crossorigin="anonymous"
+    data-clerk-publishable-key="pk_test_cG93ZXJmdWwtcmVkZmlzaC01MC5jbGVyay5hY2NvdW50cy5kZXYk"
+    src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js"
+    type="text/javascript">
+  </script>
+
   <!-- ============================================================
        SUPABASE — Live community counter
        Reads registered_count from community_stats table
@@ -326,12 +340,33 @@
         <li><a href="#updates" class="nav-link">Gallery</a></li>
       </ul>
 
-      <!-- NAV CTA BUTTON — Edit href and label -->
-      <a href="#programs"
-         class="hidden sm:inline-flex items-center gap-2 bg-mustard hover:bg-amber-500 text-charcoal font-semibold text-sm px-5 py-2 rounded-full shadow-md transition-all duration-200 hover:shadow-lg hover:scale-105">
-        <!-- BUTTON LABEL — Edit this text -->
-        Enroll Now ↗
-      </a>
+      <!-- NAV CTA — Enroll Now (logged out) / User avatar (logged in) -->
+      <div id="nav-auth" class="hidden sm:flex items-center gap-3">
+        <!-- Shows when logged OUT -->
+        <div id="nav-signed-out" class="flex items-center gap-2">
+          <button onclick="window.clerkSignIn()"
+            class="text-amber-100/70 hover:text-amber-50 text-sm font-medium transition-colors">
+            Login
+          </button>
+          <a href="#programs"
+             class="inline-flex items-center gap-2 bg-mustard hover:bg-amber-500 text-charcoal font-semibold text-sm px-5 py-2 rounded-full shadow-md transition-all duration-200 hover:shadow-lg hover:scale-105">
+            Enroll Now ↗
+          </a>
+        </div>
+        <!-- Shows when logged IN -->
+        <div id="nav-signed-in" class="hidden items-center gap-3">
+          <a href="#member-zone"
+            class="text-amber-100/70 hover:text-amber-50 text-sm font-medium transition-colors">
+            My Zone
+          </a>
+          <button id="nav-user-btn" onclick="window.clerkSignOut()"
+            class="flex items-center gap-2 bg-teal/60 hover:bg-teal/80 border border-white/20 text-amber-50 text-sm font-medium px-3 py-1.5 rounded-full transition-all">
+            <img id="nav-avatar" src="" alt="" class="w-5 h-5 rounded-full object-cover hidden"/>
+            <span id="nav-name">Account</span>
+            <span class="text-amber-100/40 text-xs">· Sign out</span>
+          </button>
+        </div>
+      </div>
 
       <!-- Mobile hamburger (CSS only toggle) -->
       <label for="mobile-toggle" class="md:hidden cursor-pointer p-2 text-amber-50">
@@ -349,8 +384,15 @@
         <a href="#community" class="nav-link text-base">Community</a>
         <a href="#programs" class="nav-link text-base">Programs</a>
         <a href="#updates" class="nav-link text-base">Gallery</a>
-        <!-- MOBILE NAV CTA — Edit href -->
-        <a href="#programs" class="mt-2 text-center bg-mustard text-charcoal font-semibold py-2 rounded-full">Enroll Now ↗</a>
+        <!-- MOBILE NAV CTA -->
+        <div id="mob-signed-out" class="flex flex-col gap-2">
+          <button onclick="window.clerkSignIn()" class="text-amber-100/60 text-sm font-medium text-left">Login / Sign up</button>
+          <a href="#programs" class="text-center bg-mustard text-charcoal font-semibold py-2 rounded-full">Enroll Now ↗</a>
+        </div>
+        <div id="mob-signed-in" class="hidden flex-col gap-2">
+          <a href="#member-zone" class="text-amber-50 text-sm font-medium">My Zone ↓</a>
+          <button onclick="window.clerkSignOut()" class="text-left text-amber-100/50 text-sm">Sign out</button>
+        </div>
       </div>
 
     </div>
@@ -981,6 +1023,69 @@
     <path d="M0 50 Q360 0 720 25 Q1080 50 1440 0 L1440 50 Z" fill="#fdf6e3"/>
   </svg>
 
+
+
+  <!-- ============================================================
+       MEMBER ZONE — Unlocks on login
+       Sits between Update Grid and Footer
+       ============================================================ -->
+  <section id="member-zone" class="bg-charcoal py-20 px-5 sm:px-8 hidden">
+    <div class="max-w-5xl mx-auto">
+
+      <div class="text-center mb-12">
+        <div class="mb-4 flex justify-center">
+          <span class="retro-badge" style="border-color:rgba(217,119,6,.4);color:#d97706;">Members Only</span>
+        </div>
+        <h2 class="font-heading text-4xl font-black text-amber-50 mb-3">
+          Welcome back, <span id="member-name" class="text-mustard">Glider</span>.
+        </h2>
+        <p class="text-amber-100/50 text-base">Your UGH member space — sessions, updates, and community.</p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-10">
+
+        <!-- My Sessions card -->
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-6">
+          <p class="text-mustard font-heading font-bold text-xs uppercase tracking-widest mb-3">My Sessions</p>
+          <p class="text-amber-50 font-heading text-2xl font-black mb-1">Phase 1</p>
+          <p class="text-amber-100/50 text-sm">Free Workshop — Active</p>
+          <a href="#programs" class="mt-4 inline-block text-xs font-semibold text-mustard hover:text-amber-400 transition-colors">
+            Upgrade to Phase 2 →
+          </a>
+        </div>
+
+        <!-- Community card -->
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-6">
+          <p class="text-mustard font-heading font-bold text-xs uppercase tracking-widest mb-3">Community</p>
+          <p class="text-amber-50 text-sm leading-relaxed mb-4">Join the WhatsApp group for session locations, tips, and community updates.</p>
+          <a href="https://wa.me/91REPLACE_PHONE" target="_blank" rel="noopener"
+             class="inline-block bg-mustard text-charcoal text-xs font-bold px-4 py-2 rounded-full hover:bg-amber-500 transition-colors">
+            Join WhatsApp Group ↗
+          </a>
+        </div>
+
+        <!-- Quick register card -->
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-6">
+          <p class="text-mustard font-heading font-bold text-xs uppercase tracking-widest mb-3">Quick Enroll</p>
+          <p class="text-amber-100/50 text-sm mb-4">Your details are pre-filled. One click to register for the next program.</p>
+          <a href="#programs"
+             class="inline-block bg-teal text-amber-50 text-xs font-bold px-4 py-2 rounded-full hover:bg-teal/80 transition-colors">
+            View Programs →
+          </a>
+        </div>
+
+      </div>
+
+      <!-- Sign out link -->
+      <div class="text-center">
+        <button onclick="window.clerkSignOut()"
+          class="text-amber-100/30 hover:text-amber-100/60 text-sm transition-colors">
+          Sign out
+        </button>
+      </div>
+
+    </div>
+  </section>
 
   <!-- ============================================================
        FOOTER
@@ -1667,6 +1772,82 @@
     }
 
   })();
+  </script>
+
+
+  <!-- ============================================================
+       CLERK INIT — Runs after DOM ready
+       ============================================================ -->
+  <script>
+    window.addEventListener('load', async function() {
+      try {
+        var clerk = window.Clerk;
+        if (!clerk) return;
+
+        await clerk.load();
+
+        function updateUI() {
+          var user       = clerk.user;
+          var signedIn   = !!user;
+          var firstName  = signedIn ? (user.firstName || user.emailAddresses[0].emailAddress.split('@')[0]) : '';
+          var avatarUrl  = signedIn ? user.imageUrl : '';
+
+          // Desktop nav
+          var navOut = document.getElementById('nav-signed-out');
+          var navIn  = document.getElementById('nav-signed-in');
+          var navEl  = document.getElementById('nav-auth');
+          if (navEl)  navEl.classList.remove('hidden');
+          if (navOut) navOut.classList.toggle('hidden', signedIn);
+          if (navIn)  { navIn.classList.toggle('hidden', !signedIn); navIn.style.display = signedIn ? 'flex' : 'none'; }
+          var nameEl   = document.getElementById('nav-name');
+          var avatarEl = document.getElementById('nav-avatar');
+          if (nameEl   && firstName)  nameEl.textContent = firstName;
+          if (avatarEl && avatarUrl)  { avatarEl.src = avatarUrl; avatarEl.classList.remove('hidden'); }
+
+          // Mobile nav
+          var mobOut = document.getElementById('mob-signed-out');
+          var mobIn  = document.getElementById('mob-signed-in');
+          if (mobOut) mobOut.classList.toggle('hidden', signedIn);
+          if (mobIn)  { mobIn.classList.toggle('hidden', !signedIn); mobIn.style.display = signedIn ? 'flex' : 'none'; }
+
+          // Member zone section
+          var zone       = document.getElementById('member-zone');
+          var memberName = document.getElementById('member-name');
+          if (zone)       zone.classList.toggle('hidden', !signedIn);
+          if (memberName && firstName) memberName.textContent = firstName;
+
+          // Scroll to member zone if just signed in
+          if (signedIn && window._clerkJustSignedIn) {
+            window._clerkJustSignedIn = false;
+            setTimeout(function() {
+              var z = document.getElementById('member-zone');
+              if (z) z.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 400);
+          }
+        }
+
+        // Expose global helpers for onclick attributes
+        window.clerkSignIn = function() {
+          window._clerkJustSignedIn = true;
+          clerk.openSignIn({
+            afterSignInUrl:  window.location.href,
+            afterSignUpUrl:  window.location.href,
+          });
+        };
+        window.clerkSignOut = function() {
+          clerk.signOut().then(function() { updateUI(); });
+        };
+
+        // Initial render
+        updateUI();
+
+        // Re-render whenever auth state changes
+        clerk.addListener(function() { updateUI(); });
+
+      } catch(e) {
+        console.warn('Clerk init error:', e);
+      }
+    });
   </script>
 
 </body>

@@ -36,6 +36,7 @@
        ============================================================ -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
 
 
   <!-- ============================================================
@@ -47,9 +48,8 @@
     async
     crossorigin="anonymous"
     data-clerk-publishable-key="pk_test_cG93ZXJmdWwtcmVkZmlzaC01MC5jbGVyay5hY2NvdW50cy5kZXYk"
-    src="https://powerful-redfish-50.clerk.accounts.dev/npm/@clerk/clerk-js@latest/dist/clerk.browser.js"
-    type="text/javascript"
-    id="clerk-script">
+    src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js"
+    type="text/javascript">
   </script>
 
   <!-- ============================================================
@@ -310,10 +310,30 @@
       -webkit-backdrop-filter: blur(12px);
       background-color: rgba(26,92,90,0.92);
     }
+
+    /* ── SPRINT 7 MOTION + DELIGHT ─────────────────────── */
+    html { scroll-padding-top: 72px; }
+    nav { transition: background .35s, box-shadow .35s; }
+    nav.scrolled { background: rgba(26,92,90,.97) !important; box-shadow: 0 4px 32px rgba(45,36,22,.25); }
+    .card-hover { transition: transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s; will-change: transform; }
+    .card-hover:hover { transform: translateY(-6px) scale(1.015); box-shadow: 0 16px 48px rgba(45,36,22,.18); }
+    @keyframes shimmer { 0%{background-position:-200% center} 100%{background-position:200% center} }
+    a[href="#programs"][class*="bg-mustard"] { background-size:200% auto; background-image:linear-gradient(105deg,#d97706 0%,#fbbf24 40%,#d97706 100%); animation:shimmer 3.5s linear infinite; }
+    .retro-badge { transition: letter-spacing .3s, box-shadow .3s; cursor: default; }
+    .retro-badge:hover { letter-spacing: .25em; box-shadow: 0 0 0 3px rgba(217,119,6,.2); }
+    #photo-grid .group:hover { transform: scale(1.03) rotate(.4deg); }
+    #chat-btn { position: relative; }
+    #chat-btn::before { content:''; position:absolute; inset:-4px; border-radius:50%; border:2px solid rgba(26,92,90,.4); animation:ping-ring 2.5s ease-out infinite; }
+    @keyframes ping-ring { 0%{transform:scale(1);opacity:.6} 70%,100%{transform:scale(1.4);opacity:0} }
+    button:focus-visible, a:focus-visible { outline: 2px solid #d97706; outline-offset: 3px; border-radius: 4px; }
+    #chat-input:focus { border-color: #1a5c5a !important; box-shadow: 0 0 0 3px rgba(26,92,90,.15) !important; }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration:.01ms !important; transition-duration:.01ms !important; } }
+    @media (min-width: 1280px) { h1.font-heading { font-size: clamp(4rem,6vw,6rem); } }
   </style>
 </head>
 
 <body class="font-body">
+  <div style="position:fixed;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#1a5c5a,#d97706,#c2400e);z-index:99999;pointer-events:none;" aria-hidden="true"></div>
 
   <!-- ============================================================
        NAVIGATION BAR
@@ -436,14 +456,14 @@
 
       <!-- HERO BADGE LABEL — Edit this small label text -->
       <div class="fade-up flex justify-center mb-6">
-        <span class="retro-badge">Hyderabad's Skate Community · Est. 2024</span>
+        <span class="retro-badge">Hyderabad's Premier Skate Community · IOC Certified · Est. 2024</span>
       </div>
 
       <!-- HERO HEADLINE — Edit the main heading text below -->
       <h1 class="fade-up delay-1 font-heading text-5xl sm:text-6xl md:text-7xl font-black leading-tight text-amber-50 mb-6">
         Master the
         <span class="relative inline-block">
-          <span class="text-mustard">Pavement.</span>
+          <span class="text-mustard" style="text-shadow:0 0 80px rgba(217,119,6,.45),0 0 30px rgba(217,119,6,.25)">Pavement.</span>
           <!-- decorative underline squiggle -->
           <svg class="absolute -bottom-2 left-0 w-full" height="6" viewBox="0 0 200 6" preserveAspectRatio="none" fill="none">
             <path d="M0 3 Q25 0 50 3 Q75 6 100 3 Q125 0 150 3 Q175 6 200 3" stroke="#d97706" stroke-width="2" stroke-linecap="round"/>
@@ -496,7 +516,8 @@
       </div>
 
     </div>
-  </section>
+  
+      <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 opacity-40 animate-bounce" aria-hidden="true"><span style="font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(253,246,227,.6)">Scroll</span><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2v12M3 9l5 5 5-5" stroke="rgba(253,246,227,.6)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></section>
 
 
   <!-- ============================================================
@@ -1059,7 +1080,7 @@
         <div class="bg-white/5 border border-white/10 rounded-2xl p-6">
           <p class="text-mustard font-heading font-bold text-xs uppercase tracking-widest mb-3">Community</p>
           <p class="text-amber-50 text-sm leading-relaxed mb-4">Join the WhatsApp group for session locations, tips, and community updates.</p>
-          <a href="https://wa.me/91REPLACE_PHONE" target="_blank" rel="noopener"
+          <a href="https://wa.me/916304895686" target="_blank" rel="noopener"
              class="inline-block bg-mustard text-charcoal text-xs font-bold px-4 py-2 rounded-full hover:bg-amber-500 transition-colors">
             Join WhatsApp Group ↗
           </a>
@@ -1246,153 +1267,94 @@
 
 
   <!-- ============================================================
-       GSAP SCROLL ANIMATIONS + REVIEW POPUP LOGIC
+       SPRINT 7 — FULL GSAP MOTION + REVIEW POPUP
        ============================================================ -->
   <script>
-    // ── GSAP: Register ScrollTrigger ──────────────────────────────
-    gsap.registerPlugin(ScrollTrigger);
+  (function(){
+    gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
-    // Animate sections on scroll (About, Community, Programs)
-    gsap.utils.toArray('section').forEach(function(section) {
-      var children = section.querySelectorAll('h2, h3, p, blockquote, .card-hover, ul li, .retro-badge');
-      if (!children.length) return;
-      gsap.from(children, {
-        scrollTrigger: {
-          trigger: section,
-          start: 'top 82%',
-          toggleActions: 'play none none none',
-        },
-        y: 28,
-        opacity: 0,
-        duration: 0.65,
-        stagger: 0.08,
-        ease: 'power2.out',
-        clearProps: 'all',
-      });
+    // PAGE ENTRANCE
+    gsap.from('nav',{ y:-60, opacity:0, duration:0.7, ease:'power3.out', clearProps:'all' });
+    gsap.from(['.retro-badge','h1','h1 ~ p','h1 ~ div','h1 ~ a'],{
+      y:40, opacity:0, duration:0.75, stagger:0.12, ease:'power3.out', delay:0.2, clearProps:'all'
     });
 
-    // Animate program cards with a 3D tilt effect on scroll
-    gsap.utils.toArray('.card-hover').forEach(function(card, i) {
-      gsap.from(card, {
-        scrollTrigger: {
-          trigger: card,
-          start: 'top 88%',
-          toggleActions: 'play none none none',
-        },
-        y: 50,
-        opacity: 0,
-        rotationY: 6,
-        duration: 0.7,
-        delay: i * 0.12,
-        ease: 'back.out(1.4)',
-        clearProps: 'all',
-      });
+    // SCROLL REVEALS
+    gsap.utils.toArray('section').forEach(function(sec){
+      var els=sec.querySelectorAll('h2,h3,p,blockquote,li,.retro-badge');
+      if(!els.length) return;
+      gsap.from(els,{ scrollTrigger:{ trigger:sec, start:'top 80%', toggleActions:'play none none none' }, y:32, opacity:0, duration:0.65, stagger:0.07, ease:'power2.out', clearProps:'all' });
     });
 
-    // Stat cards in About section: count-up effect
-    gsap.utils.toArray('.bg-white\\/10').forEach(function(card, i) {
-      gsap.from(card, {
-        scrollTrigger: {
-          trigger: card,
-          start: 'top 85%',
-          toggleActions: 'play none none none',
-        },
-        scale: 0.92,
-        opacity: 0,
-        duration: 0.55,
-        delay: i * 0.15,
-        ease: 'back.out(1.6)',
-        clearProps: 'all',
-      });
+    // PROGRAM CARDS 3D
+    gsap.utils.toArray('.card-hover').forEach(function(card,i){
+      gsap.from(card,{ scrollTrigger:{ trigger:card, start:'top 88%', toggleActions:'play none none none' }, y:60, opacity:0, rotationY:8, transformOrigin:'left center', duration:0.75, delay:i*0.1, ease:'back.out(1.5)', clearProps:'all' });
     });
 
-    // Social proof strip: slide in from left
-    gsap.from('#proof-count', {
-      scrollTrigger: { trigger: '#proof-count', start: 'top 90%' },
-      textContent: 0,
-      duration: 1.2,
-      ease: 'power1.out',
-      snap: { textContent: 1 },
-      onUpdate: function() {
-        // Keep the + suffix
-      }
+    // STAT TILES POP
+    gsap.utils.toArray('[class*="bg-white/10"],[class*="bg-white/5"]').forEach(function(el,i){
+      gsap.from(el,{ scrollTrigger:{ trigger:el, start:'top 87%', toggleActions:'play none none none' }, scale:0.88, opacity:0, duration:0.55, delay:i*0.08, ease:'back.out(1.8)', clearProps:'all' });
     });
 
+    // SOCIAL PROOF COUNT-UP
+    var pe=document.getElementById('proof-count');
+    if(pe){ gsap.from(pe,{ scrollTrigger:{ trigger:pe, start:'top 90%' }, textContent:0, duration:1.6, ease:'power2.out', snap:{ textContent:1 }, onUpdate:function(){ pe.textContent=Math.round(parseFloat(pe.textContent||'0'))+'+'; } }); }
 
-    // ── GOOGLE REVIEW POPUP LOGIC ─────────────────────────────────
-    (function() {
-      var STORAGE_KEY = 'ugh_review_dismissed';
-      var popup      = document.getElementById('review-popup');
-      var closeBtn   = document.getElementById('review-close');
-      var laterBtn   = document.getElementById('review-later');
-      var ctaBtn     = document.getElementById('review-cta');
+    // SUPABASE COUNTER HOOK
+    window._animateCounter=function(n){
+      var el=document.getElementById('update-counter'); if(!el) return;
+      var o={val:0};
+      gsap.to(o,{ scrollTrigger:{ trigger:el, start:'top 88%' }, val:n, duration:1.8, ease:'power2.out', onUpdate:function(){ el.textContent=Math.round(o.val)+'+'; } });
+    };
 
-      // Don't show if already dismissed
-      if (localStorage.getItem(STORAGE_KEY)) return;
+    // PARALLAX SPIN
+    gsap.utils.toArray('[class*="animate-spin"],[class*="spin-slow"]').forEach(function(el){
+      gsap.to(el,{ scrollTrigger:{ trigger:el, start:'top bottom', end:'bottom top', scrub:1.5 }, rotation:'+=180', ease:'none' });
+    });
 
-      function showPopup() {
-        popup.classList.remove('pointer-events-none');
-        gsap.to(popup, { opacity: 1, y: 0, duration: 0.4, ease: 'back.out(1.5)' });
-      }
-
-      function hidePopup(permanent) {
-        gsap.to(popup, {
-          opacity: 0, y: 16, duration: 0.3, ease: 'power2.in',
-          onComplete: function() { popup.classList.add('pointer-events-none'); }
+    // MAGNETIC BUTTONS
+    function mag(sel){
+      document.querySelectorAll(sel).forEach(function(btn){
+        btn.addEventListener('mousemove',function(e){
+          var r=btn.getBoundingClientRect();
+          gsap.to(btn,{ x:(e.clientX-r.left-r.width/2)*0.35, y:(e.clientY-r.top-r.height/2)*0.35, duration:0.3, ease:'power2.out' });
         });
-        if (permanent) localStorage.setItem(STORAGE_KEY, '1');
-      }
-
-      // Trigger: 60% scroll depth + 8s minimum on page
-      var scrollFired = false;
-      var timeFired   = false;
-      var timeoutId;
-
-      function maybeShow() {
-        if (scrollFired && timeFired) showPopup();
-      }
-
-      window.addEventListener('scroll', function() {
-        if (scrollFired) return;
-        var scrollPct = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
-        if (scrollPct >= 60) {
-          scrollFired = true;
-          maybeShow();
-        }
-      }, { passive: true });
-
-      timeoutId = setTimeout(function() {
-        timeFired = true;
-        maybeShow();
-      }, 8000);
-
-      closeBtn.addEventListener('click', function() { hidePopup(true); });
-      laterBtn.addEventListener('click', function() { hidePopup(false); });
-      ctaBtn.addEventListener('click',  function() {
-        hidePopup(true);
-        // Track in GA4
-        if (typeof gtag !== 'undefined') {
-          gtag('event', 'google_review_click', { event_category: 'social_proof' });
-        }
+        btn.addEventListener('mouseleave',function(){ gsap.to(btn,{ x:0, y:0, duration:0.5, ease:'elastic.out(1,0.4)' }); });
       });
+    }
+    mag('a[href="#programs"][class*="rounded-full"]');
+    mag('a[href*="seedhape"][class*="rounded-full"]');
+    mag('#review-cta');
+
+    // SMOOTH ANCHOR SCROLL
+    document.querySelectorAll('a[href^="#"]').forEach(function(a){
+      a.addEventListener('click',function(e){
+        var t=document.querySelector(a.getAttribute('href')); if(!t) return;
+        e.preventDefault();
+        gsap.to(window,{ scrollTo:{ y:t, offsetY:72 }, duration:0.9, ease:'power3.inOut' });
+      });
+    });
+
+    // REVIEW POPUP
+    (function(){
+      var K='ugh_review_dismissed';
+      var p=document.getElementById('review-popup');
+      var cb=document.getElementById('review-close');
+      var lb=document.getElementById('review-later');
+      var ca=document.getElementById('review-cta');
+      if(!p||localStorage.getItem(K)) return;
+      function show(){ p.classList.remove('pointer-events-none'); gsap.to(p,{ opacity:1, y:0, duration:0.45, ease:'back.out(1.6)' }); }
+      function hide(perm){ gsap.to(p,{ opacity:0, y:16, duration:0.3, ease:'power2.in', onComplete:function(){ p.classList.add('pointer-events-none'); } }); if(perm) localStorage.setItem(K,'1'); }
+      var sf=false,tf=false;
+      function ms(){ if(sf&&tf) show(); }
+      window.addEventListener('scroll',function(){ if(sf) return; if((window.scrollY/(document.body.scrollHeight-window.innerHeight))*100>=60){ sf=true; ms(); } },{ passive:true });
+      setTimeout(function(){ tf=true; ms(); },8000);
+      if(cb) cb.addEventListener('click',function(){ hide(true); });
+      if(lb) lb.addEventListener('click',function(){ hide(false); });
+      if(ca) ca.addEventListener('click',function(){ hide(true); if(typeof gtag!=='undefined') gtag('event','google_review_click',{event_category:'social_proof'}); });
     })();
 
-    // ── LIVE COMMUNITY COUNTER (placeholder — replace with Supabase in Sprint 2) ──
-    // For now shows a static number with animated count-up
-    // When Supabase is set up, replace this block with Supabase fetch
-    (function() {
-      var el = document.querySelector('.count-num');
-      if (!el) return;
-      var target = 50; // UPDATE THIS NUMBER manually until Supabase is live
-      var current = 0;
-      var step = Math.ceil(target / 40);
-      var timer = setInterval(function() {
-        current = Math.min(current + step, target);
-        el.textContent = current + '+';
-        if (current >= target) clearInterval(timer);
-      }, 40);
-    })();
-
+  })();
   </script>
 
 
@@ -1543,7 +1505,7 @@
         keywords: ['where','location','place','society','today','venue','address','happening','aparna','pbel','session'],
         q: 'Where is today's session?',
         a: 'Sessions rotate across Hyderabad societies — Aparna Heights, PBEL City, and others. <strong>The exact location for each day is shared in the WhatsApp community group.</strong> Join the group to get live updates and pins. →',
-        cta: { label: 'Join WhatsApp for Location', href: 'https://wa.me/91REPLACE_PHONE' }
+        cta: { label: 'Join WhatsApp for Location', href: 'https://wa.me/916304895686' }
       },
       {
         keywords: ['fee','fees','cost','price','pay','paid','month','subscription','₹','3999','phase 2','charges','how much'],
@@ -1564,7 +1526,7 @@
         keywords: ['form','register','registration','missed','google','sign up','signup','late','still','join','come'],
         q: 'I missed the registration form — can I still come?',
         a: 'Registration is mandatory for society access and safety headcount. <strong>WhatsApp us directly</strong> and we'll try to add you to the list before the session. Last-minute spots depend on availability. →',
-        cta: { label: 'WhatsApp to Register Now', href: 'https://wa.me/91REPLACE_PHONE?text=Hi%20Coach%20Leela%2C%20I%20missed%20the%20registration%20form%20%E2%80%94%20can%20I%20still%20join%3F' }
+        cta: { label: 'WhatsApp to Register Now', href: 'https://wa.me/916304895686?text=Hi%20Coach%20Leela%2C%20I%20missed%20the%20registration%20form%20%E2%80%94%20can%20I%20still%20join%3F' }
       },
       {
         keywords: ['video','guide','digital','online','technical','hybrid','watch','access','link','how'],
@@ -1575,17 +1537,17 @@
         keywords: ['weekend','sunday','saturday','weekday','schedule','timing','flexible','batch','when','morning','evening','time'],
         q: 'Are there weekend-only batches?',
         a: 'Yes — we have <strong>morning and evening batches including weekends.</strong> Exact timings vary by society and phase. <strong>WhatsApp us with your preferred days</strong> and Coach Leela will match you to the right batch. →',
-        cta: { label: 'Ask About Schedule', href: 'https://wa.me/91REPLACE_PHONE?text=Hi%20Coach%20Leela%2C%20what%20batches%20are%20available%20for%20my%20schedule%3F' }
+        cta: { label: 'Ask About Schedule', href: 'https://wa.me/916304895686?text=Hi%20Coach%20Leela%2C%20what%20batches%20are%20available%20for%20my%20schedule%3F' }
       },
       {
         keywords: ['coming','my society','new society','when','expand','start','nearby','neighbor','area','complex','apartment'],
         q: 'When is UGH coming to my society?',
         a: 'We're expanding across Hyderabad! <strong>WhatsApp us your society name and area</strong> and we'll add you to the waitlist for the next Phase 1 workshop near you. The more residents from one society who sign up, the faster we arrive. →',
-        cta: { label: 'Request My Society', href: 'https://wa.me/91REPLACE_PHONE?text=Hi%20Coach%20Leela%2C%20I'd%20love%20UGH%20to%20come%20to%20my%20society%20%E2%80%94%20' }
+        cta: { label: 'Request My Society', href: 'https://wa.me/916304895686?text=Hi%20Coach%20Leela%2C%20I'd%20love%20UGH%20to%20come%20to%20my%20society%20%E2%80%94%20' }
       },
     ];
 
-    var WA_FALLBACK = 'https://wa.me/91REPLACE_PHONE?text=Hi%20Coach%20Leela%2C%20I%20have%20a%20question%20about%20UGH';
+    var WA_FALLBACK = 'https://wa.me/916304895686?text=Hi%20Coach%20Leela%2C%20I%20have%20a%20question%20about%20UGH';
 
     // ── INITIAL SUGGESTIONS (show 4) ────────────────────────────
     var INITIAL = [0, 2, 3, 7];  // Fees, gear, safety, society
@@ -1780,30 +1742,26 @@
        CLERK INIT — Runs after DOM ready
        ============================================================ -->
   <script>
-    // Wait for Clerk script to load, then initialize
-    document.getElementById('clerk-script').addEventListener('load', async function() {
+    window.addEventListener('load', async function() {
       try {
         var clerk = window.Clerk;
-        if (!clerk) { console.warn('Clerk not available'); return; }
+        if (!clerk) return;
 
-        await clerk.load({
-          publishableKey: 'pk_test_cG93ZXJmdWwtcmVkZmlzaC01MC5jbGVyay5hY2NvdW50cy5kZXYk'
-        });
+        await clerk.load();
 
         function updateUI() {
-          var user      = clerk.user;
-          var signedIn  = !!user;
-          var firstName = signedIn ? (user.firstName || user.emailAddresses[0].emailAddress.split('@')[0]) : '';
-          var avatarUrl = signedIn ? user.imageUrl : '';
+          var user       = clerk.user;
+          var signedIn   = !!user;
+          var firstName  = signedIn ? (user.firstName || user.emailAddresses[0].emailAddress.split('@')[0]) : '';
+          var avatarUrl  = signedIn ? user.imageUrl : '';
 
           // Desktop nav
           var navOut = document.getElementById('nav-signed-out');
           var navIn  = document.getElementById('nav-signed-in');
           var navEl  = document.getElementById('nav-auth');
           if (navEl)  navEl.classList.remove('hidden');
-          if (navOut) { navOut.style.display = signedIn ? 'none'  : 'flex'; }
-          if (navIn)  { navIn.style.display  = signedIn ? 'flex'  : 'none'; }
-
+          if (navOut) navOut.classList.toggle('hidden', signedIn);
+          if (navIn)  { navIn.classList.toggle('hidden', !signedIn); navIn.style.display = signedIn ? 'flex' : 'none'; }
           var nameEl   = document.getElementById('nav-name');
           var avatarEl = document.getElementById('nav-avatar');
           if (nameEl   && firstName)  nameEl.textContent = firstName;
@@ -1812,26 +1770,26 @@
           // Mobile nav
           var mobOut = document.getElementById('mob-signed-out');
           var mobIn  = document.getElementById('mob-signed-in');
-          if (mobOut) { mobOut.style.display = signedIn ? 'none' : 'flex'; }
-          if (mobIn)  { mobIn.style.display  = signedIn ? 'flex' : 'none'; }
+          if (mobOut) mobOut.classList.toggle('hidden', signedIn);
+          if (mobIn)  { mobIn.classList.toggle('hidden', !signedIn); mobIn.style.display = signedIn ? 'flex' : 'none'; }
 
-          // Member zone
+          // Member zone section
           var zone       = document.getElementById('member-zone');
           var memberName = document.getElementById('member-name');
-          if (zone)       { zone.style.display = signedIn ? 'block' : 'none'; zone.classList.remove('hidden'); }
+          if (zone)       zone.classList.toggle('hidden', !signedIn);
           if (memberName && firstName) memberName.textContent = firstName;
 
-          // Scroll to member zone after sign-in
+          // Scroll to member zone if just signed in
           if (signedIn && window._clerkJustSignedIn) {
             window._clerkJustSignedIn = false;
             setTimeout(function() {
               var z = document.getElementById('member-zone');
               if (z) z.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }, 500);
+            }, 400);
           }
         }
 
-        // Global helpers used by onclick buttons
+        // Expose global helpers for onclick attributes
         window.clerkSignIn = function() {
           window._clerkJustSignedIn = true;
           clerk.openSignIn({
@@ -1839,22 +1797,30 @@
             afterSignUpUrl:  window.location.href,
           });
         };
-
         window.clerkSignOut = function() {
-          clerk.signOut().then(updateUI);
+          clerk.signOut().then(function() { updateUI(); });
         };
 
-        // Run immediately + listen for changes
+        // Initial render
         updateUI();
-        clerk.addListener(updateUI);
 
-        console.log('Clerk initialized ✓', signedIn ? 'Signed in' : 'Signed out');
+        // Re-render whenever auth state changes
+        clerk.addListener(function() { updateUI(); });
 
       } catch(e) {
-        console.warn('Clerk init error:', e.message);
+        console.warn('Clerk init error:', e);
       }
     });
   </script>
 
+
+  <script>
+  // Nav darkens on scroll
+  (function(){ var n=document.querySelector('nav'); if(!n) return; window.addEventListener('scroll',function(){ n.classList.toggle('scrolled',window.scrollY>40); },{ passive:true }); })();
+  // Cursor glow on CTAs
+  document.querySelectorAll('a[href*="seedhape"],a[href="#programs"][class*="bg-mustard"]').forEach(function(b){
+    b.addEventListener('mousemove',function(e){ var r=b.getBoundingClientRect(); b.style.setProperty('--mx',((e.clientX-r.left)/r.width*100).toFixed(1)+'%'); b.style.setProperty('--my',((e.clientY-r.top)/r.height*100).toFixed(1)+'%'); });
+  });
+  </script>
 </body>
 </html>

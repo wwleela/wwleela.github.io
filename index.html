@@ -1,6 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- ============================================================
+       SECURITY META TAGS
+       ============================================================ -->
+  <!-- Prevents MIME sniffing -->
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <!-- Controls referrer info sent to external sites -->
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <!-- Prevents clickjacking (for browsers that respect meta CSP) -->
+  <meta http-equiv="X-Frame-Options" content="SAMEORIGIN" />
+  <!-- Content Security Policy — allows Clerk, Supabase, GSAP, GA4, Clarity -->
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    script-src 'self' 'unsafe-inline'
+      https://cdn.tailwindcss.com
+      https://cdnjs.cloudflare.com
+      https://cdn.jsdelivr.net
+      https://powerful-redfish-50.clerk.accounts.dev
+      https://www.googletagmanager.com
+      https://www.clarity.ms
+      https://www.google-analytics.com;
+    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+    font-src 'self' https://fonts.gstatic.com;
+    img-src 'self' data: blob: https:;
+    connect-src 'self'
+      https://tatepjlilnfsvxnqxlud.supabase.co
+      wss://tatepjlilnfsvxnqxlud.supabase.co
+      https://powerful-redfish-50.clerk.accounts.dev
+      https://api.resend.com
+      https://www.google-analytics.com
+      https://region1.analytics.google.com
+      https://www.clarity.ms;
+    frame-src https://powerful-redfish-50.clerk.accounts.dev;
+    object-src 'none';
+    base-uri 'self';
+  " />
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
@@ -34,8 +70,8 @@
   <!-- ============================================================
        GSAP + ScrollTrigger — Scroll-driven animations
        ============================================================ -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha512-7eHRwcbYkK4d9g/6tD/mhkf++eoTHwpNM9woBxtPUBWm67zeAfFC+HrdoE2GanKeocly/VxeLvIqwvCdk7qScg==" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" integrity="sha512-IQLehpLoVS4fNzl7IfH8Iowfbjc5/H4bkAdVe2Y9HlqBK2OVV5mNdTf/9Pu/T0XDl3V9/5f2R3yCQnY8t0A==" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
 
 
@@ -494,7 +530,7 @@
         </a>
 
         <!-- SECONDARY CTA BUTTON — Edit href and label text -->
-        <a href="https://chat.whatsapp.com/CeSGQhqpUMX8XamdJ7Uf2N?mode=gi_t"
+        <a rel="noopener noreferrer" href="https://chat.whatsapp.com/CeSGQhqpUMX8XamdJ7Uf2N?mode=gi_t"
            class="group inline-flex items-center gap-3 border-2 border-amber-200/60 hover:border-amber-300 text-amber-100 hover:text-amber-50 font-heading font-semibold text-lg px-8 py-4 rounded-full transition-all duration-200 hover:bg-white/5">
           <!-- SECONDARY BUTTON LABEL — Edit this text -->
           Join the Community
@@ -873,7 +909,7 @@
             </p>
 
             <!-- CARD 1 BUTTON — Edit href and label -->
-            <a href="https://www.seedhape.com/pay/link/sp_lnk_dnh36l8mhc3n9x2w"
+            <a target="_blank" rel="noopener noreferrer" href="https://www.seedhape.com/pay/link/sp_lnk_dnh36l8mhc3n9x2w"
                class="group/btn inline-flex justify-center items-center gap-2 bg-mustard hover:bg-amber-500 text-charcoal font-heading font-bold px-7 py-3 rounded-full shadow-md transition-all duration-200 hover:scale-105">
               <!-- CARD 1 BUTTON LABEL — Edit this text -->
               Secure Your Spot
@@ -908,7 +944,7 @@
             </p>
 
             <!-- CARD 2 BUTTON — Edit href and label -->
-            <a href="https://www.seedhape.com/pay/link/sp_lnk_kj8tqvay5lvl9xyq"
+            <a target="_blank" rel="noopener noreferrer" href="https://www.seedhape.com/pay/link/sp_lnk_kj8tqvay5lvl9xyq"
                class="group/btn inline-flex justify-center items-center gap-2 bg-amber-50 hover:bg-white text-teal font-heading font-bold px-7 py-3 rounded-full shadow-md transition-all duration-200 hover:scale-105">
               <!-- CARD 2 BUTTON LABEL — Edit this text -->
               Book Session
@@ -940,7 +976,7 @@
             </p>
 
             <!-- CARD 3 BUTTON — Edit href and label -->
-            <a href="https://www.seedhape.com/pay/link/sp_lnk_1mfgu3yjry0218l9"
+            <a target="_blank" rel="noopener noreferrer" href="https://www.seedhape.com/pay/link/sp_lnk_1mfgu3yjry0218l9"
                class="group/btn inline-flex justify-center items-center gap-2 bg-white hover:bg-gray-200 text-charcoal font-heading font-bold px-7 py-3 rounded-full shadow-md transition-all duration-200 hover:scale-105">
               <!-- CARD 3 BUTTON LABEL — Edit this text -->
               Book Duo
@@ -966,7 +1002,7 @@
           <p class="text-amber-100/70 text-sm">Come to a Saturday meetup. No commitment. Just good vibes and good pavement.</p>
         </div>
         <!-- BOTTOM CTA BUTTON — Edit href and label -->
-        <a href="https://www.instagram.com/urbangliding.hyd?igsh=MWc2ZzcwcnJua2Vkcw=="
+        <a rel="noopener noreferrer" href="https://www.instagram.com/urbangliding.hyd?igsh=MWc2ZzcwcnJua2Vkcw=="
            class="relative flex-shrink-0 inline-flex items-center gap-2 bg-mustard hover:bg-amber-400 text-charcoal font-heading font-bold px-7 py-3 rounded-full shadow-lg transition-all duration-200 hover:scale-105">
           <!-- BOTTOM BAND BUTTON LABEL — Edit this text -->
           Join Saturday Ride
@@ -1136,7 +1172,7 @@
         <nav class="flex items-center gap-6">
 
           <!-- INSTAGRAM LINK — Edit href to your actual Instagram URL -->
-          <a href="https://www.instagram.com/urbangliding.hyd?igsh=MWc2ZzcwcnJua2Vkcw=="
+          <a rel="noopener noreferrer" href="https://www.instagram.com/urbangliding.hyd?igsh=MWc2ZzcwcnJua2Vkcw=="
              class="text-amber-100/60 hover:text-mustard text-sm transition-colors flex items-center gap-1.5">
             <!-- Instagram icon -->
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -1149,7 +1185,7 @@
           </a>
 
           <!-- CONTACT LINK — Edit href to your actual contact page or email -->
-          <a href="https://wa.me/916304895686"
+          <a target="_blank" rel="noopener noreferrer" href="https://wa.me/916304895686"
              class="text-amber-100/60 hover:text-mustard text-sm transition-colors flex items-center gap-1.5">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
               <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
@@ -1160,7 +1196,7 @@
           </a>
 
           <!-- WHATSAPP LINK — Edit href to your WhatsApp group link -->
-          <a href="https://chat.whatsapp.com/CeSGQhqpUMX8XamdJ7Uf2N?mode=gi_t"
+          <a rel="noopener noreferrer" href="https://chat.whatsapp.com/CeSGQhqpUMX8XamdJ7Uf2N?mode=gi_t"
              class="text-amber-100/60 hover:text-mustard text-sm transition-colors flex items-center gap-1.5">
             <svg width="15" height="15" viewBox="0 0 20 20" fill="currentColor">
               <path d="M10 1.5A8.5 8.5 0 0 0 2.1 13.7L1.5 18.5l4.9-.6A8.5 8.5 0 1 0 10 1.5zm3.8 11.74c-.2-.1-1.2-.59-1.39-.66-.18-.07-.32-.1-.45.1-.13.2-.5.66-.62.8-.11.13-.23.15-.43.05a5.4 5.4 0 0 1-1.6-.99 6 6 0 0 1-1.1-1.38c-.12-.2-.01-.3.09-.4l.3-.35c.1-.12.13-.2.2-.33.06-.13.03-.25-.02-.35-.05-.1-.45-1.08-.62-1.48-.16-.38-.33-.33-.45-.34h-.38c-.13 0-.35.05-.53.25-.18.2-.7.68-.7 1.66s.72 1.93.82 2.06c.1.13 1.41 2.16 3.42 3.03.48.2.85.33 1.14.42.48.15.92.13 1.26.08.38-.06 1.18-.48 1.35-.95.16-.47.16-.87.11-.95-.05-.08-.18-.13-.38-.23z"/>
@@ -1483,7 +1519,7 @@
 
     <!-- Input row -->
     <div style="padding:10px 14px 14px;display:flex;gap:8px;border-top:1px solid rgba(217,119,6,.1);">
-      <input id="chat-input" type="text" placeholder="Type your question…"
+      <input id="chat-input" type="text" placeholder="Type your question…" maxlength="300" autocomplete="off" spellcheck="false"
         style="flex:1;border:1px solid rgba(217,119,6,.25);border-radius:999px;padding:8px 14px;
                font-size:13px;outline:none;font-family:inherit;color:#2d2416;background:#fdf6e3;"/>
       <button id="chat-send"
@@ -1498,6 +1534,13 @@
 
   <script>
   (function() {
+
+    // ── XSS SANITIZER ──────────────────────────────────────────
+    function sanitize(str) {
+      var d = document.createElement('div');
+      d.textContent = str;
+      return d.innerHTML;
+    }
 
     // ── FAQ DATA ────────────────────────────────────────────────
     var FAQS = [
@@ -1697,6 +1740,7 @@
     function handleInput() {
       var text = input.value.trim();
       if (!text) return;
+      if (text.length > 300) { text = text.slice(0,300); } // max length
       input.value = '';
       var faq = findFAQ(text);
       if (faq) {

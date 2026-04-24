@@ -47,8 +47,9 @@
     async
     crossorigin="anonymous"
     data-clerk-publishable-key="pk_test_cG93ZXJmdWwtcmVkZmlzaC01MC5jbGVyay5hY2NvdW50cy5kZXYk"
-    src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js"
-    type="text/javascript">
+    src="https://powerful-redfish-50.clerk.accounts.dev/npm/@clerk/clerk-js@latest/dist/clerk.browser.js"
+    type="text/javascript"
+    id="clerk-script">
   </script>
 
   <!-- ============================================================
@@ -1779,26 +1780,30 @@
        CLERK INIT — Runs after DOM ready
        ============================================================ -->
   <script>
-    window.addEventListener('load', async function() {
+    // Wait for Clerk script to load, then initialize
+    document.getElementById('clerk-script').addEventListener('load', async function() {
       try {
         var clerk = window.Clerk;
-        if (!clerk) return;
+        if (!clerk) { console.warn('Clerk not available'); return; }
 
-        await clerk.load();
+        await clerk.load({
+          publishableKey: 'pk_test_cG93ZXJmdWwtcmVkZmlzaC01MC5jbGVyay5hY2NvdW50cy5kZXYk'
+        });
 
         function updateUI() {
-          var user       = clerk.user;
-          var signedIn   = !!user;
-          var firstName  = signedIn ? (user.firstName || user.emailAddresses[0].emailAddress.split('@')[0]) : '';
-          var avatarUrl  = signedIn ? user.imageUrl : '';
+          var user      = clerk.user;
+          var signedIn  = !!user;
+          var firstName = signedIn ? (user.firstName || user.emailAddresses[0].emailAddress.split('@')[0]) : '';
+          var avatarUrl = signedIn ? user.imageUrl : '';
 
           // Desktop nav
           var navOut = document.getElementById('nav-signed-out');
           var navIn  = document.getElementById('nav-signed-in');
           var navEl  = document.getElementById('nav-auth');
           if (navEl)  navEl.classList.remove('hidden');
-          if (navOut) navOut.classList.toggle('hidden', signedIn);
-          if (navIn)  { navIn.classList.toggle('hidden', !signedIn); navIn.style.display = signedIn ? 'flex' : 'none'; }
+          if (navOut) { navOut.style.display = signedIn ? 'none'  : 'flex'; }
+          if (navIn)  { navIn.style.display  = signedIn ? 'flex'  : 'none'; }
+
           var nameEl   = document.getElementById('nav-name');
           var avatarEl = document.getElementById('nav-avatar');
           if (nameEl   && firstName)  nameEl.textContent = firstName;
@@ -1807,26 +1812,26 @@
           // Mobile nav
           var mobOut = document.getElementById('mob-signed-out');
           var mobIn  = document.getElementById('mob-signed-in');
-          if (mobOut) mobOut.classList.toggle('hidden', signedIn);
-          if (mobIn)  { mobIn.classList.toggle('hidden', !signedIn); mobIn.style.display = signedIn ? 'flex' : 'none'; }
+          if (mobOut) { mobOut.style.display = signedIn ? 'none' : 'flex'; }
+          if (mobIn)  { mobIn.style.display  = signedIn ? 'flex' : 'none'; }
 
-          // Member zone section
+          // Member zone
           var zone       = document.getElementById('member-zone');
           var memberName = document.getElementById('member-name');
-          if (zone)       zone.classList.toggle('hidden', !signedIn);
+          if (zone)       { zone.style.display = signedIn ? 'block' : 'none'; zone.classList.remove('hidden'); }
           if (memberName && firstName) memberName.textContent = firstName;
 
-          // Scroll to member zone if just signed in
+          // Scroll to member zone after sign-in
           if (signedIn && window._clerkJustSignedIn) {
             window._clerkJustSignedIn = false;
             setTimeout(function() {
               var z = document.getElementById('member-zone');
               if (z) z.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }, 400);
+            }, 500);
           }
         }
 
-        // Expose global helpers for onclick attributes
+        // Global helpers used by onclick buttons
         window.clerkSignIn = function() {
           window._clerkJustSignedIn = true;
           clerk.openSignIn({
@@ -1834,18 +1839,19 @@
             afterSignUpUrl:  window.location.href,
           });
         };
+
         window.clerkSignOut = function() {
-          clerk.signOut().then(function() { updateUI(); });
+          clerk.signOut().then(updateUI);
         };
 
-        // Initial render
+        // Run immediately + listen for changes
         updateUI();
+        clerk.addListener(updateUI);
 
-        // Re-render whenever auth state changes
-        clerk.addListener(function() { updateUI(); });
+        console.log('Clerk initialized ✓', signedIn ? 'Signed in' : 'Signed out');
 
       } catch(e) {
-        console.warn('Clerk init error:', e);
+        console.warn('Clerk init error:', e.message);
       }
     });
   </script>

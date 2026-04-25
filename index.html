@@ -158,7 +158,7 @@ nav.scrolled{
 /* ── TYPOGRAPHY ────────────────────────────────────────────── */
 .display-1{
   font-family:var(--font-display);font-weight:900;
-  font-size:clamp(3.5rem,9vw,7.5rem);line-height:.9;letter-spacing:-.04em;
+  font-size:clamp(2.8rem,9vw,7.5rem);line-height:.92;letter-spacing:-.04em;
   color:#fdf6e3;
 }
 .display-2{
@@ -174,6 +174,7 @@ nav.scrolled{
 
 /* ── HERO ──────────────────────────────────────────────────── */
 #hero{
+  min-height:100vh;
   min-height:100svh;
   background:var(--teal);
   background-image:
@@ -182,7 +183,7 @@ nav.scrolled{
     url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23fdf6e3' fill-opacity='0.035'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");
   display:flex;align-items:center;justify-content:center;
   position:relative;overflow:hidden;
-  padding:calc(var(--nav-h) + 2rem) clamp(1.5rem,4vw,3rem) 4rem;
+  padding:calc(var(--nav-h) + clamp(1.5rem,5vw,3rem)) clamp(1.25rem,4vw,3rem) clamp(3rem,8vw,5rem);
 }
 .hero-grain{position:absolute;inset:0;pointer-events:none;z-index:1;
   background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.025'/%3E%3C/svg%3E");
@@ -230,6 +231,7 @@ nav.scrolled{
   display:grid;grid-template-columns:repeat(4,1fr);
   max-width:1100px;margin:0 auto;
 }
+@media(max-width:600px){.stats-grid{grid-template-columns:repeat(2,1fr);}.stat-item+.stat-item:nth-child(3)::before{display:none;}}
 .stat-item{
   padding:2rem clamp(1rem,2vw,2rem);
   text-align:center;position:relative;
@@ -265,7 +267,7 @@ nav.scrolled{
 .program-card{
   background:var(--charcoal);
   border-radius:var(--r-xl);
-  padding:2.5rem;
+  padding:clamp(1.75rem,4vw,2.5rem);
   position:relative;overflow:hidden;
   transform-style:preserve-3d;
   transition:transform .5s var(--ease-spring),box-shadow .5s var(--ease-smooth);
@@ -381,7 +383,8 @@ nav.scrolled{
 /* ── FOOTER ────────────────────────────────────────────────── */
 footer{background:var(--charcoal);border-top:1px solid rgba(255,255,255,.05);
   padding:3rem clamp(1.5rem,4vw,3rem);}
-.footer-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:2rem;}
+.footer-inner{max-width:1100px;margin:0 auto;display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:2rem;}
+@media(max-width:600px){.footer-inner{flex-direction:column;gap:1.5rem;}.footer-links{gap:1.25rem;flex-wrap:wrap;}}
 .footer-brand{font-family:var(--font-display);font-weight:900;font-size:1.25rem;color:var(--gold);}
 .footer-links{display:flex;gap:2rem;flex-wrap:wrap;}
 .footer-link{font-size:.82rem;font-weight:500;color:rgba(253,246,227,.4);transition:color .2s;letter-spacing:.05em;}
@@ -412,6 +415,7 @@ footer{background:var(--charcoal);border-top:1px solid rgba(255,255,255,.05);
 
 @media(max-width:768px){
   .nav-links{display:none;}
+  .nav-social{display:none!important;}
   .hamburger{display:flex;}
   .nav-auth .btn{display:none;}
 }
@@ -435,6 +439,7 @@ footer{background:var(--charcoal);border-top:1px solid rgba(255,255,255,.05);
 .corner-ornament::after{top:10px;left:10px;width:28px;height:28px;border-right:none;border-bottom:none;}
 
 /* ── REDUCED MOTION ────────────────────────────────────────── */
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;}
   html{scroll-behavior:auto;}
@@ -506,7 +511,21 @@ function initClerk(){
     <li><a href="#cta-band" class="nav-link">Community</a></li>
   </ul>
 
-  <div class="nav-auth" style="margin-left:2rem;">
+  <!-- Social icons in nav -->
+  <div style="display:flex;align-items:center;gap:1rem;margin-left:auto;margin-right:1.25rem;" class="nav-social">
+    <a href="https://www.instagram.com/urbangliding.hyd?igsh=MWc2ZzcwcnJua2Vkcw==" target="_blank" rel="noopener noreferrer" aria-label="Instagram" style="color:rgba(253,246,227,.5);transition:color .2s;" onmouseover="this.style.color='#fdf6e3'" onmouseout="this.style.color='rgba(253,246,227,.5)'">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+      </svg>
+    </a>
+    <a href="https://wa.me/916304895686" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" style="color:rgba(253,246,227,.5);transition:color .2s;" onmouseover="this.style.color='#fdf6e3'" onmouseout="this.style.color='rgba(253,246,227,.5)'">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/>
+      </svg>
+    </a>
+  </div>
+
+  <div class="nav-auth" style="margin-left:0;">
     <div id="nav-signed-out" style="display:flex;align-items:center;gap:.75rem;">
       <button onclick="clerkSignIn()" class="nav-link" style="background:none;border:none;cursor:pointer;">Login</button>
       <a href="#programs" class="btn btn-gold btn-sm">Enroll Now ↗</a>
@@ -541,6 +560,15 @@ function initClerk(){
     <a href="#member-zone" class="mobile-nav-link" style="font-size:1.5rem;" onclick="closeMobileMenu()">My Zone</a>
     <button onclick="clerkSignOut()" style="background:none;border:none;color:rgba(253,246,227,.3);font-size:.9rem;cursor:pointer;font-family:var(--font-body);">Sign out</button>
   </div>
+  <!-- Social in mobile menu -->
+  <div style="display:flex;gap:2rem;margin-top:.5rem;">
+    <a href="https://www.instagram.com/urbangliding.hyd?igsh=MWc2ZzcwcnJua2Vkcw==" target="_blank" rel="noopener noreferrer" style="color:rgba(253,246,227,.45);transition:color .2s;" aria-label="Instagram" onmouseover="this.style.color='#fdf6e3'" onmouseout="this.style.color='rgba(253,246,227,.45)'">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+    </a>
+    <a href="https://wa.me/916304895686" target="_blank" rel="noopener noreferrer" style="color:rgba(253,246,227,.45);transition:color .2s;" aria-label="WhatsApp" onmouseover="this.style.color='#fdf6e3'" onmouseout="this.style.color='rgba(253,246,227,.45)'">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+    </a>
+  </div>
 </div>
 
 <!-- ═══════════════════════════ HERO ══════════════════════════ -->
@@ -563,7 +591,6 @@ function initClerk(){
     <line x1="20" y1="20" x2="100" y2="100" stroke="#fdf6e3" stroke-width=".8"/>
     <line x1="100" y1="20" x2="20" y2="100" stroke="#fdf6e3" stroke-width=".8"/>
   </svg>
-  @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
   <!-- Corner ornaments -->
   <div class="corner-ornament corner-tl" aria-hidden="true"></div>
   <div class="corner-ornament corner-tr" aria-hidden="true"></div>
@@ -582,7 +609,7 @@ function initClerk(){
     </h1>
 
     <p class="lead-light" style="margin-bottom:2.5rem;max-width:480px;">
-      From your first push to confident gliding — IOC certified coaching, society workshops across Hyderabad, and a community that rolls together.
+      From your first push to confident gliding. IOC certified coaching, free society workshops, and a 160+ strong community across Hyderabad.
     </p>
 
     <!-- SINGLE PRIMARY CTA -->
@@ -637,9 +664,11 @@ function initClerk(){
           Built on the<br/>streets of<br/><span class="word-gold">Hyderabad.</span>
         </h2>
         <p class="lead-light" style="margin-bottom:2rem;">
-          Urban Gliding Hyderabad brings structured, certified skate coaching directly to residential communities. No commuting to a rink. No expensive equipment to start. Just show up.
+          Urban Gliding Hyderabad brings IOC certified skate coaching to your residential society. Inline skating, skateboarding, and urban mobility — for children, teens, and adults. Phase 1 is always free.
         </p>
-        <!-- NO CTA in About — informational section only -->
+        <a href="https://wa.me/916304895686?text=Hi%20Coach%20Leela%2C%20tell%20me%20more%20about%20UGH" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm" style="margin-top:.5rem;">
+          Ask Coach Leela →
+        </a>
       </div>
       <div>
         <div class="about-check">
@@ -690,7 +719,7 @@ function initClerk(){
         <div class="program-price">₹0</div>
         <div class="program-price-sub">Society Workshop</div>
         <h3 class="program-title">Summer Camp Workshop</h3>
-        <p class="program-desc">Your first session at your society. Exposure to inline skating, skateboarding, and urban mobility. No gear needed. Just show up.</p>
+        <p class="program-desc">Free introductory workshop at your residential society. Exposure to inline skating and skateboarding. Equipment provided. Registration required for society access.</p>
         <div class="program-features">
           <div class="program-feature">Equipment provided for session</div>
           <div class="program-feature">IOC certified coach on-site</div>
@@ -706,7 +735,7 @@ function initClerk(){
         <div class="program-price">₹3,999</div>
         <div class="program-price-sub">per month</div>
         <h3 class="program-title">Elite 1-on-1 Coaching</h3>
-        <p class="program-desc">Hyper-focused, personalised coaching. Perfect for accelerated learning, overcoming fear, and achieving technical mastery faster.</p>
+        <p class="program-desc">Dedicated 1-on-1 sessions with Coach Leela. Personalised curriculum, your own pace, direct feedback every session. For children and adults.</p>
         <div class="program-features">
           <div class="program-feature">2 physical sessions per week</div>
           <div class="program-feature">2 technical video guides per week</div>
@@ -722,7 +751,7 @@ function initClerk(){
         <div class="program-price">₹8,999</div>
         <div class="program-price-sub">per month · shared between two</div>
         <h3 class="program-title">Elite Duo Sessions</h3>
-        <p class="program-desc">Train with a partner. Shared motivation, competitive progression, and premium technical instruction. Best value for committed pairs.</p>
+        <p class="program-desc">Train together — siblings, friends, or parent-child pairs. Same premium coaching quality, shared between two people. Great energy, better value.</p>
         <div class="program-features">
           <div class="program-feature">Same schedule as 1-on-1</div>
           <div class="program-feature">Competitive partner dynamic</div>
@@ -775,11 +804,11 @@ function initClerk(){
     <div class="section-label" style="color:rgba(217,119,6,.7);">No commitment</div>
     <h2 class="display-2" style="margin-bottom:1.25rem;">Still on the<br/><span class="word-gold">fence?</span></h2>
     <p class="lead-light" style="margin:0 auto 2.5rem;text-align:center;">
-      Come to a Saturday meetup. No registration. No gear. Just good vibes and good pavement.
+      Come to a free Saturday session at your nearest society venue. No commitment. No gear needed. See if skating is for you.
     </p>
     <!-- SINGLE CTA -->
     <a href="https://wa.me/916304895686?text=Hi%20Coach%20Leela%2C%20I'd%20like%20to%20attend%20a%20Saturday%20meetup" target="_blank" rel="noopener noreferrer" class="btn btn-gold" style="font-size:1.05rem;padding:1.05rem 2.5rem;">
-      Join Saturday Meetup →
+      Message Coach Leela →
     </a>
   </div>
 </section>
@@ -827,8 +856,15 @@ function initClerk(){
       <a href="#about"    class="footer-link">About</a>
       <a href="#programs" class="footer-link">Programs</a>
       <a href="#updates"  class="footer-link">Phase 1</a>
-      <a href="https://www.instagram.com/urbangliding.hyd?igsh=MWc2ZzcwcnJua2Vkcw==" target="_blank" rel="noopener noreferrer" class="footer-link">Instagram</a>
-      <a href="https://wa.me/916304895686" target="_blank" rel="noopener noreferrer" class="footer-link">WhatsApp</a>
+      <a href="#cta-band" class="footer-link">Community</a>
+      <a href="https://www.instagram.com/urbangliding.hyd?igsh=MWc2ZzcwcnJua2Vkcw==" target="_blank" rel="noopener noreferrer" class="footer-link" style="display:flex;align-items:center;gap:.4rem;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        Instagram
+      </a>
+      <a href="https://wa.me/916304895686" target="_blank" rel="noopener noreferrer" class="footer-link" style="display:flex;align-items:center;gap:.4rem;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+        WhatsApp
+      </a>
     </nav>
   </div>
   <p class="footer-copy">© 2026 Urban Gliding Hyderabad · UPI: worldwide.leelamadhav@oksbi · All rights reserved.</p>
@@ -1093,5 +1129,33 @@ document.getElementById('mobile-close-btn').addEventListener('click', closeMobil
 })();
 </script>
 
+
+<!-- WhatsApp floating button — mobile only -->
+<a href="https://wa.me/916304895686?text=Hi%20Coach%20Leela%2C%20I%20want%20to%20know%20more%20about%20UGH" 
+   target="_blank" rel="noopener noreferrer"
+   id="wa-float"
+   aria-label="Chat on WhatsApp"
+   style="
+     position:fixed;bottom:1.5rem;right:1.5rem;z-index:8000;
+     width:52px;height:52px;border-radius:50%;
+     background:#25d366;
+     display:none;
+     align-items:center;justify-content:center;
+     box-shadow:0 4px 24px rgba(37,211,102,.4);
+     transition:transform .35s cubic-bezier(.34,1.56,.64,1),box-shadow .3s;
+   "
+   onmouseover="this.style.transform='scale(1.1)';this.style.boxShadow='0 8px 32px rgba(37,211,102,.5)'"
+   onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 4px 24px rgba(37,211,102,.4)'">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="white" aria-hidden="true">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+  </svg>
+</a>
+<style>
+  @media(max-width:768px){
+    #wa-float{display:flex!important;}
+    /* Push review popup up on mobile so it doesn't overlap WA button */
+    #review-popup{bottom:5rem;}
+  }
+</style>
 </body>
 </html>

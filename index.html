@@ -38,20 +38,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
 
-
-  <!-- ============================================================
-       CLERK — Login / Logout / User accounts
-       Pure frontend, works on GitHub Pages static hosting
-       Dashboard: dashboard.clerk.com
-       ============================================================ -->
-  <script
-    async
-    crossorigin="anonymous"
-    data-clerk-publishable-key="pk_test_cG93ZXJmdWwtcmVkZmlzaC01MC5jbGVyay5hY2NvdW50cy5kZXYk"
-    src="https://powerful-redfish-50.clerk.accounts.dev/npm/@clerk/clerk-js@latest/dist/clerk.browser.js"
-    type="text/javascript">
-  </script>
-
   <!-- ============================================================
        SUPABASE — Live community counter
        Reads registered_count from community_stats table
@@ -311,22 +297,107 @@
       background-color: rgba(26,92,90,0.92);
     }
 
-    /* ── POLISH & MOTION ───────────────────────────── */
+    /* ══════════════════════════════════════════════════
+       BRAND AUTHORITY — Motion, Depth, Polish
+    ══════════════════════════════════════════════════ */
     html { scroll-padding-top: 72px; }
-    nav { transition: background .35s ease, box-shadow .35s ease; }
-    nav.scrolled { background: rgba(22,52,50,.97) !important; box-shadow: 0 2px 40px rgba(0,0,0,.3); }
-    .card-hover { transition: transform .35s cubic-bezier(.34,1.56,.64,1), box-shadow .35s ease; will-change: transform; }
-    .card-hover:hover { transform: translateY(-8px) scale(1.012); box-shadow: 0 20px 60px rgba(45,36,22,.15); }
-    #photo-grid .group { cursor: pointer; }
-    #chat-btn { position: relative; isolation: isolate; }
-    #chat-btn::before { content:''; position:absolute; inset:-5px; border-radius:50%; border:2px solid rgba(26,92,90,.45); animation:ping-ring 2.8s ease-out infinite; pointer-events:none; }
-    @keyframes ping-ring { 0%{transform:scale(1);opacity:.7} 70%,100%{transform:scale(1.5);opacity:0} }
-    button:focus-visible, a:focus-visible { outline: 2px solid #d97706; outline-offset: 3px; border-radius: 4px; }
-    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration:.01ms !important; transition-duration:.01ms !important; } }
+    body { padding-top: 3px; }
+    .brand-bar { position:fixed;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#1a5c5a,#d97706,#c2400e);z-index:99999;pointer-events:none; }
+    nav { transition: background .4s ease, box-shadow .4s ease; }
+    nav.scrolled { background:rgba(18,44,42,.95)!important; backdrop-filter:blur(20px); box-shadow:0 1px 0 rgba(253,246,227,.06),0 8px 40px rgba(0,0,0,.35)!important; }
+    .card-hover { transition:transform .4s cubic-bezier(.34,1.56,.64,1),box-shadow .4s ease; will-change:transform; }
+    .card-hover:hover { transform:translateY(-10px) scale(1.014); box-shadow:0 24px 64px rgba(45,36,22,.18),0 0 0 1px rgba(217,119,6,.12); }
+    .nav-link { position:relative; }
+    .nav-link::after { content:'';position:absolute;bottom:-4px;left:0;width:0;height:1.5px;background:#fde68a;border-radius:2px;transition:width .3s cubic-bezier(.34,1.56,.64,1); }
+    .nav-link:hover::after { width:100%; }
+    @keyframes shimmer { 0%{background-position:-200% center} 100%{background-position:200% center} }
+    a[href="#programs"][class*="bg-mustard"],a[href*="seedhape"][class*="bg-mustard"] { background-size:200% auto;background-image:linear-gradient(105deg,#d97706 0%,#fbbf24 45%,#d97706 55%,#d97706 100%);animation:shimmer 4s linear infinite; }
+    #photo-grid .group { cursor:pointer;transition:transform .45s cubic-bezier(.34,1.56,.64,1),box-shadow .45s ease; }
+    #photo-grid .group:hover { transform:scale(1.04) rotate(.5deg);box-shadow:0 20px 56px rgba(45,36,22,.22); }
+    .retro-badge { transition:letter-spacing .35s cubic-bezier(.34,1.56,.64,1),box-shadow .3s ease;cursor:default; }
+    .retro-badge:hover { letter-spacing:.28em;box-shadow:0 0 0 4px rgba(217,119,6,.18); }
+    #chat-btn { position:relative;isolation:isolate; }
+    #chat-btn::before { content:'';position:absolute;inset:-6px;border-radius:50%;border:2px solid rgba(26,92,90,.5);animation:pulse-ring 3s ease-out infinite;pointer-events:none; }
+    @keyframes pulse-ring { 0%{transform:scale(1);opacity:.7} 70%,100%{transform:scale(1.6);opacity:0} }
+    .hero-word-glow { text-shadow:0 0 80px rgba(217,119,6,.5),0 0 40px rgba(217,119,6,.3); }
+    button:focus-visible,a:focus-visible { outline:2px solid #d97706;outline-offset:3px;border-radius:4px; }
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;}}
+    @media(min-width:1280px){h1.font-heading{font-size:clamp(4rem,6vw,6rem);}}
   </style>
+
+  <!-- ============================================================
+       CLERK AUTH — Correct static-site initialization pattern
+       initClerk() is defined FIRST, called via script onload
+       ============================================================ -->
+  <script>
+    // Must be defined BEFORE the Clerk script loads
+    function initClerk() {
+      window.Clerk.load({
+        publishableKey: 'pk_test_cG93ZXJmdWwtcmVkZmlzaC01MC5jbGVyay5hY2NvdW50cy5kZXYk'
+      }).then(function() {
+
+        function updateUI() {
+          var user     = window.Clerk.user;
+          var in_      = !!user;
+          var name     = in_ ? (user.firstName || user.emailAddresses[0].emailAddress.split('@')[0]) : '';
+          var avatar   = in_ ? (user.imageUrl || '') : '';
+
+          // Nav — use style.display only (no Tailwind hidden class)
+          var no  = document.getElementById('nav-signed-out');
+          var ni  = document.getElementById('nav-signed-in');
+          var mo  = document.getElementById('mob-signed-out');
+          var mi  = document.getElementById('mob-signed-in');
+          if (no) no.style.display = in_ ? 'none' : 'flex';
+          if (ni) ni.style.display = in_ ? 'flex' : 'none';
+          if (mo) mo.style.display = in_ ? 'none' : 'flex';
+          if (mi) mi.style.display = in_ ? 'flex' : 'none';
+
+          // Name + avatar
+          var ne = document.getElementById('nav-name');
+          var ae = document.getElementById('nav-avatar');
+          if (ne && name)   ne.textContent = name;
+          if (ae && avatar) { ae.src = avatar; ae.style.display = 'block'; }
+
+          // Member zone
+          var mz = document.getElementById('member-zone');
+          var mn = document.getElementById('member-name');
+          if (mz) mz.style.display = in_ ? 'block' : 'none';
+          if (mn && name) mn.textContent = name;
+
+          if (in_ && window.__clerkJustIn) {
+            window.__clerkJustIn = false;
+            setTimeout(function() {
+              var z = document.getElementById('member-zone');
+              if (z) z.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 500);
+          }
+        }
+
+        window.clerkSignIn = function() {
+          window.__clerkJustIn = true;
+          window.Clerk.openSignIn({ afterSignInUrl: window.location.href, afterSignUpUrl: window.location.href });
+        };
+        window.clerkSignOut = function() {
+          window.Clerk.signOut().then(updateUI);
+        };
+
+        updateUI();
+        window.Clerk.addListener(updateUI);
+        console.log('%c🛹 UGH Auth ready', 'color:#d97706;font-weight:bold');
+
+      }).catch(function(e) { console.warn('Clerk failed:', e.message); });
+    }
+  </script>
+  <script
+    src="https://powerful-redfish-50.clerk.accounts.dev/npm/@clerk/clerk-js@latest/dist/clerk.browser.js"
+    data-clerk-publishable-key="pk_test_cG93ZXJmdWwtcmVkZmlzaC01MC5jbGVyay5hY2NvdW50cy5kZXYk"
+    onload="initClerk()"
+    crossorigin="anonymous">
+  </script>
 </head>
 
 <body class="font-body">
+  <div class="brand-bar" aria-hidden="true"></div>
 
   <!-- ============================================================
        NAVIGATION BAR
@@ -456,7 +527,7 @@
       <h1 class="fade-up delay-1 font-heading text-5xl sm:text-6xl md:text-7xl font-black leading-tight text-amber-50 mb-6">
         Master the
         <span class="relative inline-block">
-          <span class="text-mustard">Pavement.</span>
+          <span class="text-mustard hero-word-glow">Pavement.</span>
           <!-- decorative underline squiggle -->
           <svg class="absolute -bottom-2 left-0 w-full" height="6" viewBox="0 0 200 6" preserveAspectRatio="none" fill="none">
             <path d="M0 3 Q25 0 50 3 Q75 6 100 3 Q125 0 150 3 Q175 6 200 3" stroke="#d97706" stroke-width="2" stroke-linecap="round"/>
@@ -1258,71 +1329,168 @@
   </div>
 
 
-  <!-- GSAP Motion + Review Popup -->
+  <!-- GSAP Motion System + Review Popup -->
   <script>
   (function(){
-    if(typeof gsap === 'undefined') return;
+    if (typeof gsap === 'undefined') return;
     gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
-    // PAGE ENTRANCE
-    gsap.from('nav',{ y:-50, opacity:0, duration:.7, ease:'power3.out', clearProps:'all' });
-    gsap.from(['.retro-badge','h1','h1 ~ p','h1 ~ div a'],{ y:36, opacity:0, duration:.7, stagger:.1, ease:'power3.out', delay:.15, clearProps:'all' });
+    /* ── 1. PAGE ENTRANCE ──────────────────────────────── */
+    var tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+    tl.from('nav', { y: -60, opacity: 0, duration: .7, clearProps: 'all' })
+      .from('.retro-badge', { y: 30, opacity: 0, duration: .6, clearProps: 'all' }, '-=.3')
+      .from('h1', { y: 40, opacity: 0, duration: .7, clearProps: 'all' }, '-=.4')
+      .from('h1 ~ p, h1 ~ div', { y: 30, opacity: 0, duration: .6, stagger: .1, clearProps: 'all' }, '-=.4');
 
-    // SCROLL REVEALS
-    gsap.utils.toArray('section').forEach(function(s){
-      var els=s.querySelectorAll('h2,h3,p,.retro-badge');
-      if(!els.length) return;
-      gsap.from(els,{ scrollTrigger:{trigger:s,start:'top 82%',toggleActions:'play none none none'}, y:28, opacity:0, duration:.6, stagger:.07, ease:'power2.out', clearProps:'all' });
-    });
-
-    // PROGRAM CARDS
-    gsap.utils.toArray('.card-hover').forEach(function(c,i){
-      gsap.from(c,{ scrollTrigger:{trigger:c,start:'top 90%',toggleActions:'play none none none'}, y:50, opacity:0, rotationY:6, duration:.7, delay:i*.09, ease:'back.out(1.4)', clearProps:'all' });
-    });
-
-    // STAT TILES
-    gsap.utils.toArray('[class*="bg-white/10"],[class*="bg-white/5"]').forEach(function(el,i){
-      gsap.from(el,{ scrollTrigger:{trigger:el,start:'top 88%',toggleActions:'play none none none'}, scale:.9, opacity:0, duration:.5, delay:i*.07, ease:'back.out(1.7)', clearProps:'all' });
-    });
-
-    // COUNTER COUNT-UP
-    var pe=document.getElementById('proof-count');
-    if(pe){ var ov={n:0}; gsap.to(ov,{ scrollTrigger:{trigger:pe,start:'top 92%'}, n:160, duration:1.6, ease:'power2.out', onUpdate:function(){ pe.textContent=Math.round(ov.n)+'+'; } }); }
-    window._animateCounter=function(n){ var el=document.getElementById('update-counter'); if(!el) return; var o={v:0}; gsap.to(o,{ scrollTrigger:{trigger:el,start:'top 88%'}, v:n, duration:1.8, ease:'power2.out', onUpdate:function(){ el.textContent=Math.round(o.v)+'+'; } }); };
-
-    // MAGNETIC BUTTONS
-    function mag(sel){ document.querySelectorAll(sel).forEach(function(b){
-      b.addEventListener('mousemove',function(e){ var r=b.getBoundingClientRect(); gsap.to(b,{ x:(e.clientX-r.left-r.width/2)*.3, y:(e.clientY-r.top-r.height/2)*.3, duration:.3, ease:'power2.out' }); });
-      b.addEventListener('mouseleave',function(){ gsap.to(b,{ x:0, y:0, duration:.55, ease:'elastic.out(1,.4)' }); });
-    }); }
-    mag('a[href="#programs"][class*="rounded-full"]');
-    mag('a[href*="seedhape"][class*="rounded-full"]');
-    mag('#review-cta');
-
-    // SMOOTH ANCHOR SCROLL
-    document.querySelectorAll('a[href^="#"]').forEach(function(a){
-      a.addEventListener('click',function(e){
-        var t=document.querySelector(a.getAttribute('href')); if(!t) return;
-        e.preventDefault(); gsap.to(window,{ scrollTo:{y:t,offsetY:68}, duration:.85, ease:'power3.inOut' });
+    /* ── 2. SCROLL REVEALS ─────────────────────────────── */
+    gsap.utils.toArray('section').forEach(function(sec) {
+      var els = sec.querySelectorAll('h2, h3, p, .retro-badge');
+      if (!els.length) return;
+      gsap.from(els, {
+        scrollTrigger: { trigger: sec, start: 'top 82%', toggleActions: 'play none none none' },
+        y: 30, opacity: 0, duration: .65, stagger: .08, ease: 'power2.out', clearProps: 'all'
       });
     });
 
-    // NAV DARKENS ON SCROLL
-    (function(){ var n=document.querySelector('nav'); if(!n) return; window.addEventListener('scroll',function(){ n.classList.toggle('scrolled',window.scrollY>50); },{passive:true}); })();
+    /* ── 3. PROGRAM CARDS ──────────────────────────────── */
+    gsap.utils.toArray('.card-hover').forEach(function(card, i) {
+      gsap.from(card, {
+        scrollTrigger: { trigger: card, start: 'top 90%', toggleActions: 'play none none none' },
+        y: 60, opacity: 0, rotationY: 8, duration: .75, delay: i * .1,
+        ease: 'back.out(1.5)', clearProps: 'all'
+      });
+    });
 
-    // REVIEW POPUP
-    (function(){
-      var K='ugh_review_v2'; var p=document.getElementById('review-popup');
-      var cb=document.getElementById('review-close'); var lb=document.getElementById('review-later'); var ca=document.getElementById('review-cta');
-      if(!p||localStorage.getItem(K)) return;
-      function show(){ p.classList.remove('pointer-events-none'); gsap.to(p,{opacity:1,y:0,duration:.4,ease:'back.out(1.5)'}); }
-      function hide(perm){ gsap.to(p,{opacity:0,y:14,duration:.28,ease:'power2.in',onComplete:function(){ p.classList.add('pointer-events-none'); }}); if(perm) localStorage.setItem(K,'1'); }
-      var sf=false,tf=false; function ms(){ if(sf&&tf) show(); }
-      window.addEventListener('scroll',function(){ if(sf) return; if((window.scrollY/(document.body.scrollHeight-window.innerHeight))*100>=60){ sf=true; ms(); } },{passive:true});
-      setTimeout(function(){ tf=true; ms(); },10000);
-      if(cb) cb.addEventListener('click',function(){ hide(true); });
-      if(lb) lb.addEventListener('click',function(){ hide(false); });
-      if(ca) ca.addEventListener('click',function(){ hide(true); if(typeof gtag!=='undefined') gtag('event','review_click',{event_category:'cta'}); });
+    /* ── 4. STAT TILES ─────────────────────────────────── */
+    gsap.utils.toArray('[class*="bg-white/10"], [class*="bg-white/5"]').forEach(function(el, i) {
+      gsap.from(el, {
+        scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' },
+        scale: .88, opacity: 0, duration: .55, delay: i * .08,
+        ease: 'back.out(1.8)', clearProps: 'all'
+      });
+    });
+
+    /* ── 5. COUNTERS ───────────────────────────────────── */
+    var pe = document.getElementById('proof-count');
+    if (pe) {
+      var ov = { n: 0 };
+      gsap.to(ov, {
+        scrollTrigger: { trigger: pe, start: 'top 92%' },
+        n: 160, duration: 1.8, ease: 'power2.out',
+        onUpdate: function() { pe.textContent = Math.round(ov.n) + '+'; }
+      });
+    }
+    window._animateCounter = function(n) {
+      var el = document.getElementById('update-counter');
+      if (!el) return;
+      var o = { v: 0 };
+      gsap.to(o, {
+        scrollTrigger: { trigger: el, start: 'top 90%' },
+        v: n, duration: 1.8, ease: 'power2.out',
+        onUpdate: function() { el.textContent = Math.round(o.v) + '+'; }
+      });
+    };
+
+    /* ── 6. PHOTO GRID ─────────────────────────────────── */
+    var grid = document.getElementById('photo-grid');
+    if (grid) {
+      gsap.from(grid, {
+        scrollTrigger: { trigger: grid, start: 'top 85%' },
+        opacity: 0, y: 20, duration: .5, ease: 'power2.out', clearProps: 'all'
+      });
+    }
+
+    /* ── 7. MAGNETIC BUTTONS ───────────────────────────── */
+    function mag(sel) {
+      document.querySelectorAll(sel).forEach(function(b) {
+        b.addEventListener('mousemove', function(e) {
+          var r = b.getBoundingClientRect();
+          gsap.to(b, {
+            x: (e.clientX - r.left - r.width / 2) * .28,
+            y: (e.clientY - r.top - r.height / 2) * .28,
+            duration: .3, ease: 'power2.out'
+          });
+        });
+        b.addEventListener('mouseleave', function() {
+          gsap.to(b, { x: 0, y: 0, duration: .6, ease: 'elastic.out(1, .4)' });
+        });
+      });
+    }
+    mag('a[href="#programs"][class*="rounded-full"]');
+    mag('a[href*="seedhape"][class*="rounded-full"]');
+    mag('#review-cta');
+    mag('#chat-btn');
+
+    /* ── 8. SMOOTH ANCHOR SCROLL ───────────────────────── */
+    document.querySelectorAll('a[href^="#"]').forEach(function(a) {
+      a.addEventListener('click', function(e) {
+        var id = a.getAttribute('href');
+        var t  = document.querySelector(id);
+        if (!t) return;
+        e.preventDefault();
+        gsap.to(window, { scrollTo: { y: t, offsetY: 68 }, duration: .9, ease: 'power3.inOut' });
+      });
+    });
+
+    /* ── 9. NAV DARKENS ON SCROLL ──────────────────────── */
+    (function() {
+      var n = document.querySelector('nav');
+      if (!n) return;
+      window.addEventListener('scroll', function() {
+        n.classList.toggle('scrolled', window.scrollY > 50);
+      }, { passive: true });
+    })();
+
+    /* ── 10. CHATBOT GSAP PULSE HINT ───────────────────── */
+    setTimeout(function() {
+      var cb = document.getElementById('chat-btn');
+      if (cb && typeof gsap !== 'undefined') {
+        gsap.fromTo(cb,
+          { scale: 1 },
+          { scale: 1.15, duration: .4, yoyo: true, repeat: 5,
+            ease: 'power1.inOut', onComplete: function() { gsap.set(cb, { scale: 1 }); }
+          }
+        );
+      }
+    }, 6000);
+
+    /* ── 11. REVIEW POPUP ──────────────────────────────── */
+    (function() {
+      var KEY   = 'ugh_rv3';
+      var popup = document.getElementById('review-popup');
+      var cb    = document.getElementById('review-close');
+      var lb    = document.getElementById('review-later');
+      var ca    = document.getElementById('review-cta');
+      if (!popup || localStorage.getItem(KEY)) return;
+
+      function show() {
+        popup.classList.remove('pointer-events-none');
+        gsap.to(popup, { opacity: 1, y: 0, duration: .42, ease: 'back.out(1.5)' });
+      }
+      function hide(perm) {
+        gsap.to(popup, { opacity: 0, y: 16, duration: .28, ease: 'power2.in',
+          onComplete: function() { popup.classList.add('pointer-events-none'); }
+        });
+        if (perm) localStorage.setItem(KEY, '1');
+      }
+
+      var sf = false, tf = false;
+      function ms() { if (sf && tf) show(); }
+
+      window.addEventListener('scroll', function() {
+        if (sf) return;
+        var pct = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+        if (pct * 100 >= 60) { sf = true; ms(); }
+      }, { passive: true });
+
+      setTimeout(function() { tf = true; ms(); }, 12000);
+
+      if (cb) cb.addEventListener('click', function() { hide(true); });
+      if (lb) lb.addEventListener('click', function() { hide(false); });
+      if (ca) ca.addEventListener('click', function() {
+        hide(true);
+        if (typeof gtag !== 'undefined') gtag('event', 'review_click', { event_category: 'cta' });
+      });
     })();
 
   })();
@@ -1408,7 +1576,7 @@
   <!-- Toggle button -->
   <button id="chat-btn"
     aria-label="Open FAQ chat"
-    style="position:fixed;bottom:24px;left:24px;z-index:9997;
+    style="position:fixed;bottom:24px;left:24px;z-index:9990;
            width:52px;height:52px;border-radius:50%;border:none;cursor:pointer;
            background:#1a5c5a;box-shadow:0 4px 20px rgba(26,92,90,.45);
            display:flex;align-items:center;justify-content:center;
@@ -1424,7 +1592,7 @@
   <!-- Chat panel -->
   <div id="chat-panel"
     role="dialog" aria-label="UGH FAQ Assistant"
-    style="position:fixed;bottom:88px;left:24px;z-index:9996;
+    style="position:fixed;bottom:88px;left:24px;z-index:9989;
            width:320px;max-width:calc(100vw - 48px);
            background:#fff;border-radius:20px;
            box-shadow:0 8px 40px rgba(45,36,22,.18);
@@ -1706,79 +1874,6 @@
     }
 
   })();
-  </script>
-
-
-  <!-- ============================================================
-       CLERK INIT — Login / Logout
-       ============================================================ -->
-  <script>
-    document.getElementById('clerk-script').addEventListener('load', async function() {
-      try {
-        var clerk = window.Clerk;
-        if (!clerk) return;
-
-        await clerk.load({
-          publishableKey: 'pk_test_cG93ZXJmdWwtcmVkZmlzaC01MC5jbGVyay5hY2NvdW50cy5kZXYk'
-        });
-
-        function updateUI() {
-          var user      = clerk.user;
-          var signedIn  = !!user;
-          var firstName = signedIn ? (user.firstName || user.emailAddresses[0].emailAddress.split('@')[0]) : '';
-          var avatarUrl = signedIn ? (user.imageUrl || '') : '';
-
-          // Desktop nav — use style.display, not Tailwind hidden class
-          var navOut  = document.getElementById('nav-signed-out');
-          var navIn   = document.getElementById('nav-signed-in');
-          if (navOut)  navOut.style.display  = signedIn ? 'none' : 'flex';
-          if (navIn)   navIn.style.display   = signedIn ? 'flex' : 'none';
-
-          // Nav name + avatar
-          var nameEl   = document.getElementById('nav-name');
-          var avatarEl = document.getElementById('nav-avatar');
-          if (nameEl && firstName)   nameEl.textContent = firstName;
-          if (avatarEl && avatarUrl) { avatarEl.src = avatarUrl; avatarEl.style.display = 'block'; }
-
-          // Mobile nav
-          var mobOut = document.getElementById('mob-signed-out');
-          var mobIn  = document.getElementById('mob-signed-in');
-          if (mobOut) mobOut.style.display = signedIn ? 'none' : 'flex';
-          if (mobIn)  mobIn.style.display  = signedIn ? 'flex' : 'none';
-
-          // Member zone
-          var zone = document.getElementById('member-zone');
-          var memName = document.getElementById('member-name');
-          if (zone)    zone.style.display   = signedIn ? 'block' : 'none';
-          if (memName && firstName) memName.textContent = firstName;
-
-          // Scroll to member zone on first sign-in
-          if (signedIn && window._clerkJustSignedIn) {
-            window._clerkJustSignedIn = false;
-            setTimeout(function() {
-              var z = document.getElementById('member-zone');
-              if (z) z.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }, 600);
-          }
-
-          console.log('Clerk UI updated — signed ' + (signedIn ? 'in as ' + firstName : 'out'));
-        }
-
-        window.clerkSignIn = function() {
-          window._clerkJustSignedIn = true;
-          clerk.openSignIn({ afterSignInUrl: window.location.href, afterSignUpUrl: window.location.href });
-        };
-        window.clerkSignOut = function() {
-          clerk.signOut().then(updateUI);
-        };
-
-        updateUI();
-        clerk.addListener(updateUI);
-
-      } catch(e) {
-        console.warn('Clerk error:', e.message);
-      }
-    });
   </script>
 
 </body>

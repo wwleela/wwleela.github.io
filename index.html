@@ -6,15 +6,22 @@
     <title>Urban Gliding Hyderabad — Master the Pavement</title>
     <meta name="description" content="IOC-certified skate coaching delivered to Hyderabad residential societies. Inline skating, skateboarding & urban mobility for ages 5-50.">
     
-    <!-- Premium Fonts: Bebas Neue (Display) + Inter (Body) -->
+    <!-- Clerk Authentication -->
+    <script
+        async
+        crossorigin="anonymous"
+        data-clerk-publishable-key="pk_test_cG93ZXJmdWwtcmVkZmlzaC01MC5jbGVyay5hY2NvdW50cy5kZXYk"
+        src="https://powerful-redfish-50.clerk.accounts.dev/npm/@clerk/clerk-js@latest/dist/clerk.browser.js"
+        type="text/javascript"
+    ></script>
+    
+    <!-- Premium Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
-        /* ==================== UGH ORIGINAL DNA - COLOR SYSTEM ==================== */
         :root {
-            /* Exact UGH Colors */
             --orange-start: #ff6b35;
             --orange-end: #ff8c42;
             --dark: #1a1a1a;
@@ -26,16 +33,11 @@
             --gray-600: #666666;
             --gray-700: #444444;
             --gray-900: #1a1a1a;
-            
-            /* Typography */
             --font-display: 'Bebas Neue', sans-serif;
             --font-body: 'Inter', sans-serif;
-            
-            /* Easing */
             --ease: cubic-bezier(0.16, 1, 0.3, 1);
         }
         
-        /* ==================== RESET ==================== */
         * {
             margin: 0;
             padding: 0;
@@ -65,6 +67,11 @@
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--gray-200);
+            transition: all 0.3s var(--ease);
+        }
+        
+        .nav.scrolled {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
         }
         
         .nav-container {
@@ -83,6 +90,11 @@
             color: var(--dark);
             text-decoration: none;
             font-weight: 400;
+            transition: transform 0.2s var(--ease);
+        }
+        
+        .logo:hover {
+            transform: scale(1.05);
         }
         
         .nav-links {
@@ -98,10 +110,26 @@
             font-weight: 500;
             font-size: 0.9375rem;
             transition: color 0.2s;
+            position: relative;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(135deg, var(--orange-start) 0%, var(--orange-end) 100%);
+            transition: width 0.3s var(--ease);
         }
         
         .nav-links a:hover {
             color: var(--dark);
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
         }
         
         .nav-auth {
@@ -110,7 +138,7 @@
             gap: 1rem;
         }
         
-        .login-btn {
+        .auth-btn {
             color: var(--gray-600);
             background: none;
             border: none;
@@ -119,10 +147,13 @@
             font-size: 0.9375rem;
             cursor: pointer;
             padding: 0.5rem 1rem;
+            transition: all 0.2s;
+            border-radius: 8px;
         }
         
-        .login-btn:hover {
+        .auth-btn:hover {
             color: var(--dark);
+            background: var(--gray-100);
         }
         
         .cta-btn {
@@ -146,6 +177,12 @@
         
         .mobile-menu-toggle {
             display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--dark);
+            padding: 0.5rem;
         }
         
         /* ==================== HERO ==================== */
@@ -153,11 +190,26 @@
             margin-top: 70px;
             padding: 8rem 2rem 6rem;
             background: linear-gradient(180deg, var(--gray-50) 0%, var(--white) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255, 107, 53, 0.08) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
         }
         
         .hero-container {
             max-width: 1200px;
             margin: 0 auto;
+            position: relative;
         }
         
         .eyebrow {
@@ -172,6 +224,18 @@
             border: 1px solid var(--gray-200);
             border-radius: 100px;
             background: var(--white);
+            animation: fadeInUp 0.6s var(--ease);
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         
         .hero h1 {
@@ -184,29 +248,24 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            animation: fadeInUp 0.8s var(--ease) 0.1s backwards;
         }
         
         .hero-subtitle {
-            font-size: clamp(1.25rem, 2.5vw, 1.75rem);
-            line-height: 1.4;
+            font-size: clamp(1.125rem, 2vw, 1.5rem);
+            line-height: 1.5;
             color: var(--dark);
             font-weight: 600;
-            max-width: 900px;
-            margin-bottom: 1.5rem;
-        }
-        
-        .hero-description {
-            font-size: 1.0625rem;
-            line-height: 1.7;
-            color: var(--gray-600);
             max-width: 800px;
-            margin-bottom: 3rem;
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s var(--ease) 0.2s backwards;
         }
         
         .hero-ctas {
             display: flex;
             gap: 1rem;
             flex-wrap: wrap;
+            animation: fadeInUp 1.2s var(--ease) 0.3s backwards;
         }
         
         .btn-primary {
@@ -271,6 +330,11 @@
         
         .stat-item {
             text-align: center;
+            transition: transform 0.3s var(--ease);
+        }
+        
+        .stat-item:hover {
+            transform: translateY(-5px);
         }
         
         .stat-number {
@@ -320,26 +384,15 @@
         }
         
         .section-subtitle {
-            font-size: 1.25rem;
-            line-height: 1.6;
+            font-size: 1.125rem;
+            line-height: 1.7;
             color: var(--gray-600);
         }
         
-        /* ==================== ABOUT ==================== */
-        .about-intro {
-            font-size: 1.125rem;
-            line-height: 1.8;
-            color: var(--dark);
-            margin-bottom: 4rem;
-        }
-        
-        .about-intro p {
-            margin-bottom: 1.5rem;
-        }
-        
+        /* ==================== FEATURES ==================== */
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 2rem;
         }
         
@@ -348,7 +401,7 @@
             padding: 2.5rem;
             border-radius: 16px;
             border: 1px solid var(--gray-200);
-            transition: all 0.3s var(--ease);
+            transition: all 0.4s var(--ease);
         }
         
         .feature-card:hover {
@@ -367,10 +420,15 @@
             justify-content: center;
             font-size: 1.75rem;
             margin-bottom: 1.5rem;
+            transition: transform 0.3s var(--ease);
+        }
+        
+        .feature-card:hover .feature-icon {
+            transform: scale(1.1) rotate(5deg);
         }
         
         .feature-card h3 {
-            font-size: 1.5rem;
+            font-size: 1.375rem;
             font-weight: 700;
             margin-bottom: 1rem;
             color: var(--dark);
@@ -389,7 +447,7 @@
         
         .programs-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
             gap: 2rem;
             margin-top: 3rem;
         }
@@ -399,7 +457,7 @@
             border-radius: 20px;
             border: 2px solid var(--gray-200);
             overflow: hidden;
-            transition: all 0.3s var(--ease);
+            transition: all 0.4s var(--ease);
             position: relative;
         }
         
@@ -421,6 +479,7 @@
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.05em;
+            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
         }
         
         .program-header {
@@ -429,7 +488,7 @@
         }
         
         .program-title {
-            font-size: 1.5rem;
+            font-size: 1.375rem;
             font-weight: 700;
             margin-bottom: 0.5rem;
             color: var(--dark);
@@ -447,7 +506,7 @@
         }
         
         .program-price-note {
-            font-size: 0.9375rem;
+            font-size: 0.875rem;
             color: var(--gray-600);
         }
         
@@ -456,7 +515,7 @@
         }
         
         .program-description {
-            font-size: 1rem;
+            font-size: 0.9375rem;
             line-height: 1.7;
             color: var(--gray-600);
             margin-bottom: 2rem;
@@ -499,103 +558,56 @@
             text-align: center;
             display: block;
             transition: all 0.3s var(--ease);
+            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.25);
         }
         
         .program-cta:hover {
             transform: scale(1.02);
-            box-shadow: 0 8px 20px rgba(255, 107, 53, 0.3);
+            box-shadow: 0 8px 20px rgba(255, 107, 53, 0.35);
         }
         
-        /* ==================== PHASE 1 ==================== */
-        .phase1 {
-            background: var(--dark);
-            color: white;
-            padding: 6rem 2rem;
-        }
-        
-        .phase1-container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .phase1 .section-title {
-            color: white;
-        }
-        
-        .phase1-content {
-            font-size: 1.125rem;
-            line-height: 1.8;
-            color: rgba(255, 255, 255, 0.9);
-            max-width: 900px;
-            margin-bottom: 2rem;
-        }
-        
-        .phase1-content p {
-            margin-bottom: 1.5rem;
-        }
-        
-        .phase1-stat {
-            font-family: var(--font-display);
-            font-size: 4rem;
+        /* ==================== CTA SECTION ==================== */
+        .cta-section {
             background: linear-gradient(135deg, var(--orange-start) 0%, var(--orange-end) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin: 2rem 0 1rem;
+            padding: 5rem 2rem;
+            position: relative;
+            overflow: hidden;
         }
         
-        .phase1-ctas {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-            margin-top: 3rem;
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
         }
         
-        .btn-white {
-            background: white;
-            color: var(--dark);
-        }
-        
-        .btn-white:hover {
-            background: var(--gray-100);
-        }
-        
-        .btn-outline-white {
-            background: transparent;
-            color: white;
-            border-color: rgba(255, 255, 255, 0.3);
-        }
-        
-        .btn-outline-white:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: white;
-        }
-        
-        /* ==================== TRIAL ==================== */
-        .trial {
-            background: linear-gradient(135deg, var(--orange-start) 0%, var(--orange-end) 100%);
-            padding: 6rem 2rem;
-        }
-        
-        .trial-container {
+        .cta-container {
             max-width: 900px;
             margin: 0 auto;
             text-align: center;
+            position: relative;
         }
         
-        .trial h2 {
+        .cta-section h2 {
             font-family: var(--font-display);
-            font-size: clamp(3rem, 8vw, 4.5rem);
-            line-height: 1;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            line-height: 1.1;
             color: white;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.25rem;
         }
         
-        .trial p {
-            font-size: 1.25rem;
+        .cta-section p {
+            font-size: 1.125rem;
             line-height: 1.7;
             color: rgba(255, 255, 255, 0.95);
             margin-bottom: 2.5rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
         }
         
         .btn-dark {
@@ -605,6 +617,7 @@
         
         .btn-dark:hover {
             background: var(--gray-900);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
         }
         
         /* ==================== MEMBER AREA ==================== */
@@ -622,7 +635,7 @@
             max-width: 1200px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
             gap: 2rem;
             margin-top: 3rem;
         }
@@ -733,7 +746,7 @@
         }
         
         .footer-meta {
-            font-size: 0.9375rem;
+            font-size: 0.875rem;
             color: rgba(255, 255, 255, 0.6);
         }
         
@@ -797,6 +810,18 @@
             width: 90%;
             text-align: center;
             box-shadow: 0 24px 48px rgba(0, 0, 0, 0.3);
+            animation: modalSlideIn 0.4s var(--ease);
+        }
+        
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         
         .review-modal h3 {
@@ -853,6 +878,11 @@
             .footer-content {
                 grid-template-columns: 1fr 1fr;
             }
+            
+            .programs-grid,
+            .features-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            }
         }
         
         @media (max-width: 768px) {
@@ -860,8 +890,12 @@
                 display: none;
             }
             
+            .mobile-menu-toggle {
+                display: block;
+            }
+            
             .hero {
-                padding: 6rem 1.5rem 4rem;
+                padding: 5rem 1.5rem 3rem;
             }
             
             .section {
@@ -884,8 +918,7 @@
                 gap: 2rem;
             }
             
-            .hero-ctas,
-            .phase1-ctas {
+            .hero-ctas {
                 flex-direction: column;
             }
             
@@ -893,6 +926,24 @@
             .btn-secondary {
                 width: 100%;
                 justify-content: center;
+            }
+            
+            .nav-container {
+                padding: 1rem 1.5rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .review-modal-content {
+                padding: 2rem 1.5rem;
+            }
+            
+            .stat-number {
+                font-size: 3rem;
+            }
+            
+            .hero h1 {
+                font-size: 3rem;
             }
         }
         
@@ -909,15 +960,14 @@
             <a href="#" class="logo">UGH</a>
             
             <ul class="nav-links">
-                <li><a href="#about">About</a></li>
+                <li><a href="#about">Why UGH</a></li>
                 <li><a href="#programs">Programs</a></li>
-                <li><a href="#phase1">Phase 1</a></li>
                 <li><a href="#community">Community</a></li>
             </ul>
             
             <div class="nav-auth">
                 <div id="auth-logged-out">
-                    <button class="login-btn" onclick="login()">Login</button>
+                    <button class="auth-btn" id="sign-in-btn">Sign In</button>
                     <a href="#programs" class="cta-btn">Enroll Now ↗</a>
                 </div>
                 
@@ -926,20 +976,19 @@
                 </div>
             </div>
             
-            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">☰</button>
+            <button class="mobile-menu-toggle">☰</button>
         </div>
     </nav>
 
     <!-- Hero -->
     <section class="hero">
         <div class="hero-container">
-            <span class="eyebrow">Hyderabad's Premier Skate Community · IOC Certified</span>
+            <span class="eyebrow">IOC Certified · Hyderabad's Premier Skate Community</span>
             <h1>Master the Pavement.</h1>
-            <p class="hero-subtitle">World-class skate education, delivered to your doorstep. IOC-certified coaching methodology meets Hyderabad's neighborhoods — transforming residential societies into skating academies.</p>
-            <p class="hero-description">Inline skating, skateboarding, and urban mobility training for ages 5 to 50. No rinks. No commutes. Coach Leela brings internationally-recognized curriculum directly to your residential complex, backed by 160+ gliders already progressing across 6+ Hyderabad societies.</p>
+            <p class="hero-subtitle">World-class skate education delivered to your doorstep. 160+ gliders progressing across 6+ residential societies with IOC-certified coaching.</p>
             <div class="hero-ctas">
-                <a href="#programs" class="btn-primary">Explore Training Programs ↗</a>
-                <a href="https://wa.me/916304895686?text=Hi%20Coach%20Leela%2C%20I%20want%20to%20try%20a%20free%20session" class="btn-secondary">Book Free Trial Session →</a>
+                <a href="#programs" class="btn-primary">Explore Programs ↗</a>
+                <a href="https://wa.me/916304895686?text=Hi%20Coach%20Leela%2C%20I%20want%20to%20try%20a%20free%20session" class="btn-secondary">Free Trial Session →</a>
             </div>
         </div>
     </section>
@@ -950,7 +999,7 @@
             <div class="stat-item">
                 <div class="stat-number">160+</div>
                 <div class="stat-label">Active Gliders</div>
-                <div class="stat-description">Hyderabad's fastest-growing skate community</div>
+                <div class="stat-description">Hyderabad's fastest-growing community</div>
             </div>
             <div class="stat-item">
                 <div class="stat-number">6+</div>
@@ -964,8 +1013,8 @@
             </div>
             <div class="stat-item">
                 <div class="stat-number">100%</div>
-                <div class="stat-label">Zero-Compromise Safety</div>
-                <div class="stat-description">Certified protocols, mandatory protective gear</div>
+                <div class="stat-label">Safety First</div>
+                <div class="stat-description">Certified protocols, mandatory gear</div>
             </div>
         </div>
     </section>
@@ -973,33 +1022,25 @@
     <!-- About -->
     <section id="about" class="section">
         <div class="section-header">
-            <h2 class="section-title">Built on the streets of Hyderabad.</h2>
-        </div>
-        <div class="about-intro">
-            <p>Urban Gliding Hyderabad was founded on a simple observation: Hyderabad had aspiring skaters, but lacked accessible, professional coaching infrastructure. Coach Leela — armed with IOC certification and a vision to democratize skate education — pioneered the society-based coaching model. Instead of asking families to commute to expensive rinks, UGH brings world-class training directly to residential complexes across the city.</p>
-            <p>This isn't recreational skating. This is structured, internationally-aligned curriculum that takes complete beginners through systematic skill progression — whether you're a 5-year-old discovering wheels for the first time or a 50-year-old reclaiming urban mobility.</p>
+            <h2 class="section-title">Why UGH works.</h2>
+            <p class="section-subtitle">Coach Leela brings IOC-certified methodology directly to Hyderabad neighborhoods — transforming residential complexes into skating academies. No rinks. No commutes. Just world-class training at your doorstep.</p>
         </div>
         
         <div class="features-grid">
             <div class="feature-card">
                 <div class="feature-icon">🎓</div>
-                <h3>IOC Certified Methodology</h3>
-                <p>Internationally-recognized curriculum developed through Olympic Committee standards. Your progression follows proven frameworks used by professional skating coaches worldwide — adapted for Indian neighborhoods, but uncompromising on teaching quality.</p>
+                <h3>IOC Certified Training</h3>
+                <p>Internationally-recognized curriculum following Olympic Committee standards. Your progression mirrors frameworks used by professional coaches worldwide — adapted for Indian neighborhoods.</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">🏘️</div>
-                <h3>Society-Based Coaching Revolution</h3>
-                <p>Phase 1 workshops happen at your residential society. Coach Leela sets up the training ground in your complex's open spaces — no travel for families, no rink memberships, no logistical friction. This hyperlocal approach transforms skating from "that activity we drive across town for" into "that skill we practice in our own neighborhood."</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🛡️</div>
-                <h3>Safety as Foundation, Not Afterthought</h3>
-                <p>Helmet, knee pads, wrist guards — mandatory before anyone touches wheels. UGH operates on certified safety protocols designed for mixed-age groups in open environments. Ages 5 and above welcome, because safety systems scale to protect every body type and experience level.</p>
+                <h3>Society-Based Model</h3>
+                <p>Training happens at your residential complex. No travel, no rink memberships, no friction — just professional coaching in your own neighborhood for ages 5-50.</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">🔄</div>
-                <h3>Hybrid Coaching Architecture</h3>
-                <p>2 physical sessions + 2 technical video guides per week. This isn't "choose between in-person or online" — it's a deliberate hybrid system where Coach Leela provides hands-on correction twice weekly, then reinforces concepts with custom video breakdowns tailored to your specific progress gaps.</p>
+                <h3>Hybrid Coaching</h3>
+                <p>2 physical sessions + 2 technical video guides per week. Hands-on correction twice weekly plus custom video breakdowns tailored to your progress gaps.</p>
             </div>
         </div>
     </section>
@@ -1007,26 +1048,26 @@
     <!-- Programs -->
     <section id="programs" class="section programs">
         <div class="section-header">
-            <h2 class="section-title">Your progression journey starts here.</h2>
-            <p class="section-subtitle">Three training tiers designed for different commitment levels and learning styles. All share the same IOC-certified foundation. All taught by Coach Leela. All structured to transform how you move through urban spaces.</p>
+            <h2 class="section-title">Choose your path.</h2>
+            <p class="section-subtitle">Three training tiers for different goals. All IOC-certified. All taught by Coach Leela.</p>
         </div>
         
         <div class="programs-grid">
             <div class="program-card">
                 <div class="program-header">
-                    <p class="program-title">Phase 1 — Summer Camp</p>
+                    <p class="program-title">Phase 1 Summer Camp</p>
                     <div class="program-price">₹3,999</div>
                     <p class="program-price-note">per participant</p>
                 </div>
                 <div class="program-body">
-                    <p class="program-description">The gateway to UGH's coaching ecosystem. Phase 1 is a structured group workshop held at your residential society — designed to introduce absolute beginners to inline skating and skateboarding fundamentals under certified supervision.</p>
+                    <p class="program-description">Structured group workshop at your society introducing inline skating and skateboarding fundamentals.</p>
                     <ul class="program-features">
-                        <li>IOC-certified coach facilitation at your society venue</li>
-                        <li>Complete equipment provision (helmet, pads, inline skates/skateboard)</li>
-                        <li>Group learning format optimized for peer motivation</li>
-                        <li>Suitable for ages 5 upwards — family-friendly participation</li>
+                        <li>IOC-certified coaching at your venue</li>
+                        <li>Complete equipment provided</li>
+                        <li>Group learning for peer motivation</li>
+                        <li>Ages 5+ welcome</li>
                     </ul>
-                    <a href="https://www.seedhape.com/pay/link/sp_lnk_dnh36l8mhc3n9x2w" class="program-cta">Register for Next Camp ↗</a>
+                    <a href="https://www.seedhape.com/pay/link/sp_lnk_dnh36l8mhc3n9x2w" class="program-cta">Register Now ↗</a>
                 </div>
             </div>
             
@@ -1038,59 +1079,43 @@
                     <p class="program-price-note">per month</p>
                 </div>
                 <div class="program-body">
-                    <p class="program-description">Dedicated training sessions with Coach Leela, calibrated to your specific goals and learning curve. This is personalized curriculum design — not generic lesson plans. Every physical session includes direct feedback loops, form correction, and adaptive difficulty scaling.</p>
+                    <p class="program-description">Personalized curriculum with dedicated Coach Leela sessions and custom video analysis.</p>
                     <ul class="program-features">
-                        <li>2 physical sessions per week (one-on-one with Coach Leela)</li>
-                        <li>2 custom technical video guides per week (analyzing your footage)</li>
-                        <li>Personalized progression roadmap with skill milestones</li>
-                        <li>Direct WhatsApp access to Coach Leela for form questions</li>
+                        <li>2 physical sessions per week</li>
+                        <li>2 custom video guides per week</li>
+                        <li>Personal progression roadmap</li>
+                        <li>Direct WhatsApp access to coach</li>
                     </ul>
-                    <a href="https://www.seedhape.com/pay/link/sp_lnk_kj8tqvay5lvl9xyq" class="program-cta">Book Your First Session ↗</a>
+                    <a href="https://www.seedhape.com/pay/link/sp_lnk_kj8tqvay5lvl9xyq" class="program-cta">Start Training ↗</a>
                 </div>
             </div>
             
             <div class="program-card">
                 <div class="program-header">
-                    <p class="program-title">Elite Duo Partner Training</p>
+                    <p class="program-title">Elite Duo Training</p>
                     <div class="program-price">₹8,999</div>
-                    <p class="program-price-note">per month · shared between two</p>
+                    <p class="program-price-note">per month · shared</p>
                 </div>
                 <div class="program-body">
-                    <p class="program-description">Train alongside a partner — siblings, friends, parent-child pairs, or any combination. Elite Duo delivers the same coaching quality as 1-on-1, but splits the investment between two people while adding competitive energy to the learning dynamic.</p>
+                    <p class="program-description">Train with a partner — same quality as 1-on-1, competitive energy, split investment.</p>
                     <ul class="program-features">
-                        <li>Same session frequency as Elite 1-on-1 (2 physical + 2 video guides/week)</li>
-                        <li>Competitive partner dynamic that accelerates both participants</li>
-                        <li>Shared monthly cost of ₹8,999 (₹4,499.50 each)</li>
-                        <li>Flexible age/skill pairing — Coach Leela balances differentiation</li>
+                        <li>2 physical + 2 video guides/week</li>
+                        <li>Competitive partner dynamic</li>
+                        <li>₹4,499.50 per person</li>
+                        <li>Flexible age/skill pairing</li>
                     </ul>
-                    <a href="https://www.seedhape.com/pay/link/sp_lnk_1mfgu3yjry0218l9" class="program-cta">Book Duo Training ↗</a>
+                    <a href="https://www.seedhape.com/pay/link/sp_lnk_1mfgu3yjry0218l9" class="program-cta">Book Duo ↗</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Phase 1 -->
-    <section id="phase1" class="phase1">
-        <div class="phase1-container">
-            <h2 class="section-title">On the ground. In the community.</h2>
-            <div class="phase1-content">
-                <p>Phase 1 Summer Camps are where UGH's society-based model comes alive. Coach Leela brings the entire coaching setup to residential complexes across Hyderabad — transforming apartment open spaces into temporary skating academies. These workshops are designed as community-building experiences, where neighbors discover a shared interest in wheeled mobility while learning from an IOC-certified methodology.</p>
-                <p>Whether you're testing the waters before committing to Elite programs or simply want a structured summer activity for your child, Phase 1 delivers certified coaching without the overhead of long-term commitments.</p>
-            </div>
-            <div class="phase1-stat">160+ Gliders Registered · Live Community</div>
-            <div class="phase1-ctas">
-                <a href="https://www.seedhape.com/pay/link/sp_lnk_dnh36l8mhc3n9x2w" class="btn-primary btn-white">Register for Next Workshop ↗</a>
-                <a href="https://wa.me/916304895686?text=Hi%20Coach%20Leela%2C%20when%20is%20the%20next%20workshop%20near%20me%3F" class="btn-secondary btn-outline-white">Ask About Bringing UGH to Your Society →</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Trial -->
-    <section id="community" class="trial">
-        <div class="trial-container">
+    <!-- CTA -->
+    <section id="community" class="cta-section">
+        <div class="cta-container">
             <h2>Experience UGH risk-free.</h2>
-            <p>Not ready to commit? Join a complimentary trial session at the nearest active society venue. No equipment required. No registration friction. Just show up and experience Coach Leela's teaching methodology firsthand — see if skating resonates with you before investing in any program.</p>
-            <a href="https://wa.me/916304895686?text=Hi%20Coach%20Leela%2C%20I%20want%20a%20free%20trial%20session%20at%20my%20society" class="btn-primary btn-dark">Message Coach Leela for Trial Details →</a>
+            <p>Join a complimentary trial session at the nearest venue. No equipment required. No commitment. Just experience Coach Leela's IOC-certified methodology firsthand.</p>
+            <a href="https://wa.me/916304895686?text=Hi%20Coach%20Leela%2C%20I%20want%20a%20free%20trial%20session" class="btn-primary btn-dark">Message for Trial Details →</a>
         </div>
     </section>
 
@@ -1098,29 +1123,29 @@
     <section id="mzone" class="member-area">
         <div>
             <h2 class="section-title">Welcome back, Glider.</h2>
-            <p class="section-subtitle">Your UGH member dashboard — session management, community access, and progression tracking.</p>
+            <p class="section-subtitle">Your UGH member dashboard.</p>
             
             <div class="member-grid">
                 <div class="member-card">
                     <h3>My Sessions</h3>
-                    <div class="member-status">Phase 1 · Active</div>
-                    <p>View your enrollment tier, upcoming session schedule, and progression milestones. Ready to accelerate?</p>
-                    <a href="#programs">Transition to Elite Coaching →</a>
+                    <div class="member-status">Active</div>
+                    <p>View enrollment, upcoming sessions, and progression milestones.</p>
+                    <a href="#programs">Upgrade Program →</a>
                 </div>
                 
                 <div class="member-card">
-                    <h3>Community Access</h3>
+                    <h3>Community</h3>
                     <div class="member-status">WhatsApp</div>
-                    <p>Connect with the broader UGH community — session updates, technique tips from Coach Leela, and peer progress sharing.</p>
-                    <a href="https://wa.me/916304895686">Join Community Group →</a>
+                    <p>Connect with UGH gliders — session updates and technique tips.</p>
+                    <a href="https://wa.me/916304895686">Join Group →</a>
                 </div>
                 
                 <div class="member-card">
-                    <h3>Quick Enrollment</h3>
-                    <div class="member-status">Register</div>
-                    <p>Secure your spot in the next available program tier. Payment processed through UGH's verified gateway.</p>
-                    <a href="#programs">View All Programs →</a>
-                    <button class="signout-btn" onclick="signOut()">Sign Out</button>
+                    <h3>Quick Actions</h3>
+                    <div class="member-status">Manage</div>
+                    <p>Register for programs or update your account.</p>
+                    <a href="#programs">View Programs →</a>
+                    <button class="signout-btn" id="sign-out-btn">Sign Out</button>
                 </div>
             </div>
         </div>
@@ -1133,14 +1158,14 @@
                 <div class="footer-brand">
                     <h3>Urban Gliding Hyderabad</h3>
                     <p class="footer-tagline">Democratizing world-class skate education through society-based coaching.</p>
-                    <p class="footer-meta">Hyderabad, Telangana · Est. 2024 · IOC Certified<br>UPI: worldwide.leelamadhav@oksbi</p>
+                    <p class="footer-meta">Hyderabad, Telangana · Est. 2024<br>UPI: worldwide.leelamadhav@oksbi</p>
                 </div>
                 <div class="footer-links">
                     <h4>Navigate</h4>
                     <ul>
-                        <li><a href="#about">About</a></li>
+                        <li><a href="#about">Why UGH</a></li>
                         <li><a href="#programs">Programs</a></li>
-                        <li><a href="#phase1">Phase 1</a></li>
+                        <li><a href="#community">Community</a></li>
                     </ul>
                 </div>
                 <div class="footer-links">
@@ -1148,7 +1173,7 @@
                     <ul>
                         <li><a href="https://www.instagram.com/urbangliding.hyd?igsh=MWc2ZzcwcnJua2Vkcw==" target="_blank">Instagram</a></li>
                         <li><a href="https://wa.me/916304895686" target="_blank">WhatsApp</a></li>
-                        <li><a href="#" onclick="showReviewModal(); return false;">Leave a Review</a></li>
+                        <li><a href="#" onclick="showReviewModal(); return false;">Google Review</a></li>
                     </ul>
                 </div>
             </div>
@@ -1162,30 +1187,41 @@
     <div id="reviewModal" class="review-modal">
         <div class="review-modal-content">
             <h3>Enjoying UGH?</h3>
-            <p>Your Google review helps Hyderabad discover us. 30 seconds.</p>
+            <p>Your Google review helps Hyderabad discover us. Takes 30 seconds.</p>
             <div class="review-modal-buttons">
-                <button class="review-btn-primary" onclick="window.open('https://share.google/UAPVTNzp4BTRTidQh', '_blank')">⭐ Leave a Google Review</button>
+                <button class="review-btn-primary" onclick="window.open('https://share.google/UAPVTNzp4BTRTidQh', '_blank')">⭐ Leave Google Review</button>
                 <button class="review-btn-secondary" onclick="closeReviewModal()">Maybe Later</button>
             </div>
         </div>
     </div>
 
     <script>
-        let isLoggedIn = false;
+        // Clerk Authentication
+        window.addEventListener('load', async function () {
+            await Clerk.load();
+            
+            const signInBtn = document.getElementById('sign-in-btn');
+            const signOutBtn = document.getElementById('sign-out-btn');
+            
+            if (Clerk.user) {
+                updateAuthUI(true);
+            } else {
+                updateAuthUI(false);
+            }
+            
+            signInBtn.addEventListener('click', async () => {
+                await Clerk.openSignIn();
+            });
+            
+            signOutBtn.addEventListener('click', async () => {
+                await Clerk.signOut();
+                updateAuthUI(false);
+                document.getElementById('mzone').classList.remove('active');
+                window.location.hash = '';
+            });
+        });
         
-        function login() {
-            isLoggedIn = true;
-            updateAuthUI();
-        }
-        
-        function signOut() {
-            isLoggedIn = false;
-            updateAuthUI();
-            document.getElementById('mzone').classList.remove('active');
-            window.location.hash = '';
-        }
-        
-        function updateAuthUI() {
+        function updateAuthUI(isLoggedIn) {
             const loggedOut = document.getElementById('auth-logged-out');
             const loggedIn = document.getElementById('auth-logged-in');
             
@@ -1198,12 +1234,22 @@
             }
         }
         
+        // Member Zone
         window.addEventListener('load', () => {
-            if (window.location.hash === '#mzone' && isLoggedIn) {
+            if (window.location.hash === '#mzone' && Clerk.user) {
                 document.getElementById('mzone').classList.add('active');
             }
         });
         
+        window.addEventListener('hashchange', () => {
+            if (window.location.hash === '#mzone' && Clerk.user) {
+                document.getElementById('mzone').classList.add('active');
+            } else {
+                document.getElementById('mzone').classList.remove('active');
+            }
+        });
+        
+        // Review Modal
         function showReviewModal() {
             document.getElementById('reviewModal').classList.add('active');
         }
@@ -1212,10 +1258,7 @@
             document.getElementById('reviewModal').classList.remove('active');
         }
         
-        function toggleMobileMenu() {
-            alert('Mobile menu toggle - implement as needed');
-        }
-        
+        // Smooth Scrolling
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 const href = this.getAttribute('href');
@@ -1227,6 +1270,28 @@
                     target.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
             });
+        });
+        
+        // Nav Scroll Effect
+        let lastScroll = 0;
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('.nav');
+            const currentScroll = window.pageYOffset;
+            
+            if (currentScroll > 100) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+            
+            lastScroll = currentScroll;
+        });
+        
+        // Close modal on outside click
+        document.getElementById('reviewModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeReviewModal();
+            }
         });
     </script>
 </body>

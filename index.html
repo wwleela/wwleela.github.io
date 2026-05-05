@@ -6,6 +6,37 @@
     <title>Urban Gliding Hyderabad — Master the Pavement</title>
     <meta name="description" content="IOC-certified skate coaching delivered to Hyderabad residential societies. 160+ gliders across 6+ communities.">
     
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-K2PYP4J4DZ"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-K2PYP4J4DZ', {
+            'send_page_view': true,
+            'cookie_flags': 'SameSite=None;Secure'
+        });
+        
+        // Custom event tracking function
+        function trackEvent(eventName, eventParams) {
+            gtag('event', eventName, eventParams);
+        }
+    </script>
+    
+    <!-- Meta Pixel Placeholder (Add your Pixel ID when ready) -->
+    <script>
+        // !function(f,b,e,v,n,t,s)
+        // {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        // n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        // if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        // n.queue=[];t=b.createElement(e);t.async=!0;
+        // t.src=v;s=b.getElementsByTagName(e)[0];
+        // s.parentNode.insertBefore(t,s)}(window, document,'script',
+        // 'https://connect.facebook.net/en_US/fbevents.js');
+        // fbq('init', 'YOUR_PIXEL_ID_HERE');
+        // fbq('track', 'PageView');
+    </script>
+    
     <!-- Clerk Auth -->
     <script async crossorigin="anonymous" data-clerk-publishable-key="pk_test_cG93ZXJmdWwtcmVkZmlzaC01MC5jbGVyay5hY2NvdW50cy5kZXYk" src="https://powerful-redfish-50.clerk.accounts.dev/npm/@clerk/clerk-js@latest/dist/clerk.browser.js"></script>
     
@@ -16,15 +47,12 @@
     
     <style>
         :root {
-            /* Brand Colors from Logo */
             --teal: #2B7A78;
             --teal-dark: #1D5B5A;
             --teal-darker: #0D3E3C;
             --orange: #FF8B3D;
             --orange-light: #FFB84D;
             --orange-dark: #FF6B35;
-            
-            /* Neutrals */
             --dark: #1a1a1a;
             --white: #ffffff;
             --gray-50: #f9f9f9;
@@ -32,8 +60,6 @@
             --gray-200: #e8e8e8;
             --gray-300: #d4d4d4;
             --gray-600: #666666;
-            
-            /* Typography */
             --font-display: 'Bebas Neue', sans-serif;
             --font-body: 'Inter', sans-serif;
             --ease: cubic-bezier(0.16, 1, 0.3, 1);
@@ -43,34 +69,29 @@
         html { scroll-behavior: smooth; }
         body { font-family: var(--font-body); background: var(--white); color: var(--dark); line-height: 1.6; -webkit-font-smoothing: antialiased; }
         
-        /* Toast Notifications */
+        /* Toast */
         .toast { position: fixed; top: 100px; right: 20px; background: var(--dark); color: white; padding: 1rem 1.5rem; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.3); z-index: 10001; transform: translateX(400px); opacity: 0; transition: all 0.4s var(--ease); font-size: 0.9375rem; font-weight: 500; max-width: 300px; }
         .toast.show { transform: translateX(0); opacity: 1; }
         .toast.success { background: var(--teal); }
         .toast.error { background: #dc2626; }
         
-        /* Navigation */
+        /* Nav */
         .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(255,255,255,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--gray-200); transition: all 0.3s var(--ease); }
         .nav.scrolled { box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
         .nav-container { max-width: 1400px; margin: 0 auto; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
-        
         .logo { display: flex; align-items: center; text-decoration: none; transition: transform 0.2s var(--ease); }
         .logo:hover { transform: scale(1.05); }
         .logo img { height: 50px; width: auto; }
-        
         .nav-links { display: flex; gap: 2.5rem; align-items: center; list-style: none; }
         .nav-links a { color: var(--gray-600); text-decoration: none; font-weight: 500; font-size: 0.9375rem; transition: color 0.2s; position: relative; }
         .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background: linear-gradient(135deg, var(--teal) 0%, var(--orange) 100%); transition: width 0.3s var(--ease); }
         .nav-links a:hover { color: var(--dark); }
         .nav-links a:hover::after { width: 100%; }
-        
         .nav-auth { display: flex; align-items: center; gap: 1rem; }
         .auth-btn { color: var(--gray-600); background: none; border: none; font-family: var(--font-body); font-weight: 500; font-size: 0.9375rem; cursor: pointer; padding: 0.5rem 1rem; transition: all 0.2s; border-radius: 8px; }
         .auth-btn:hover { color: var(--dark); background: var(--gray-100); }
-        
         .cta-btn { background: linear-gradient(135deg, var(--orange-dark) 0%, var(--orange) 100%); color: white; padding: 0.75rem 1.5rem; border-radius: 100px; text-decoration: none; font-weight: 600; font-size: 0.875rem; transition: all 0.3s var(--ease); border: none; cursor: pointer; box-shadow: 0 4px 12px rgba(255,139,61,0.3); position: relative; overflow: hidden; }
         .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(255,139,61,0.4); }
-        .cta-btn.loading { pointer-events: none; opacity: 0.7; }
         .cta-btn.loading::after { content: ''; position: absolute; top: 50%; left: 50%; width: 16px; height: 16px; margin: -8px 0 0 -8px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.6s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
         
@@ -91,18 +112,12 @@
         .hero { margin-top: 70px; padding: 8rem 2rem 6rem; background: linear-gradient(180deg, var(--gray-50) 0%, var(--white) 100%); position: relative; overflow: hidden; }
         .hero::before { content: ''; position: absolute; top: 0; right: -10%; width: 500px; height: 500px; background: radial-gradient(circle, rgba(43,122,120,0.1) 0%, transparent 70%); border-radius: 50%; pointer-events: none; }
         .hero-container { max-width: 1200px; margin: 0 auto; position: relative; }
-        
         .eyebrow { display: inline-block; font-size: 0.75rem; font-weight: 700; color: var(--teal-dark); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 1.5rem; padding: 0.5rem 1rem; border: 1px solid var(--teal); border-radius: 100px; background: rgba(43,122,120,0.05); }
-        
         .hero h1 { font-family: var(--font-display); font-size: clamp(4rem, 12vw, 8rem); line-height: 0.9; letter-spacing: -0.02em; margin-bottom: 1.5rem; background: linear-gradient(135deg, var(--teal-dark) 0%, var(--orange) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
         .hero-subtitle { font-size: clamp(1.125rem, 2vw, 1.5rem); line-height: 1.5; color: var(--dark); font-weight: 600; max-width: 800px; margin-bottom: 2rem; }
         .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
-        
         .btn-primary { background: linear-gradient(135deg, var(--orange-dark) 0%, var(--orange) 100%); color: white; padding: 1rem 2.5rem; border-radius: 100px; text-decoration: none; font-weight: 600; font-size: 1rem; transition: all 0.3s var(--ease); display: inline-flex; align-items: center; gap: 0.5rem; border: none; cursor: pointer; box-shadow: 0 6px 16px rgba(255,139,61,0.3); position: relative; overflow: hidden; }
         .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 24px rgba(255,139,61,0.4); }
-        .btn-primary::before { content: ''; position: absolute; top: 50%; left: 50%; width: 0; height: 0; background: rgba(255,255,255,0.2); border-radius: 50%; transform: translate(-50%, -50%); transition: width 0.6s, height 0.6s; }
-        .btn-primary:active::before { width: 300px; height: 300px; }
-        
         .btn-secondary { background: var(--white); color: var(--dark); padding: 1rem 2.5rem; border-radius: 100px; text-decoration: none; font-weight: 600; font-size: 1rem; transition: all 0.3s var(--ease); display: inline-flex; align-items: center; gap: 0.5rem; border: 2px solid var(--teal); box-shadow: 0 2px 8px rgba(43,122,120,0.1); }
         .btn-secondary:hover { border-color: var(--teal-dark); transform: translateY(-3px); box-shadow: 0 8px 20px rgba(43,122,120,0.2); background: rgba(43,122,120,0.02); }
         
@@ -152,7 +167,6 @@
         .program-features li::before { content: '✓'; color: var(--teal); font-weight: 700; flex-shrink: 0; }
         .program-cta { width: 100%; background: linear-gradient(135deg, var(--orange-dark) 0%, var(--orange) 100%); color: white; padding: 1rem; border-radius: 100px; text-decoration: none; font-weight: 600; text-align: center; display: block; transition: all 0.3s var(--ease); box-shadow: 0 4px 12px rgba(255,139,61,0.25); border: none; cursor: pointer; font-family: var(--font-body); font-size: 1rem; position: relative; overflow: hidden; }
         .program-cta:hover { transform: scale(1.02); box-shadow: 0 8px 20px rgba(255,139,61,0.35); }
-        .program-cta.loading { opacity: 0.7; pointer-events: none; }
         .program-cta.loading::after { content: ''; position: absolute; top: 50%; left: 50%; width: 16px; height: 16px; margin: -8px 0 0 -8px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.6s linear infinite; }
         
         /* CTA Section */
@@ -194,8 +208,7 @@
         /* Review Modal */
         .review-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); z-index: 10000; align-items: center; justify-content: center; }
         .review-modal.active { display: flex; }
-        .review-modal-content { background: var(--white); padding: 3rem; border-radius: 24px; max-width: 500px; width: 90%; text-align: center; box-shadow: 0 24px 48px rgba(0,0,0,0.3); animation: modalSlideIn 0.4s var(--ease); }
-        @keyframes modalSlideIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .review-modal-content { background: var(--white); padding: 3rem; border-radius: 24px; max-width: 500px; width: 90%; text-align: center; box-shadow: 0 24px 48px rgba(0,0,0,0.3); }
         .review-modal h3 { font-size: 2rem; margin-bottom: 1rem; color: var(--dark); }
         .review-modal p { color: var(--gray-600); margin-bottom: 2rem; line-height: 1.7; }
         .review-modal-buttons { display: flex; gap: 1rem; flex-direction: column; }
@@ -206,40 +219,16 @@
         .review-btn-secondary:hover { border-color: var(--gray-300); color: var(--dark); }
         
         /* Responsive */
-        @media (max-width: 1024px) {
-            .footer-content { grid-template-columns: 1fr 1fr; }
-            .programs-grid, .features-grid { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
-        }
-        
-        @media (max-width: 768px) {
-            .nav-links { display: none; }
-            .mobile-menu-toggle { display: block; }
-            .hero { padding: 5rem 1.5rem 3rem; }
-            .section { padding: 4rem 1.5rem; }
-            .programs-grid, .features-grid, .member-grid { grid-template-columns: 1fr; }
-            .stats-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
-            .footer-content { grid-template-columns: 1fr; gap: 2rem; }
-            .hero-ctas { flex-direction: column; }
-            .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
-            .nav-container { padding: 1rem 1.5rem; }
-        }
-        
-        @media (max-width: 480px) {
-            .review-modal-content { padding: 2rem 1.5rem; }
-            .stat-number { font-size: 3rem; }
-        }
-        
+        @media (max-width: 1024px) { .footer-content { grid-template-columns: 1fr 1fr; } .programs-grid, .features-grid { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); } }
+        @media (max-width: 768px) { .nav-links { display: none; } .mobile-menu-toggle { display: block; } .hero { padding: 5rem 1.5rem 3rem; } .section { padding: 4rem 1.5rem; } .programs-grid, .features-grid, .member-grid { grid-template-columns: 1fr; } .stats-grid { grid-template-columns: 1fr 1fr; gap: 2rem; } .footer-content { grid-template-columns: 1fr; gap: 2rem; } .hero-ctas { flex-direction: column; } .btn-primary, .btn-secondary { width: 100%; justify-content: center; } .nav-container { padding: 1rem 1.5rem; } }
+        @media (max-width: 480px) { .review-modal-content { padding: 2rem 1.5rem; } .stat-number { font-size: 3rem; } }
         .hidden { display: none !important; }
     </style>
 </head>
 <body>
-    <!-- Toast Container -->
     <div id="toast" class="toast"></div>
-    
-    <!-- Mobile Menu Backdrop -->
     <div id="mobileBackdrop" class="mobile-backdrop" onclick="closeMobileMenu()"></div>
     
-    <!-- Mobile Menu -->
     <div id="mobileMenu" class="mobile-menu">
         <button class="mobile-menu-close" onclick="closeMobileMenu()">×</button>
         <ul class="mobile-menu-links">
@@ -253,48 +242,41 @@
         </div>
     </div>
     
-    <!-- Navigation -->
     <nav class="nav">
         <div class="nav-container">
-            <a href="#" class="logo">
+            <a href="#" class="logo" onclick="trackEvent('logo_click', {})">
                 <img src="/mnt/user-data/uploads/logo.png" alt="Urban Gliding Hyderabad">
             </a>
-            
             <ul class="nav-links">
-                <li><a href="#about">Why UGH</a></li>
-                <li><a href="#programs">Programs</a></li>
-                <li><a href="#community">Community</a></li>
+                <li><a href="#about" onclick="trackEvent('nav_click', {section: 'about'})">Why UGH</a></li>
+                <li><a href="#programs" onclick="trackEvent('nav_click', {section: 'programs'})">Programs</a></li>
+                <li><a href="#community" onclick="trackEvent('nav_click', {section: 'community'})">Community</a></li>
             </ul>
-            
             <div class="nav-auth">
                 <div id="auth-logged-out">
-                    <button class="auth-btn" id="sign-in-btn">Sign In</button>
-                    <a href="#programs" class="cta-btn">Enroll Now ↗</a>
+                    <button class="auth-btn" id="sign-in-btn" onclick="trackEvent('sign_in_click', {})">Sign In</button>
+                    <a href="#programs" class="cta-btn" onclick="trackEvent('enroll_click', {location: 'nav'})">Enroll Now ↗</a>
                 </div>
-                
                 <div id="auth-logged-in" class="hidden">
-                    <a href="#mzone" class="cta-btn">My Zone</a>
+                    <a href="#mzone" class="cta-btn" onclick="trackEvent('my_zone_click', {})">My Zone</a>
                 </div>
             </div>
-            
-            <button class="mobile-menu-toggle" onclick="openMobileMenu()">☰</button>
+            <button class="mobile-menu-toggle" onclick="openMobileMenu(); trackEvent('mobile_menu_open', {})">☰</button>
         </div>
     </nav>
 
-    <!-- Hero -->
     <section class="hero">
         <div class="hero-container">
             <span class="eyebrow">IOC Certified · Hyderabad's Premier Skate Community</span>
             <h1>Master the Pavement.</h1>
             <p class="hero-subtitle">World-class skate education delivered to your doorstep. 160+ gliders progressing across 6+ residential societies with IOC-certified coaching.</p>
             <div class="hero-ctas">
-                <a href="#programs" class="btn-primary">Explore Programs ↗</a>
-                <a href="https://wa.me/916304895686?text=Hi%20Coach%20Leela%2C%20I%20want%20to%20try%20a%20free%20session" class="btn-secondary">Free Trial →</a>
+                <a href="#programs" class="btn-primary" onclick="trackEvent('hero_cta_click', {type: 'explore_programs'})">Explore Programs ↗</a>
+                <a href="https://wa.me/916304895686?text=Hi%20Coach%20Leela%2C%20I%20want%20to%20try%20a%20free%20session" class="btn-secondary" onclick="trackEvent('hero_cta_click', {type: 'free_trial'})">Free Trial →</a>
             </div>
         </div>
     </section>
 
-    <!-- Stats -->
     <section class="stats reveal">
         <div class="stats-grid">
             <div class="stat-item">
@@ -320,13 +302,11 @@
         </div>
     </section>
 
-    <!-- About -->
     <section id="about" class="section">
         <div class="section-header reveal">
             <h2 class="section-title">Why UGH works.</h2>
             <p class="section-subtitle">Coach Leela brings IOC-certified methodology directly to Hyderabad neighborhoods — transforming residential complexes into skating academies.</p>
         </div>
-        
         <div class="features-grid">
             <div class="feature-card reveal">
                 <div class="feature-icon">🎓</div>
@@ -346,13 +326,11 @@
         </div>
     </section>
 
-    <!-- Programs -->
     <section id="programs" class="section programs">
         <div class="section-header reveal">
             <h2 class="section-title">Choose your path.</h2>
             <p class="section-subtitle">Three training tiers for different goals. All IOC-certified. All taught by Coach Leela.</p>
         </div>
-        
         <div class="programs-grid">
             <div class="program-card reveal">
                 <div class="program-header">
@@ -368,10 +346,9 @@
                         <li>Group learning for motivation</li>
                         <li>Ages 5+ welcome</li>
                     </ul>
-                    <a href="https://www.seedhape.com/pay/link/sp_lnk_dnh36l8mhc3n9x2w" class="program-cta" onclick="handlePaymentClick(event, this)">Register Now ↗</a>
+                    <a href="https://www.seedhape.com/pay/link/sp_lnk_dnh36l8mhc3n9x2w" class="program-cta" onclick="handlePaymentClick(event, this, 'phase1', 3999)">Register Now ↗</a>
                 </div>
             </div>
-            
             <div class="program-card reveal">
                 <div class="program-badge">Most Popular</div>
                 <div class="program-header">
@@ -387,10 +364,9 @@
                         <li>Personal progression roadmap</li>
                         <li>Direct WhatsApp access to coach</li>
                     </ul>
-                    <a href="https://www.seedhape.com/pay/link/sp_lnk_kj8tqvay5lvl9xyq" class="program-cta" onclick="handlePaymentClick(event, this)">Start Training ↗</a>
+                    <a href="https://www.seedhape.com/pay/link/sp_lnk_kj8tqvay5lvl9xyq" class="program-cta" onclick="handlePaymentClick(event, this, 'elite_1on1', 5999)">Start Training ↗</a>
                 </div>
             </div>
-            
             <div class="program-card reveal">
                 <div class="program-header">
                     <p class="program-title">Elite Duo Training</p>
@@ -405,57 +381,51 @@
                         <li>₹4,499.50 per person</li>
                         <li>Flexible age/skill pairing</li>
                     </ul>
-                    <a href="https://www.seedhape.com/pay/link/sp_lnk_1mfgu3yjry0218l9" class="program-cta" onclick="handlePaymentClick(event, this)">Book Duo ↗</a>
+                    <a href="https://www.seedhape.com/pay/link/sp_lnk_1mfgu3yjry0218l9" class="program-cta" onclick="handlePaymentClick(event, this, 'elite_duo', 8999)">Book Duo ↗</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- CTA -->
     <section id="community" class="cta-section reveal">
         <div class="cta-container">
             <h2>Experience UGH risk-free.</h2>
             <p>Join a complimentary trial session. No equipment required. Experience Coach Leela's IOC-certified methodology firsthand.</p>
             <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem;">
-                <a href="https://wa.me/916304895686?text=Hi%20Coach%20Leela%2C%20I%20want%20a%20free%20trial%20session" class="btn-primary btn-dark">Message for Trial →</a>
-                <a href="https://chat.whatsapp.com/CeSGQhqpUMX8XamdJ7Uf2N" class="btn-secondary" style="border-color: rgba(255,255,255,0.3); color: white;" target="_blank">Join Community Group ↗</a>
+                <a href="https://wa.me/916304895686?text=Hi%20Coach%20Leela%2C%20I%20want%20a%20free%20trial%20session" class="btn-primary btn-dark" onclick="trackEvent('trial_click', {location: 'cta_section'})">Message for Trial →</a>
+                <a href="https://chat.whatsapp.com/CeSGQhqpUMX8XamdJ7Uf2N" class="btn-secondary" style="border-color: rgba(255,255,255,0.3); color: white;" target="_blank" onclick="trackEvent('whatsapp_group_click', {location: 'cta_section'})">Join Community Group ↗</a>
             </div>
         </div>
     </section>
 
-    <!-- Member Area -->
     <section id="mzone" class="member-area">
         <div>
             <h2 class="section-title">Welcome back, Glider.</h2>
             <p class="section-subtitle">Your UGH member dashboard.</p>
-            
             <div class="member-grid">
                 <div class="member-card">
                     <h3>My Sessions</h3>
                     <div class="member-status">Active</div>
                     <p>View enrollment, upcoming sessions, and progression milestones.</p>
-                    <a href="#programs">Upgrade Program →</a>
+                    <a href="#programs" onclick="trackEvent('member_upgrade_click', {})">Upgrade Program →</a>
                 </div>
-                
                 <div class="member-card">
                     <h3>Community</h3>
                     <div class="member-status">WhatsApp</div>
                     <p>Connect with UGH gliders — session updates and technique tips.</p>
-                    <a href="https://chat.whatsapp.com/CeSGQhqpUMX8XamdJ7Uf2N" target="_blank">Join Group →</a>
+                    <a href="https://chat.whatsapp.com/CeSGQhqpUMX8XamdJ7Uf2N" target="_blank" onclick="trackEvent('member_whatsapp_click', {})">Join Group →</a>
                 </div>
-                
                 <div class="member-card">
                     <h3>Quick Actions</h3>
                     <div class="member-status">Manage</div>
                     <p>Register for programs or update your account.</p>
-                    <a href="#programs">View Programs →</a>
+                    <a href="#programs" onclick="trackEvent('member_view_programs_click', {})">View Programs →</a>
                     <button class="signout-btn" id="sign-out-btn">Sign Out</button>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
     <footer class="footer">
         <div class="footer-container">
             <div class="footer-content">
@@ -467,17 +437,17 @@
                 <div class="footer-links">
                     <h4>Navigate</h4>
                     <ul>
-                        <li><a href="#about">Why UGH</a></li>
-                        <li><a href="#programs">Programs</a></li>
-                        <li><a href="#community">Community</a></li>
+                        <li><a href="#about" onclick="trackEvent('footer_link_click', {link: 'about'})">Why UGH</a></li>
+                        <li><a href="#programs" onclick="trackEvent('footer_link_click', {link: 'programs'})">Programs</a></li>
+                        <li><a href="#community" onclick="trackEvent('footer_link_click', {link: 'community'})">Community</a></li>
                     </ul>
                 </div>
                 <div class="footer-links">
                     <h4>Connect</h4>
                     <ul>
-                        <li><a href="https://www.instagram.com/urbangliding.hyd?igsh=MWc2ZzcwcnJua2Vkcw==" target="_blank">Instagram</a></li>
-                        <li><a href="https://chat.whatsapp.com/CeSGQhqpUMX8XamdJ7Uf2N" target="_blank">WhatsApp Group</a></li>
-                        <li><a href="#" onclick="showReviewModal(); return false;">Google Review</a></li>
+                        <li><a href="https://www.instagram.com/urbangliding.hyd?igsh=MWc2ZzcwcnJua2Vkcw==" target="_blank" onclick="trackEvent('social_click', {platform: 'instagram'})">Instagram</a></li>
+                        <li><a href="https://chat.whatsapp.com/CeSGQhqpUMX8XamdJ7Uf2N" target="_blank" onclick="trackEvent('social_click', {platform: 'whatsapp_group'})">WhatsApp Group</a></li>
+                        <li><a href="#" onclick="showReviewModal(); trackEvent('review_modal_open', {}); return false;">Google Review</a></li>
                     </ul>
                 </div>
             </div>
@@ -487,20 +457,18 @@
         </div>
     </footer>
 
-    <!-- Review Modal -->
     <div id="reviewModal" class="review-modal" onclick="if(event.target === this) closeReviewModal()">
         <div class="review-modal-content">
             <h3>Enjoying UGH?</h3>
             <p>Your Google review helps Hyderabad discover us. Takes 30 seconds.</p>
             <div class="review-modal-buttons">
-                <button class="review-btn-primary" onclick="window.open('https://share.google/UAPVTNzp4BTRTidQh', '_blank')">⭐ Leave Review</button>
-                <button class="review-btn-secondary" onclick="closeReviewModal()">Maybe Later</button>
+                <button class="review-btn-primary" onclick="window.open('https://share.google/UAPVTNzp4BTRTidQh', '_blank'); trackEvent('google_review_click', {})">⭐ Leave Review</button>
+                <button class="review-btn-secondary" onclick="closeReviewModal(); trackEvent('review_modal_close', {action: 'maybe_later'})">Maybe Later</button>
             </div>
         </div>
     </div>
 
     <script>
-        // Toast Notification System
         function showToast(message, type = 'success') {
             const toast = document.getElementById('toast');
             toast.textContent = message;
@@ -508,7 +476,6 @@
             setTimeout(() => toast.classList.remove('show'), 3000);
         }
         
-        // Mobile Menu
         function openMobileMenu() {
             document.getElementById('mobileMenu').classList.add('active');
             document.getElementById('mobileBackdrop').classList.add('active');
@@ -519,23 +486,25 @@
             document.getElementById('mobileBackdrop').classList.remove('active');
         }
         
-        // Payment Click Handler
-        function handlePaymentClick(event, button) {
+        function handlePaymentClick(event, button, program, amount) {
             button.classList.add('loading');
-            showToast('Redirecting to payment...', 'success');
+            trackEvent('payment_initiate', {
+                program: program,
+                amount: amount,
+                currency: 'INR'
+            });
+            showToast('Redirecting to secure payment...', 'success');
         }
         
-        // Clerk Authentication
         window.addEventListener('load', async function () {
             try {
                 await Clerk.load();
-                
                 const signInBtn = document.getElementById('sign-in-btn');
                 const signOutBtn = document.getElementById('sign-out-btn');
                 
                 if (Clerk.user) {
                     updateAuthUI(true);
-                    showToast('Welcome back, ' + (Clerk.user.firstName || 'Glider') + '!', 'success');
+                    trackEvent('user_session', {status: 'logged_in'});
                 } else {
                     updateAuthUI(false);
                 }
@@ -545,6 +514,7 @@
                         await Clerk.openSignIn();
                     } catch (err) {
                         showToast('Sign in failed. Please try again.', 'error');
+                        trackEvent('auth_error', {type: 'sign_in_failed'});
                     }
                 });
                 
@@ -555,20 +525,20 @@
                         document.getElementById('mzone').classList.remove('active');
                         window.location.hash = '';
                         showToast('Signed out successfully', 'success');
+                        trackEvent('user_sign_out', {});
                     } catch (err) {
                         showToast('Sign out failed. Please try again.', 'error');
                     }
                 });
             } catch (err) {
-                console.error('Clerk initialization error:', err);
-                showToast('Authentication service unavailable', 'error');
+                console.error('Clerk error:', err);
+                trackEvent('clerk_error', {error: err.message});
             }
         });
         
         function updateAuthUI(isLoggedIn) {
             const loggedOut = document.getElementById('auth-logged-out');
             const loggedIn = document.getElementById('auth-logged-in');
-            
             if (isLoggedIn) {
                 loggedOut?.classList.add('hidden');
                 loggedIn?.classList.remove('hidden');
@@ -578,13 +548,6 @@
             }
         }
         
-        // Member Zone
-        window.addEventListener('load', () => {
-            if (window.location.hash === '#mzone' && Clerk?.user) {
-                document.getElementById('mzone').classList.add('active');
-            }
-        });
-        
         window.addEventListener('hashchange', () => {
             if (window.location.hash === '#mzone' && Clerk?.user) {
                 document.getElementById('mzone').classList.add('active');
@@ -593,50 +556,54 @@
             }
         });
         
-        // Review Modal
-        function showReviewModal() {
-            document.getElementById('reviewModal').classList.add('active');
-        }
+        function showReviewModal() { document.getElementById('reviewModal').classList.add('active'); }
+        function closeReviewModal() { document.getElementById('reviewModal').classList.remove('active'); }
         
-        function closeReviewModal() {
-            document.getElementById('reviewModal').classList.remove('active');
-        }
-        
-        // Smooth Scrolling
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 const href = this.getAttribute('href');
                 if (href === '#' || href === '#mzone') return;
-                
                 e.preventDefault();
                 const target = document.querySelector(href);
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
+                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
             });
         });
         
-        // Nav Scroll Effect
         window.addEventListener('scroll', () => {
             const nav = document.querySelector('.nav');
-            if (window.pageYOffset > 100) {
-                nav.classList.add('scrolled');
-            } else {
-                nav.classList.remove('scrolled');
-            }
+            if (window.pageYOffset > 100) nav.classList.add('scrolled');
+            else nav.classList.remove('scrolled');
         });
         
-        // Scroll Reveal Animation
         const revealElements = document.querySelectorAll('.reveal');
         const revealObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                }
+                if (entry.isIntersecting) entry.target.classList.add('active');
             });
         }, { threshold: 0.1 });
-        
         revealElements.forEach(el => revealObserver.observe(el));
+        
+        // Track scroll depth
+        let maxScroll = 0;
+        window.addEventListener('scroll', () => {
+            const scrollPercent = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+            if (scrollPercent > maxScroll) {
+                maxScroll = scrollPercent;
+                if (maxScroll >= 25 && maxScroll < 26) trackEvent('scroll_depth', {depth: '25%'});
+                if (maxScroll >= 50 && maxScroll < 51) trackEvent('scroll_depth', {depth: '50%'});
+                if (maxScroll >= 75 && maxScroll < 76) trackEvent('scroll_depth', {depth: '75%'});
+                if (maxScroll >= 90) trackEvent('scroll_depth', {depth: '100%'});
+            }
+        });
+        
+        // Track time on page
+        let timeOnPage = 0;
+        setInterval(() => {
+            timeOnPage += 30;
+            if (timeOnPage === 30) trackEvent('time_on_page', {seconds: 30});
+            if (timeOnPage === 60) trackEvent('time_on_page', {seconds: 60});
+            if (timeOnPage === 120) trackEvent('time_on_page', {seconds: 120});
+        }, 30000);
     </script>
 </body>
 </html>

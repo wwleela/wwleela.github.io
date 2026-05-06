@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#faf8f5">
     <title>Urban Gliding Hyderabad — Elite Skate Coaching for Hyderabad Societies</title>
     <meta name="description" content="IOC-certified skate coaching delivered to Hyderabad residential societies. 160+ gliders across 6+ communities. Professional training at your doorstep.">
     
@@ -101,6 +104,26 @@
         
         .hidden { display: none !important; }
         
+        /* Touch-friendly tap targets (minimum 44x44px for mobile) */
+        @media (pointer: coarse) {
+            a, button, .nav-links a, .auth-btn, .cta-btn {
+                min-height: 44px;
+                min-width: 44px;
+            }
+        }
+        
+        /* Prevent iOS zoom on input focus */
+        @supports (-webkit-touch-callout: none) {
+            input, select, textarea {
+                font-size: 16px !important;
+            }
+        }
+        
+        /* Smooth scrolling for iOS */
+        * {
+            -webkit-overflow-scrolling: touch;
+        }
+        
         /* === TOAST NOTIFICATION === */
         .toast {
             position: fixed;
@@ -159,6 +182,8 @@
         .logo img {
             height: 48px;
             width: auto;
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
         }
         .nav-links {
             display: flex;
@@ -1384,20 +1409,39 @@
         }
         
         function handlePaymentClick(event, button, program, amount) {
+            // Prevent default and multiple clicks
+            if (button.classList.contains('loading')) {
+                event.preventDefault();
+                return;
+            }
+            
             button.classList.add('loading');
             trackEvent('payment_initiate', {
                 program: program,
                 amount: amount,
                 currency: 'INR'
             });
+            
             showToast('Redirecting to secure payment...', 'success');
             
-            // Store pending enrollment in sessionStorage
-            sessionStorage.setItem('pendingEnrollment', JSON.stringify({
+            // Store enrollment details for post-payment
+            const enrollmentData = {
                 program: program,
                 amount: amount,
-                timestamp: Date.now()
-            }));
+                timestamp: Date.now(),
+                userAgent: navigator.userAgent
+            };
+            
+            sessionStorage.setItem('pendingEnrollment', JSON.stringify(enrollmentData));
+            localStorage.setItem('lastEnrollment', JSON.stringify(enrollmentData));
+            
+            // Simulate payment success redirect (in production, Seedhape handles this)
+            // After Seedhape payment, redirect to: /success.html?program=X&amount=Y&transaction_id=Z
+            
+            // For testing: uncomment below to simulate success
+            // setTimeout(() => {
+            //     window.location.href = `/success.html?program=${program}&amount=${amount}&transaction_id=UGH${Date.now()}`;
+            // }, 2000);
         }
         
         function updateAuthUI(isLoggedIn) {

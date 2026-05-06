@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Successful — Urban Gliding Hyderabad</title>
+    
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-K2PYP4J4DZ"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-K2PYP4J4DZ');
+        
+        // Track conversion
+        gtag('event', 'conversion', {
+            'send_to': 'G-K2PYP4J4DZ/payment_success',
+            'transaction_id': new URLSearchParams(window.location.search).get('transaction_id')
+        });
+    </script>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Manrope:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --charcoal: #1a1a1a;
+            --terracotta: #c65a3c;
+            --sand: #f5f1eb;
+            --cream: #faf8f5;
+            --white: #ffffff;
+            --gray-600: #52525b;
+            --font-display: 'Syne', sans-serif;
+            --font-body: 'Manrope', sans-serif;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: var(--font-body);
+            background: var(--cream);
+            color: var(--charcoal);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        
+        .success-container {
+            max-width: 600px;
+            background: var(--white);
+            border-radius: 24px;
+            padding: 3rem;
+            text-align: center;
+            box-shadow: 0 24px 48px rgba(0,0,0,0.08);
+            border: 1px solid rgba(26,26,26,0.08);
+        }
+        
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--terracotta) 0%, #a84a30 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            animation: scaleIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        
+        @keyframes scaleIn {
+            0% { transform: scale(0); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        .success-icon svg {
+            width: 40px;
+            height: 40px;
+            stroke: var(--white);
+            stroke-width: 3;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            fill: none;
+            stroke-dasharray: 50;
+            stroke-dashoffset: 50;
+            animation: checkmark 0.6s 0.3s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+        }
+        
+        @keyframes checkmark {
+            to { stroke-dashoffset: 0; }
+        }
+        
+        h1 {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: var(--charcoal);
+        }
+        
+        .program-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--terracotta);
+            margin-bottom: 2rem;
+        }
+        
+        .details-box {
+            background: var(--sand);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+        
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(26,26,26,0.08);
+        }
+        
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+        
+        .detail-label {
+            font-weight: 600;
+            color: var(--gray-600);
+        }
+        
+        .detail-value {
+            font-weight: 700;
+            color: var(--charcoal);
+        }
+        
+        .next-steps {
+            background: var(--cream);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+        
+        .next-steps h3 {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: var(--charcoal);
+        }
+        
+        .next-steps ol {
+            margin-left: 1.5rem;
+        }
+        
+        .next-steps li {
+            margin-bottom: 0.75rem;
+            line-height: 1.7;
+            color: var(--gray-600);
+        }
+        
+        .next-steps strong {
+            color: var(--charcoal);
+        }
+        
+        .cta-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .btn {
+            padding: 1.125rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-primary {
+            background: var(--charcoal);
+            color: var(--white);
+        }
+        
+        .btn-primary:hover {
+            background: var(--terracotta);
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--charcoal);
+            border: 2px solid rgba(26,26,26,0.2);
+        }
+        
+        .btn-secondary:hover {
+            border-color: var(--charcoal);
+        }
+        
+        .email-notice {
+            margin-top: 2rem;
+            padding: 1rem;
+            background: rgba(198,90,60,0.05);
+            border-radius: 12px;
+            font-size: 0.9375rem;
+            color: var(--gray-600);
+        }
+        
+        @media (max-width: 640px) {
+            .success-container {
+                padding: 2rem 1.5rem;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+            .details-box, .next-steps {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="success-container">
+        <div class="success-icon">
+            <svg viewBox="0 0 24 24">
+                <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+        </div>
+        
+        <h1>You're All Set!</h1>
+        <p class="program-name" id="program-name">Loading...</p>
+        
+        <div class="details-box">
+            <div class="detail-row">
+                <span class="detail-label">Transaction ID</span>
+                <span class="detail-value" id="transaction-id">—</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Amount Paid</span>
+                <span class="detail-value" id="amount-paid">—</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Payment Method</span>
+                <span class="detail-value">UPI / Card</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Date</span>
+                <span class="detail-value" id="payment-date">—</span>
+            </div>
+        </div>
+        
+        <div class="next-steps">
+            <h3>What Happens Next?</h3>
+            <ol>
+                <li><strong>Check your email</strong> — Confirmation and receipt sent to your inbox</li>
+                <li><strong>Join WhatsApp Group</strong> — Get session schedules and updates</li>
+                <li><strong>Coach reaches out</strong> — Within 24 hours to schedule your first session</li>
+                <li><strong>Start gliding</strong> — Equipment and venue details shared before session</li>
+            </ol>
+        </div>
+        
+        <div class="cta-buttons">
+            <a href="https://chat.whatsapp.com/CeSGQhqpUMX8XamdJ7Uf2N" class="btn btn-primary" target="_blank">Join WhatsApp Community →</a>
+            <a href="/index.html" class="btn btn-secondary">Back to Home</a>
+        </div>
+        
+        <div class="email-notice">
+            📧 Confirmation email sent. Check spam if not received in 5 minutes.
+        </div>
+    </div>
+    
+    <script>
+        // Parse URL parameters
+        const params = new URLSearchParams(window.location.search);
+        const programMap = {
+            'phase1': 'Phase 1 Summer Camp',
+            'elite_1on1': 'Elite 1-on-1 Coaching',
+            'elite_duo': 'Elite Duo Training'
+        };
+        
+        const program = params.get('program') || 'phase1';
+        const amount = params.get('amount') || '3999';
+        const transactionId = params.get('transaction_id') || 'UGH' + Date.now();
+        
+        // Display details
+        document.getElementById('program-name').textContent = programMap[program] || 'Urban Gliding Program';
+        document.getElementById('transaction-id').textContent = transactionId;
+        document.getElementById('amount-paid').textContent = '₹' + new Intl.NumberFormat('en-IN').format(amount);
+        document.getElementById('payment-date').textContent = new Date().toLocaleDateString('en-IN', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric'
+        });
+        
+        // Simulate email send (in production, this would be server-side)
+        console.log('Email confirmation sent for:', {
+            program: programMap[program],
+            amount: amount,
+            transactionId: transactionId,
+            timestamp: new Date().toISOString()
+        });
+        
+        // Track conversion event
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'purchase', {
+                transaction_id: transactionId,
+                value: parseFloat(amount),
+                currency: 'INR',
+                items: [{
+                    item_id: program,
+                    item_name: programMap[program],
+                    price: parseFloat(amount),
+                    quantity: 1
+                }]
+            });
+        }
+    </script>
+</body>
+</html>

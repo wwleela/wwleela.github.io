@@ -16,10 +16,10 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Manrope:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
-        /* === REFINED DESIGN SYSTEM === */
+        /* === DESIGN SYSTEM === */
         :root {
             --charcoal: #1a1a1a;
             --navy: #0f1419;
@@ -28,143 +28,671 @@
             --sand: #f5f1eb;
             --cream: #faf8f5;
             --white: #ffffff;
-            --gray-200: #e4e4e7;
-            --gray-300: #d4d4d8;
-            --gray-500: #71717a;
-            --gray-600: #52525b;
-            --gray-700: #3f3f46;
+            --gray-100: #f5f5f5;
+            --gray-200: #e5e5e5;
+            --gray-300: #d4d4d4;
+            --gray-400: #a3a3a3;
+            --gray-500: #737373;
+            --gray-600: #525252;
+            --gray-700: #404040;
+            --gray-800: #262626;
             
             --font-display: 'Syne', sans-serif;
             --font-body: 'Manrope', sans-serif;
-            --ease: cubic-bezier(0.16, 1, 0.3, 1);
+            
+            --ease: cubic-bezier(0.25, 0.1, 0.25, 1);
+            --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+            --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+            
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
         }
 
-        /* === RESET & BASE === */
+        /* === BASE === */
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         html { scroll-behavior: smooth; font-size: 16px; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
-        body { font-family: var(--font-body); background: var(--cream); color: var(--charcoal); line-height: 1.6; overflow-x: hidden; }
-        h1, h2, h3, h4, h5, h6 { font-family: var(--font-display); font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; }
+        body { font-family: var(--font-body); background: var(--cream); color: var(--charcoal); line-height: 1.6; overflow-x: hidden; font-weight: 400; }
+        h1, h2, h3, h4, h5, h6 { font-family: var(--font-display); font-weight: 700; line-height: 1.1; letter-spacing: -0.025em; }
         
-        /* === FLUID LAYOUT & SPACING === */
-        .container { max-width: 1280px; margin: 0 auto; padding: 0 clamp(1.25rem, 5vw, 3rem); }
-        .section { padding: clamp(4rem, 10vh, 7rem) 0; }
-        .section-header { margin-bottom: clamp(2.5rem, 6vh, 4rem); max-width: 800px; }
-        .section-title { font-size: clamp(2.25rem, 6vw, 4rem); color: var(--charcoal); font-weight: 800; margin-bottom: 1rem; }
-        .section-subtitle { font-size: clamp(1rem, 2vw, 1.125rem); color: var(--gray-600); }
+        /* === LAYOUT === */
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 clamp(1.5rem, 5vw, 4rem); }
+        .section { padding: clamp(5rem, 12vh, 9rem) 0; }
+        .section-header { margin-bottom: clamp(3.5rem, 8vh, 5.5rem); max-width: 720px; }
+        .section-title { 
+            font-size: clamp(2.75rem, 7vw, 4.75rem); 
+            color: var(--charcoal); 
+            font-weight: 800; 
+            margin-bottom: 1.5rem; 
+            letter-spacing: -0.03em;
+            line-height: 1.05;
+        }
+        .section-subtitle { 
+            font-size: clamp(1.0625rem, 2vw, 1.1875rem); 
+            color: var(--gray-600); 
+            line-height: 1.7;
+            font-weight: 400;
+        }
         .hidden { display: none !important; }
 
-        /* === TOAST NOTIFICATION === */
-        .toast { position: fixed; top: 100px; right: 20px; background: var(--charcoal); color: var(--white); padding: 1.25rem 1.75rem; border-radius: 12px; box-shadow: 0 12px 32px rgba(0,0,0,0.3); z-index: 10001; transform: translateX(400px); opacity: 0; transition: all 0.5s var(--ease); font-weight: 600; max-width: 340px; }
+        /* === TOAST === */
+        .toast { 
+            position: fixed; 
+            top: 100px; 
+            right: 24px; 
+            background: var(--charcoal); 
+            color: var(--white); 
+            padding: 1rem 1.5rem; 
+            border-radius: 10px; 
+            box-shadow: var(--shadow-xl); 
+            z-index: 10001; 
+            transform: translateX(400px); 
+            opacity: 0; 
+            transition: all 0.4s var(--ease-out); 
+            font-weight: 600; 
+            font-size: 0.9375rem;
+            max-width: 360px; 
+        }
         .toast.show { transform: translateX(0); opacity: 1; }
         .toast.success { background: var(--terracotta); }
         .toast.error { background: #dc2626; }
-        @media (max-width: 768px) { .toast { top: 90px; right: 16px; left: 16px; max-width: none; font-size: 0.875rem; padding: 1rem; } }
-
-        /* === NAVIGATION === */
-        .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(250, 248, 245, 0.8); backdrop-filter: blur(20px) saturate(180%); border-bottom: 1px solid rgba(26, 26, 26, 0.08); transition: all 0.4s var(--ease); height: 80px; display: flex; align-items: center; }
-        .nav.scrolled { background: rgba(250, 248, 245, 0.98); box-shadow: 0 4px 24px rgba(0,0,0,0.04); }
-        .nav-container { display: flex; justify-content: space-between; align-items: center; width: 100%; }
-        
-        /* === LOGO FIX === */
-        .logo { display: flex; align-items: center; text-decoration: none; transition: transform 0.3s var(--ease); }
-        .logo:hover { transform: scale(1.05); }
-        .logo img { 
-            height: clamp(44px, 6vw, 56px); 
-            width: clamp(44px, 6vw, 56px); 
-            border-radius: 50%; 
-            object-fit: cover; 
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
-            background-color: var(--charcoal); 
+        @media (max-width: 768px) { 
+            .toast { top: 90px; right: 16px; left: 16px; max-width: none; font-size: 0.875rem; padding: 0.875rem 1.25rem; } 
         }
 
-        .nav-links { display: flex; gap: 2.5rem; list-style: none; }
-        .nav-links a { color: var(--gray-700); text-decoration: none; font-weight: 600; font-size: 0.9375rem; transition: color 0.3s var(--ease); position: relative; padding: 0.5rem 0; }
-        .nav-links a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--terracotta); transition: width 0.3s var(--ease); }
+        /* === NAVIGATION === */
+        .nav { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            right: 0; 
+            z-index: 1000; 
+            background: rgba(250, 248, 245, 0.8); 
+            backdrop-filter: blur(20px) saturate(180%); 
+            border-bottom: 1px solid rgba(26, 26, 26, 0.08); 
+            transition: all 0.3s var(--ease); 
+            height: 80px; 
+            display: flex; 
+            align-items: center; 
+        }
+        .nav.scrolled { 
+            background: rgba(250, 248, 245, 0.95); 
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05); 
+            border-bottom-color: rgba(26, 26, 26, 0.1); 
+        }
+        .nav-container { 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            width: 100%; 
+        }
+        
+        .logo { 
+            display: flex; 
+            align-items: center; 
+            text-decoration: none; 
+            transition: opacity 0.2s var(--ease); 
+        }
+        .logo:hover { opacity: 0.8; }
+        .logo img { 
+            height: clamp(48px, 6vw, 56px); 
+            width: clamp(48px, 6vw, 56px); 
+            border-radius: 50%;
+            object-fit: cover; 
+            box-shadow: var(--shadow-md);
+        }
+
+        .nav-links { display: flex; gap: 2.5rem; list-style: none; align-items: center; }
+        .nav-links a { 
+            color: var(--gray-700); 
+            text-decoration: none; 
+            font-weight: 600; 
+            font-size: 0.9375rem; 
+            transition: color 0.2s var(--ease); 
+            position: relative; 
+            padding: 0.5rem 0; 
+        }
+        .nav-links a::after { 
+            content: ''; 
+            position: absolute; 
+            bottom: 0; 
+            left: 0; 
+            width: 0; 
+            height: 2px; 
+            background: var(--terracotta); 
+            transition: width 0.3s var(--ease-out); 
+        }
         .nav-links a:hover { color: var(--charcoal); }
         .nav-links a:hover::after { width: 100%; }
         
         .nav-auth { display: flex; gap: 1rem; align-items: center; }
-        .auth-btn { background: none; border: none; font-family: var(--font-body); font-weight: 600; font-size: 0.9375rem; cursor: pointer; padding: 0.625rem 1rem; border-radius: 8px; transition: all 0.3s var(--ease); }
-        .auth-btn:hover { background: rgba(26, 26, 26, 0.05); }
+        .auth-btn { 
+            background: none; 
+            border: none; 
+            font-family: var(--font-body); 
+            font-weight: 600; 
+            font-size: 0.9375rem; 
+            cursor: pointer; 
+            padding: 0.5rem 1rem; 
+            border-radius: 8px; 
+            transition: all 0.2s var(--ease); 
+            color: var(--gray-700); 
+        }
+        .auth-btn:hover { 
+            background: rgba(26, 26, 26, 0.04); 
+            color: var(--charcoal); 
+        }
         
-        .btn-primary, .cta-btn { background: var(--charcoal); color: var(--white); padding: clamp(0.875rem, 2vw, 1.125rem) clamp(1.75rem, 3vw, 2.5rem); border-radius: 50px; text-decoration: none; font-weight: 700; font-size: clamp(0.9375rem, 1.5vw, 1rem); display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; border: none; cursor: pointer; transition: all 0.4s var(--ease); box-shadow: 0 4px 16px rgba(26, 26, 26, 0.15); white-space: nowrap; }
-        .btn-primary:hover, .cta-btn:hover { transform: translateY(-2px); background: var(--terracotta); box-shadow: 0 8px 24px rgba(198, 90, 60, 0.3); }
+        /* === BUTTONS === */
+        .btn-primary, .cta-btn { 
+            background: var(--charcoal); 
+            color: var(--white); 
+            padding: clamp(0.875rem, 2vw, 1rem) clamp(2rem, 3.5vw, 2.5rem); 
+            border-radius: 50px; 
+            text-decoration: none; 
+            font-weight: 700; 
+            font-size: clamp(0.9375rem, 1.5vw, 1rem); 
+            display: inline-flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 0.5rem; 
+            border: none; 
+            cursor: pointer; 
+            transition: all 0.3s var(--ease-out); 
+            box-shadow: 0 4px 12px rgba(26, 26, 26, 0.15); 
+            white-space: nowrap;
+            position: relative;
+        }
+        .btn-primary:hover, .cta-btn:hover { 
+            background: var(--terracotta);
+            transform: translateY(-1px); 
+            box-shadow: 0 6px 20px rgba(198, 90, 60, 0.25); 
+        }
+        .btn-primary:active, .cta-btn:active {
+            transform: translateY(0);
+        }
         
-        .btn-secondary { background: var(--white); color: var(--charcoal); padding: clamp(0.875rem, 2vw, 1.125rem) clamp(1.75rem, 3vw, 2.5rem); border-radius: 50px; text-decoration: none; font-weight: 700; font-size: clamp(0.9375rem, 1.5vw, 1rem); display: inline-flex; align-items: center; justify-content: center; border: 2px solid var(--gray-200); transition: all 0.4s var(--ease); white-space: nowrap; }
-        .btn-secondary:hover { border-color: var(--charcoal); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
+        .btn-secondary { 
+            background: var(--white); 
+            color: var(--charcoal); 
+            padding: clamp(0.875rem, 2vw, 1rem) clamp(2rem, 3.5vw, 2.5rem); 
+            border-radius: 50px; 
+            text-decoration: none; 
+            font-weight: 700; 
+            font-size: clamp(0.9375rem, 1.5vw, 1rem); 
+            display: inline-flex; 
+            align-items: center; 
+            justify-content: center; 
+            border: 2px solid var(--gray-200); 
+            transition: all 0.3s var(--ease-out); 
+            white-space: nowrap; 
+            cursor: pointer;
+        }
+        .btn-secondary:hover { 
+            border-color: var(--charcoal); 
+            transform: translateY(-1px); 
+            box-shadow: var(--shadow-lg); 
+        }
+        .btn-secondary:active {
+            transform: translateY(0);
+        }
 
         /* === MOBILE MENU === */
-        .mobile-menu-toggle { display: none; background: none; border: none; font-size: 1.75rem; cursor: pointer; color: var(--charcoal); z-index: 10001; }
-        .mobile-menu { position: fixed; top: 0; right: -100%; width: min(320px, 85vw); height: 100vh; background: var(--cream); box-shadow: -8px 0 32px rgba(0,0,0,0.1); z-index: 10000; transition: right 0.5s var(--ease); padding: 6rem 2rem 2rem; overflow-y: auto; }
+        .mobile-menu-toggle { 
+            display: none; 
+            background: none; 
+            border: none; 
+            font-size: 1.5rem; 
+            cursor: pointer; 
+            color: var(--charcoal); 
+            z-index: 10001; 
+            padding: 0.5rem;
+        }
+        .mobile-menu { 
+            position: fixed; 
+            top: 0; 
+            right: -100%; 
+            width: min(340px, 85vw); 
+            height: 100vh; 
+            background: var(--cream); 
+            box-shadow: -8px 0 32px rgba(0,0,0,0.1); 
+            z-index: 10000; 
+            transition: right 0.4s var(--ease-out); 
+            padding: 5rem 2rem 2rem; 
+            overflow-y: auto; 
+        }
         .mobile-menu.active { right: 0; }
-        .mobile-backdrop { position: fixed; inset: 0; background: rgba(26, 26, 26, 0.6); backdrop-filter: blur(4px); z-index: 9999; opacity: 0; pointer-events: none; transition: opacity 0.5s var(--ease); }
+        .mobile-backdrop { 
+            position: fixed; 
+            inset: 0; 
+            background: rgba(26, 26, 26, 0.5); 
+            backdrop-filter: blur(4px); 
+            z-index: 9999; 
+            opacity: 0; 
+            pointer-events: none; 
+            transition: opacity 0.4s var(--ease); 
+        }
         .mobile-backdrop.active { opacity: 1; pointer-events: all; }
-        .mobile-menu-close { position: absolute; top: 1.5rem; right: 1.5rem; background: none; border: none; font-size: 2rem; cursor: pointer; color: var(--charcoal); z-index: 10001; }
+        .mobile-menu-close { 
+            position: absolute; 
+            top: 1.5rem; 
+            right: 1.5rem; 
+            background: none; 
+            border: none; 
+            font-size: 1.75rem; 
+            cursor: pointer; 
+            color: var(--charcoal); 
+            z-index: 10001; 
+            padding: 0.5rem;
+        }
         .mobile-menu-links { list-style: none; }
-        .mobile-menu-links a { color: var(--charcoal); text-decoration: none; font-weight: 700; font-size: 1.25rem; display: block; padding: 1rem 0; border-bottom: 1px solid rgba(0,0,0,0.05); }
+        .mobile-menu-links a { 
+            color: var(--charcoal); 
+            text-decoration: none; 
+            font-weight: 700; 
+            font-size: 1.25rem; 
+            display: block; 
+            padding: 1rem 0; 
+            border-bottom: 1px solid rgba(0,0,0,0.06); 
+            transition: color 0.2s var(--ease);
+        }
+        .mobile-menu-links a:hover { color: var(--terracotta); }
         .mobile-menu-cta { margin-top: 2rem; }
 
         /* === HERO === */
-        .hero { margin-top: 80px; padding: clamp(5rem, 12vh, 8rem) 0 clamp(4rem, 10vh, 6rem); background: radial-gradient(circle at 85% 15%, rgba(198, 90, 60, 0.05) 0%, transparent 50%), var(--cream); position: relative; }
-        .eyebrow { display: inline-flex; align-items: center; font-size: 0.8125rem; font-weight: 700; color: var(--terracotta); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 1.5rem; padding: 0.5rem 1.25rem; border: 1px solid rgba(198, 90, 60, 0.3); border-radius: 50px; background: rgba(198, 90, 60, 0.05); }
-        .hero h1 { font-size: clamp(3rem, 10vw, 6.5rem); line-height: 1; margin-bottom: 1.5rem; }
-        .hero-subtitle { font-size: clamp(1.125rem, 2vw, 1.25rem); color: var(--gray-600); max-width: 600px; margin-bottom: 2.5rem; }
-        .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
+        .hero { 
+            margin-top: 80px; 
+            padding: clamp(6rem, 14vh, 10rem) 0 clamp(5rem, 12vh, 8rem); 
+            background: var(--cream);
+            position: relative; 
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -20%;
+            right: -10%;
+            width: 60%;
+            height: 80%;
+            background: radial-gradient(circle, rgba(198, 90, 60, 0.06) 0%, transparent 70%);
+            border-radius: 50%;
+            filter: blur(80px);
+            pointer-events: none;
+            opacity: 0.6;
+        }
+        .hero-content { position: relative; z-index: 1; }
+        .eyebrow { 
+            display: inline-flex; 
+            align-items: center; 
+            font-size: 0.8125rem; 
+            font-weight: 700; 
+            color: var(--terracotta); 
+            letter-spacing: 0.08em; 
+            text-transform: uppercase; 
+            margin-bottom: 2rem; 
+            padding: 0.5rem 1.25rem; 
+            border: 1.5px solid rgba(198, 90, 60, 0.25); 
+            border-radius: 50px; 
+            background: rgba(198, 90, 60, 0.05); 
+            animation: fadeInUp 0.6s var(--ease-out) 0.1s both;
+        }
+        .hero h1 { 
+            font-size: clamp(3.5rem, 11vw, 7.5rem); 
+            line-height: 0.95; 
+            margin-bottom: 2rem; 
+            animation: fadeInUp 0.6s var(--ease-out) 0.2s both;
+        }
+        .hero-subtitle { 
+            font-size: clamp(1.125rem, 2vw, 1.25rem); 
+            color: var(--gray-600); 
+            max-width: 640px; 
+            margin-bottom: 3rem; 
+            line-height: 1.75;
+            font-weight: 400;
+            animation: fadeInUp 0.6s var(--ease-out) 0.3s both;
+        }
+        .hero-ctas { 
+            display: flex; 
+            gap: 1rem; 
+            flex-wrap: wrap; 
+            animation: fadeInUp 0.6s var(--ease-out) 0.4s both;
+        }
+        
+        /* === STATS BAR === */
+        .stats-bar {
+            display: inline-flex;
+            align-items: center;
+            gap: clamp(2rem, 5vw, 3rem);
+            margin-top: 3.5rem;
+            padding: 1.75rem 2.5rem;
+            background: var(--white);
+            border-radius: 16px;
+            border: 1px solid rgba(0,0,0,0.06);
+            box-shadow: var(--shadow-lg);
+            animation: fadeInUp 0.6s var(--ease-out) 0.5s both;
+        }
+        .stat-item { text-align: center; }
+        .stat-number {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 4vw, 2.75rem);
+            font-weight: 800;
+            color: var(--terracotta);
+            line-height: 1;
+            margin-bottom: 0.375rem;
+        }
+        .stat-label {
+            font-size: 0.8125rem;
+            font-weight: 600;
+            color: var(--gray-600);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
 
-        /* === GRIDS & CARDS === */
-        .features-grid, .programs-grid, .member-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: clamp(1.5rem, 4vw, 2.5rem); }
-        .feature-card, .program-card, .member-card { background: var(--white); padding: clamp(1.75rem, 4vw, 2.5rem); border-radius: 24px; border: 1px solid rgba(26, 26, 26, 0.06); transition: all 0.4s var(--ease); }
-        .feature-card:hover, .program-card:hover, .member-card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0,0,0,0.08); border-color: rgba(198, 90, 60, 0.2); }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* === CARDS === */
+        .features-grid, .programs-grid, .member-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); 
+            gap: clamp(2rem, 4vw, 2.5rem); 
+        }
         
-        .feature-icon { width: 56px; height: 56px; background: linear-gradient(135deg, var(--terracotta), var(--terracotta-dark)); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; box-shadow: 0 8px 16px rgba(198, 90, 60, 0.2); }
-        .feature-icon svg { width: 28px; height: 28px; stroke: var(--white); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-        .feature-card h3 { font-size: 1.5rem; margin-bottom: 0.75rem; }
+        .feature-card, .program-card, .member-card { 
+            background: var(--white); 
+            padding: clamp(2.25rem, 5vw, 3rem); 
+            border-radius: 20px; 
+            border: 1px solid rgba(26, 26, 26, 0.06); 
+            transition: all 0.3s var(--ease-out); 
+            position: relative;
+        }
+        .feature-card:hover, .member-card:hover { 
+            transform: translateY(-4px); 
+            box-shadow: var(--shadow-xl);
+            border-color: rgba(198, 90, 60, 0.15); 
+        }
         
-        .programs { background: radial-gradient(circle at 20% 50%, rgba(198, 90, 60, 0.03) 0%, transparent 50%), var(--sand); }
-        .program-card { padding: 0; overflow: hidden; display: flex; flex-direction: column; }
-        .program-header { padding: 2.5rem 2.5rem 1.5rem; border-bottom: 1px solid rgba(0,0,0,0.05); position: relative; }
-        .program-badge { position: absolute; top: 1.5rem; right: 1.5rem; background: var(--terracotta); color: var(--white); padding: 0.5rem 1rem; border-radius: 50px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; }
-        .program-price { font-family: var(--font-display); font-size: clamp(2.5rem, 5vw, 3.5rem); color: var(--terracotta); font-weight: 800; line-height: 1; margin: 0.5rem 0; }
-        .program-body { padding: 2.5rem; flex-grow: 1; display: flex; flex-direction: column; }
-        .program-features { list-style: none; margin: 1.5rem 0 2rem; flex-grow: 1; }
-        .program-features li { padding: 0.75rem 0; border-bottom: 1px solid rgba(0,0,0,0.05); display: flex; gap: 0.75rem; font-weight: 600; }
-        .program-features li::before { content: '✓'; color: var(--terracotta); font-weight: 800; }
+        .feature-icon { 
+            width: 56px; 
+            height: 56px; 
+            background: linear-gradient(135deg, var(--terracotta), var(--terracotta-dark)); 
+            border-radius: 14px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            margin-bottom: 1.5rem; 
+            box-shadow: 0 8px 16px rgba(198, 90, 60, 0.2); 
+        }
+        .feature-icon svg { 
+            width: 28px; 
+            height: 28px; 
+            stroke: var(--white); 
+            fill: none; 
+            stroke-width: 2; 
+            stroke-linecap: round; 
+            stroke-linejoin: round; 
+        }
+        .feature-card h3 { 
+            font-size: 1.5rem; 
+            margin-bottom: 0.75rem; 
+            font-weight: 700;
+        }
+        .feature-card p { 
+            color: var(--gray-600); 
+            line-height: 1.7; 
+            font-size: 1rem;
+            font-weight: 400;
+        }
+        
+        /* === PROGRAMS === */
+        .programs { 
+            background: linear-gradient(180deg, var(--sand) 0%, rgba(245, 241, 235, 0.5) 100%); 
+        }
+        .program-card { 
+            padding: 0; 
+            overflow: hidden; 
+            display: flex; 
+            flex-direction: column;
+            transition: all 0.3s var(--ease-out);
+        }
+        .program-card:hover { 
+            transform: translateY(-6px); 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.12); 
+        }
+        .program-header { 
+            padding: 2.5rem 2.5rem 2rem; 
+            border-bottom: 1px solid rgba(0,0,0,0.06); 
+            position: relative; 
+        }
+        .program-badge { 
+            position: absolute; 
+            top: 1.5rem; 
+            right: 1.5rem; 
+            background: var(--terracotta); 
+            color: var(--white); 
+            padding: 0.5rem 1rem; 
+            border-radius: 50px; 
+            font-size: 0.6875rem; 
+            font-weight: 700; 
+            text-transform: uppercase; 
+            letter-spacing: 0.05em;
+            box-shadow: 0 4px 8px rgba(198,90,60,0.25);
+        }
+        .program-title {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--gray-700);
+            margin-bottom: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .program-price { 
+            font-family: var(--font-display); 
+            font-size: clamp(3rem, 6vw, 3.75rem); 
+            color: var(--terracotta); 
+            font-weight: 800; 
+            line-height: 1; 
+            margin-bottom: 0.5rem;
+        }
+        .program-price-note {
+            font-size: 0.9375rem;
+            color: var(--gray-600);
+            font-weight: 500;
+        }
+        .program-body { 
+            padding: 2.5rem; 
+            flex-grow: 1; 
+            display: flex; 
+            flex-direction: column; 
+        }
+        .program-description {
+            color: var(--gray-600);
+            line-height: 1.7;
+            margin-bottom: 2rem;
+            font-size: 1rem;
+        }
+        .program-features { 
+            list-style: none; 
+            margin-bottom: 2rem; 
+            flex-grow: 1; 
+        }
+        .program-features li { 
+            padding: 0.875rem 0; 
+            border-bottom: 1px solid rgba(0,0,0,0.05); 
+            display: flex; 
+            gap: 0.75rem; 
+            font-weight: 600; 
+            font-size: 0.9375rem;
+            color: var(--gray-700);
+        }
+        .program-features li:last-child {
+            border-bottom: none;
+        }
+        .program-features li::before { 
+            content: '✓'; 
+            color: var(--terracotta); 
+            font-weight: 800; 
+            font-size: 1rem;
+        }
 
         /* === CTA SECTION === */
-        .cta-section { background: var(--charcoal); padding: clamp(4rem, 10vh, 6rem) 0; text-align: center; }
-        .cta-section h2 { color: var(--white); font-size: clamp(2rem, 6vw, 3.5rem); margin-bottom: 1rem; }
-        .cta-section p { color: rgba(255,255,255,0.8); max-width: 600px; margin: 0 auto 2.5rem; font-size: 1.125rem; }
+        .cta-section { 
+            background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%); 
+            padding: clamp(5rem, 12vh, 8rem) 0; 
+            text-align: center; 
+            position: relative;
+            overflow: hidden;
+        }
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(198, 90, 60, 0.12) 0%, transparent 70%);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            filter: blur(100px);
+            pointer-events: none;
+        }
+        .cta-section > * { position: relative; z-index: 1; }
+        .cta-section h2 { 
+            color: var(--white); 
+            font-size: clamp(2.5rem, 7vw, 4rem); 
+            margin-bottom: 1.25rem; 
+        }
+        .cta-section p { 
+            color: rgba(255,255,255,0.8); 
+            max-width: 600px; 
+            margin: 0 auto 2.5rem; 
+            font-size: 1.125rem; 
+            line-height: 1.7; 
+        }
         
         /* === MEMBER ZONE === */
         .member-area { background: var(--sand); display: none; }
         .member-area.active { display: block; }
-        .member-status { display: inline-block; background: var(--terracotta); color: var(--white); padding: 0.25rem 1rem; border-radius: 50px; font-size: 0.8125rem; font-weight: 700; text-transform: uppercase; margin-bottom: 1rem; }
+        .member-status { 
+            display: inline-block; 
+            background: var(--terracotta); 
+            color: var(--white); 
+            padding: 0.375rem 1rem; 
+            border-radius: 50px; 
+            font-size: 0.75rem; 
+            font-weight: 700; 
+            text-transform: uppercase; 
+            margin-bottom: 1rem; 
+            letter-spacing: 0.05em;
+        }
 
         /* === FOOTER === */
-        .footer { background: var(--navy); color: var(--white); padding: 4rem 0 2rem; }
-        .footer-content { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
-        .footer-brand h3 { font-size: 1.5rem; margin-bottom: 1rem; }
-        .footer-links h4 { font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.5); margin-bottom: 1rem; }
-        .footer-links a { color: rgba(255,255,255,0.8); text-decoration: none; display: block; padding: 0.5rem 0; transition: color 0.3s; }
-        .footer-links a:hover { color: var(--terracotta); }
-        .footer-bottom { padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); text-align: center; font-size: 0.875rem; color: rgba(255,255,255,0.5); }
+        .footer { 
+            background: var(--navy); 
+            color: var(--white); 
+            padding: 4.5rem 0 2rem; 
+        }
+        .footer-content { 
+            display: grid; 
+            grid-template-columns: 2fr 1fr 1fr; 
+            gap: 3.5rem; 
+            margin-bottom: 3rem; 
+        }
+        .footer-brand h3 { 
+            font-size: 1.5rem; 
+            margin-bottom: 1rem; 
+            font-weight: 700;
+        }
+        .footer-brand p {
+            line-height: 1.7;
+        }
+        .footer-links h4 { 
+            font-size: 0.875rem; 
+            text-transform: uppercase; 
+            letter-spacing: 0.1em; 
+            color: rgba(255,255,255,0.5); 
+            margin-bottom: 1rem; 
+            font-weight: 700;
+        }
+        .footer-links a { 
+            color: rgba(255,255,255,0.75); 
+            text-decoration: none; 
+            display: block; 
+            padding: 0.5rem 0; 
+            transition: color 0.2s var(--ease); 
+            font-size: 0.9375rem;
+        }
+        .footer-links a:hover { 
+            color: var(--terracotta); 
+        }
+        .footer-bottom { 
+            padding-top: 2rem; 
+            border-top: 1px solid rgba(255,255,255,0.1); 
+            text-align: center; 
+            font-size: 0.875rem; 
+            color: rgba(255,255,255,0.5); 
+        }
 
-        /* === UTILS & ANIMATIONS === */
-        .program-cta.loading::after { content: ''; position: absolute; top: 50%; left: 50%; width: 20px; height: 20px; margin: -10px 0 0 -10px; border: 2px solid rgba(255,255,255,0.3); border-top-color: var(--white); border-radius: 50%; animation: spin 0.6s linear infinite; }
+        /* === LOADING STATE === */
+        .btn-primary.loading, .cta-btn.loading {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+        .btn-primary.loading::after, .cta-btn.loading::after { 
+            content: ''; 
+            position: absolute; 
+            top: 50%; 
+            left: 50%; 
+            width: 16px; 
+            height: 16px; 
+            margin: -8px 0 0 -8px; 
+            border: 2px solid rgba(255,255,255,0.3); 
+            border-top-color: var(--white); 
+            border-radius: 50%; 
+            animation: spin 0.6s linear infinite; 
+        }
         @keyframes spin { to { transform: rotate(360deg); } }
-        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s var(--ease); }
-        .reveal.active { opacity: 1; transform: translateY(0); }
+        
+        /* === REVEAL ANIMATIONS === */
+        .reveal { 
+            opacity: 0; 
+            transform: translateY(24px); 
+            transition: all 0.6s var(--ease-out); 
+        }
+        .reveal.active { 
+            opacity: 1; 
+            transform: translateY(0); 
+        }
 
-        /* === RESPONSIVE BREAKPOINTS === */
+        /* === RESPONSIVE === */
         @media (max-width: 900px) {
             .footer-content { grid-template-columns: 1fr 1fr; }
+            .stats-bar { 
+                flex-wrap: wrap; 
+                gap: 1.5rem; 
+                padding: 1.5rem 2rem; 
+            }
         }
+        
         @media (max-width: 768px) {
             .nav-links, .nav-auth { display: none; }
             .mobile-menu-toggle { display: block; }
-            .hero-ctas, .cta-section div[style*="display:flex"] { flex-direction: column; width: 100%; }
+            .hero-ctas, .cta-section > div { 
+                flex-direction: column; 
+                width: 100%; 
+            }
             .btn-primary, .btn-secondary { width: 100%; }
-            .footer-content { grid-template-columns: 1fr; gap: 2rem; }
+            .footer-content { 
+                grid-template-columns: 1fr; 
+                gap: 2rem; 
+            }
+            .stats-bar { 
+                width: 100%; 
+                flex-direction: column;
+            }
         }
     </style>
 </head>
@@ -182,36 +710,38 @@
         </ul>
         <div class="mobile-menu-cta">
             <div id="mobile-auth-out">
-                <button class="btn-secondary" style="width:100%;margin-bottom:1rem" onclick="Clerk.openSignIn();closeMobileMenu();trackEvent('sign_in_click',{location:'mobile'})">Sign In</button>
+                <button class="btn-secondary" style="width:100%;margin-bottom:1rem" onclick="handleSignIn('mobile')">Sign In</button>
                 <a href="#programs" class="btn-primary" style="width:100%" onclick="closeMobileMenu()">Enroll Now →</a>
             </div>
             <div id="mobile-auth-in" class="hidden">
                 <a href="#mzone" class="btn-primary" style="width:100%;margin-bottom:1rem" onclick="closeMobileMenu()">My Zone</a>
-                <button class="btn-secondary" style="width:100%" onclick="Clerk.signOut();closeMobileMenu()">Sign Out</button>
+                <button class="btn-secondary" style="width:100%" onclick="handleSignOut()">Sign Out</button>
             </div>
         </div>
     </div>
     
     <nav class="nav">
-        <div class="nav-container">
-            <a href="#" class="logo" onclick="trackEvent('logo_click',{})" style="min-width: 48px;">
-                <img src="1000050432.png" alt="UGH" loading="eager" style="color: transparent; white-space: nowrap; overflow: hidden;">
-            </a>
-            <ul class="nav-links">
-                <li><a href="#about">Why UGH</a></li>
-                <li><a href="#programs">Programs</a></li>
-                <li><a href="#community">Community</a></li>
-            </ul>
-            <div class="nav-auth">
-                <div id="auth-logged-out">
-                    <button class="auth-btn" id="sign-in-btn">Sign In</button>
-                    <a href="#programs" class="btn-primary" style="padding: 0.625rem 1.5rem;">Enroll</a>
+        <div class="container">
+            <div class="nav-container">
+                <a href="#" class="logo" onclick="trackEvent('logo_click',{})">
+                    <img src="logo.png" alt="Urban Gliding Hyderabad" loading="eager">
+                </a>
+                <ul class="nav-links">
+                    <li><a href="#about">Why UGH</a></li>
+                    <li><a href="#programs">Programs</a></li>
+                    <li><a href="#community">Community</a></li>
+                </ul>
+                <div class="nav-auth">
+                    <div id="auth-logged-out">
+                        <button class="auth-btn" onclick="handleSignIn('desktop')">Sign In</button>
+                        <a href="#programs" class="btn-primary" style="padding: 0.625rem 1.5rem;">Enroll</a>
+                    </div>
+                    <div id="auth-logged-in" class="hidden">
+                        <a href="#mzone" class="btn-primary" style="padding: 0.625rem 1.5rem;">My Zone</a>
+                    </div>
                 </div>
-                <div id="auth-logged-in" class="hidden">
-                    <a href="#mzone" class="btn-primary" style="padding: 0.625rem 1.5rem;">My Zone</a>
-                </div>
+                <button class="mobile-menu-toggle" onclick="openMobileMenu()" aria-label="Menu">☰</button>
             </div>
-            <button class="mobile-menu-toggle" onclick="openMobileMenu()" aria-label="Menu">☰</button>
         </div>
     </nav>
 
@@ -220,10 +750,24 @@
             <div class="hero-content">
                 <span class="eyebrow">IOC Certified · Hyderabad's Premier Skate Community</span>
                 <h1>Master the Pavement.</h1>
-                <p class="hero-subtitle">World-class skate education delivered to your doorstep. 160+ gliders progressing across 6+ residential societies with IOC-certified coaching.</p>
+                <p class="hero-subtitle">World-class skate education delivered to your doorstep. Join 160+ gliders progressing across 6+ residential societies with IOC-certified coaching.</p>
                 <div class="hero-ctas">
                     <a href="#programs" class="btn-primary">Explore Programs →</a>
                     <a href="https://wa.me/916304895686?text=Hi%20Coach%20Leela%2C%20I%20want%20a%20free%20trial" class="btn-secondary">Free Trial</a>
+                </div>
+                <div class="stats-bar">
+                    <div class="stat-item">
+                        <div class="stat-number" data-count="160">0</div>
+                        <div class="stat-label">Active Gliders</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-count="6">0</div>
+                        <div class="stat-label">Communities</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-count="100">0</div>
+                        <div class="stat-label">Success Rate</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -237,17 +781,23 @@
             </div>
             <div class="features-grid">
                 <div class="feature-card reveal">
-                    <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                    </div>
                     <h3>IOC Certified</h3>
                     <p>Olympic Committee standards adapted for Indian neighborhoods — professional frameworks without compromise.</p>
                 </div>
                 <div class="feature-card reveal">
-                    <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                    </div>
                     <h3>Society-Based</h3>
                     <p>Training at your residential complex. No travel, no rinks — professional coaching in your neighborhood for ages 5-50.</p>
                 </div>
                 <div class="feature-card reveal">
-                    <div class="feature-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    </div>
                     <h3>Hybrid Coaching</h3>
                     <p>2 physical sessions + 2 video guides per week. Hands-on correction plus custom breakdowns tailored to your progress.</p>
                 </div>
@@ -264,44 +814,42 @@
             <div class="programs-grid">
                 <div class="program-card reveal">
                     <div class="program-header">
-                        <p class="program-title" style="margin:0;">Phase 1 Summer Camp</p>
+                        <p class="program-title">Summer Camp</p>
                         <div class="program-price">₹3,999</div>
-                        <p class="program-price-note" style="margin:0;">per participant</p>
+                        <p class="program-price-note">per participant</p>
                     </div>
                     <div class="program-body">
                         <p class="program-description">Group workshop at your society introducing fundamentals under certified supervision.</p>
                         <ul class="program-features">
-                            <li>IOC-certified coaching at venue</li>
-                            <li>Complete equipment provided</li>
+                            <li>IOC-certified coaching at your venue</li>
                             <li>Group learning motivation</li>
                             <li>Ages 5+ welcome</li>
                         </ul>
-                        <a href="#" class="btn-primary" style="width:100%" onclick="handlePaymentClick(event,this,'phase1',3999,'https://www.seedhape.com/pay/link/sp_lnk_dnh36l8mhc3n9x2w')">Register Now →</a>
+                        <a href="#" class="btn-primary" style="width:100%" onclick="handlePaymentClick(event,this,'summer_camp',3999,'https://www.seedhape.com/pay/link/sp_lnk_dnh36l8mhc3n9x2w')">Register Now →</a>
                     </div>
                 </div>
-                <div class="program-card reveal" style="border-color: var(--terracotta); box-shadow: 0 12px 32px rgba(198,90,60,0.1);">
+                <div class="program-card reveal" style="border-color: var(--terracotta); box-shadow: 0 12px 32px rgba(198,90,60,0.08);">
                     <div class="program-badge">Most Popular</div>
                     <div class="program-header">
-                        <p class="program-title" style="margin:0;">Elite 1-on-1 Coaching</p>
+                        <p class="program-title">Elite 1-on-1</p>
                         <div class="program-price">₹5,999</div>
-                        <p class="program-price-note" style="margin:0;">per month</p>
+                        <p class="program-price-note">per month</p>
                     </div>
                     <div class="program-body">
                         <p class="program-description">Personalized curriculum with dedicated sessions and custom video analysis.</p>
                         <ul class="program-features">
-                            <li>2 physical sessions / week</li>
-                            <li>2 custom video guides / week</li>
+                            <li>2 physical sessions per week</li>
+                            <li>2 custom video guides per week</li>
                             <li>Personal progression roadmap</li>
-                            <li>Direct WhatsApp access</li>
                         </ul>
                         <a href="#" class="btn-primary" style="width:100%" onclick="handlePaymentClick(event,this,'elite_1on1',5999,'https://www.seedhape.com/pay/link/sp_lnk_kj8tqvay5lvl9xyq')">Start Training →</a>
                     </div>
                 </div>
                 <div class="program-card reveal">
                     <div class="program-header">
-                        <p class="program-title" style="margin:0;">Elite Duo Training</p>
+                        <p class="program-title">Elite Duo</p>
                         <div class="program-price">₹8,999</div>
-                        <p class="program-price-note" style="margin:0;">per month · shared</p>
+                        <p class="program-price-note">per month · shared</p>
                     </div>
                     <div class="program-body">
                         <p class="program-description">Train with a partner — same quality, competitive energy, split investment.</p>
@@ -309,7 +857,6 @@
                             <li>2 physical + 2 video guides</li>
                             <li>Competitive partner dynamic</li>
                             <li>₹4,499.50 per person</li>
-                            <li>Flexible age/skill pairing</li>
                         </ul>
                         <a href="#" class="btn-primary" style="width:100%" onclick="handlePaymentClick(event,this,'elite_duo',8999,'https://www.seedhape.com/pay/link/sp_lnk_1mfgu3yjry0218l9')">Book Duo →</a>
                     </div>
@@ -338,13 +885,13 @@
                     <div class="member-status">Active</div>
                     <h3>My Sessions</h3>
                     <p id="enrollment-status">Loading your enrollment details...</p>
-                    <a href="#programs" class="btn-primary" style="width:100%; margin-top:1rem;">Upgrade Program →</a>
+                    <a href="#programs" class="btn-primary" style="width:100%; margin-top:1.5rem;">Upgrade Program →</a>
                 </div>
                 <div class="member-card">
                     <div class="member-status">WhatsApp</div>
                     <h3>Community</h3>
                     <p>Connect with UGH gliders — session updates and technique tips.</p>
-                    <a href="https://chat.whatsapp.com/CeSGQhqpUMX8XamdJ7Uf2N" class="btn-primary" style="width:100%; margin-top:1rem;" target="_blank" rel="noopener">Join Group →</a>
+                    <a href="https://chat.whatsapp.com/CeSGQhqpUMX8XamdJ7Uf2N" class="btn-primary" style="width:100%; margin-top:1.5rem;" target="_blank" rel="noopener">Join Group →</a>
                 </div>
             </div>
         </div>
@@ -375,92 +922,219 @@
     </footer>
 
     <script>
-        function showToast(m,t='success'){const e=document.getElementById('toast');e.textContent=m;e.className=`toast ${t} show`;setTimeout(()=>e.classList.remove('show'),4e3)}
-        function openMobileMenu(){document.getElementById('mobileMenu').classList.add('active');document.getElementById('mobileBackdrop').classList.add('active');document.body.style.overflow='hidden'}
-        function closeMobileMenu(){document.getElementById('mobileMenu').classList.remove('active');document.getElementById('mobileBackdrop').classList.remove('active');document.body.style.overflow=''}
+        // === UTILITIES ===
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = `toast ${type} show`;
+            setTimeout(() => toast.classList.remove('show'), 4000);
+        }
         
-        function handlePaymentClick(e,btn,prog,amt,url){
-            e.preventDefault();
-            if(btn.classList.contains('loading'))return;
-            if(!window.Clerk||!window.Clerk.user){
-                showToast('Please sign in to enroll.','error');
-                setTimeout(()=>window.Clerk.openSignIn(),500);
+        function openMobileMenu() {
+            document.getElementById('mobileMenu').classList.add('active');
+            document.getElementById('mobileBackdrop').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeMobileMenu() {
+            document.getElementById('mobileMenu').classList.remove('active');
+            document.getElementById('mobileBackdrop').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // === AUTH HANDLERS ===
+        function handleSignIn(location) {
+            if (window.Clerk) {
+                Clerk.openSignIn();
+                closeMobileMenu();
+                trackEvent('sign_in_click', { location });
+            } else {
+                showToast('Authentication service loading...', 'error');
+            }
+        }
+
+        async function handleSignOut() {
+            if (window.Clerk) {
+                await Clerk.signOut();
+                closeMobileMenu();
+                window.location.reload();
+            }
+        }
+        
+        function updateAuthUI(isSignedIn) {
+            const loggedOut = document.getElementById('auth-logged-out');
+            const loggedIn = document.getElementById('auth-logged-in');
+            const mobileOut = document.getElementById('mobile-auth-out');
+            const mobileIn = document.getElementById('mobile-auth-in');
+            
+            if (loggedOut) loggedOut.classList.toggle('hidden', isSignedIn);
+            if (loggedIn) loggedIn.classList.toggle('hidden', !isSignedIn);
+            if (mobileOut) mobileOut.classList.toggle('hidden', isSignedIn);
+            if (mobileIn) mobileIn.classList.toggle('hidden', !isSignedIn);
+        }
+
+        function displayEnrollmentInfo(user) {
+            const statusEl = document.getElementById('enrollment-status');
+            if (!statusEl) return;
+            
+            const enrollments = user?.publicMetadata?.enrollments || [];
+            if (enrollments.length > 0) {
+                const latest = enrollments[enrollments.length - 1];
+                statusEl.innerHTML = `<strong>${latest.program || 'Program Active'}</strong><br>Amount: ₹${latest.amount || 'N/A'}`;
+            } else {
+                statusEl.textContent = 'No active enrollments. Explore programs below!';
+            }
+        }
+
+        // === PAYMENT HANDLER ===
+        function handlePaymentClick(event, button, programName, amount, paymentUrl) {
+            event.preventDefault();
+            
+            if (button.classList.contains('loading')) return;
+            
+            if (!window.Clerk || !window.Clerk.user) {
+                showToast('Please sign in to enroll.', 'error');
+                setTimeout(() => window.Clerk && Clerk.openSignIn(), 500);
                 return;
             }
-            btn.classList.add('loading');
-            trackEvent('payment_initiate',{program:prog,amount:amt,currency:'INR'});
-            showToast('Redirecting to secure payment...','success');
             
-            sessionStorage.setItem('pendingEnrollment',JSON.stringify({program:prog,amount:amt,timestamp:Date.now()}));
+            button.classList.add('loading');
+            trackEvent('payment_initiate', { 
+                program: programName, 
+                amount: amount, 
+                currency: 'INR' 
+            });
             
-            const finalUrl=new URL(url);
-            finalUrl.searchParams.append('metadata[clerk_user_id]',window.Clerk.user.id);
-            const userEmail=window.Clerk.user.primaryEmailAddress?.emailAddress;
-            if(userEmail) finalUrl.searchParams.append('customer_email',userEmail);
+            showToast('Redirecting to secure payment...', 'success');
             
-            setTimeout(()=>{window.location.href=finalUrl.toString()},600);
-        }
-
-        function updateAuthUI(isIn){
-            document.getElementById('auth-logged-out')?.classList.toggle('hidden',isIn);
-            document.getElementById('auth-logged-in')?.classList.toggle('hidden',!isIn);
-            document.getElementById('mobile-auth-out')?.classList.toggle('hidden',isIn);
-            document.getElementById('mobile-auth-in')?.classList.toggle('hidden',!isIn);
-        }
-
-        function displayEnrollmentInfo(user){
-            const el=document.getElementById('enrollment-status');
-            if(!el)return;
-            const enrollments=user?.publicMetadata?.enrollments||[];
-            if(enrollments.length>0){
-                const latest=enrollments[enrollments.length-1];
-                el.innerHTML=`<strong>${latest.program||'Program Active'}</strong><br>Amount: ₹${latest.amount||'N/A'}`;
-            }else{
-                el.textContent='No active enrollments. Explore programs below!';
+            sessionStorage.setItem('pendingEnrollment', JSON.stringify({
+                program: programName,
+                amount: amount,
+                timestamp: Date.now()
+            }));
+            
+            try {
+                const url = new URL(paymentUrl);
+                url.searchParams.append('metadata[clerk_user_id]', window.Clerk.user.id);
+                
+                const userEmail = window.Clerk.user.primaryEmailAddress?.emailAddress;
+                if (userEmail) {
+                    url.searchParams.append('customer_email', userEmail);
+                }
+                
+                setTimeout(() => {
+                    window.location.href = url.toString();
+                }, 600);
+            } catch (error) {
+                console.error('Payment URL error:', error);
+                showToast('Payment system error. Please try again.', 'error');
+                button.classList.remove('loading');
             }
         }
 
-        window.addEventListener('load',async function(){
-            try{
+        // === ANIMATED COUNTER ===
+        function animateCounter(element) {
+            const target = parseInt(element.getAttribute('data-count'));
+            const duration = 1800;
+            const startTime = performance.now();
+            
+            function update(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const easeOut = 1 - Math.pow(1 - progress, 3);
+                const current = Math.floor(target * easeOut);
+                
+                element.textContent = current + (target === 100 ? '%' : '+');
+                
+                if (progress < 1) {
+                    requestAnimationFrame(update);
+                }
+            }
+            
+            requestAnimationFrame(update);
+        }
+
+        // === INITIALIZATION ===
+        window.addEventListener('load', async function() {
+            // Initialize Clerk
+            try {
                 await Clerk.load();
-                if(Clerk.user){
+                
+                if (Clerk.user) {
                     updateAuthUI(true);
                     displayEnrollmentInfo(Clerk.user);
-                    const pending=sessionStorage.getItem('pendingEnrollment');
-                    if(pending){
-                        showToast(`Successfully enrolled!`,'success');
+                    
+                    const pending = sessionStorage.getItem('pendingEnrollment');
+                    if (pending) {
+                        showToast('Successfully enrolled!', 'success');
                         sessionStorage.removeItem('pendingEnrollment');
                     }
-                }else{
+                } else {
                     updateAuthUI(false);
                 }
-                
-                document.getElementById('sign-in-btn')?.addEventListener('click',()=>Clerk.openSignIn());
-                window.ClerkSignOut = async () => { await Clerk.signOut(); window.location.reload(); }
-                
-            }catch(err){console.error('Clerk error:',err);}
+            } catch (error) {
+                console.error('Clerk initialization error:', error);
+                updateAuthUI(false);
+            }
+            
+            // Initialize counter animations
+            const statNumbers = document.querySelectorAll('.stat-number');
+            const statsObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !entry.target.classList.contains('counted')) {
+                        entry.target.classList.add('counted');
+                        animateCounter(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+            
+            statNumbers.forEach(stat => statsObserver.observe(stat));
+            
+            // Initialize scroll reveal
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+            
+            document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
         });
 
-        window.addEventListener('hashchange',()=>{
-            document.getElementById('mzone').classList.toggle('active', window.location.hash==='#mzone' && Clerk?.user);
+        // === SCROLL EFFECTS ===
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('.nav');
+            if (nav) {
+                nav.classList.toggle('scrolled', window.pageYOffset > 50);
+            }
         });
 
-        document.querySelectorAll('a[href^="#"]').forEach(a=>{
-            a.addEventListener('click',function(e){
-                const t=document.querySelector(this.getAttribute('href'));
-                if(t && this.getAttribute('href') !== '#mzone'){
+        // === MEMBER ZONE ===
+        window.addEventListener('hashchange', () => {
+            const memberArea = document.getElementById('mzone');
+            if (memberArea) {
+                memberArea.classList.toggle('active', 
+                    window.location.hash === '#mzone' && window.Clerk?.user
+                );
+            }
+        });
+
+        // === SMOOTH SCROLL ===
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target && this.getAttribute('href') !== '#mzone') {
                     e.preventDefault();
-                    window.scrollTo({top:t.getBoundingClientRect().top+window.pageYOffset-80,behavior:'smooth'});
+                    const offset = 80;
+                    const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - offset;
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
                 }
-            })
+            });
         });
-
-        window.addEventListener('scroll',()=>{
-            document.querySelector('.nav').classList.toggle('scrolled', window.pageYOffset>50);
-        });
-
-        const observer=new IntersectionObserver((e)=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('active')})},{threshold:0.1});
-        document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
     </script>
 </body>
 </html>

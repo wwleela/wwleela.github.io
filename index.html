@@ -985,52 +985,88 @@
             }
         }
 
-        // === PAYMENT HANDLER ===
-        function handlePaymentClick(event, button, programName, amount, paymentUrl) {
-            event.preventDefault();
-            
-            if (button.classList.contains('loading')) return;
-            
-            if (!window.Clerk || !window.Clerk.user) {
-                showToast('Please sign in to enroll.', 'error');
-                setTimeout(() => window.Clerk && Clerk.openSignIn(), 500);
-                return;
-            }
-            
-            button.classList.add('loading');
-            trackEvent('payment_initiate', { 
-                program: programName, 
-                amount: amount, 
-                currency: 'INR' 
-            });
-            
-            showToast('Redirecting to secure payment...', 'success');
-            
-            sessionStorage.setItem('pendingEnrollment', JSON.stringify({
-                program: programName,
-                amount: amount,
-                timestamp: Date.now()
-            }));
-            
-            try {
-                const url = new URL(paymentUrl);
-                url.searchParams.append('metadata[clerk_user_id]', window.Clerk.user.id);
-                
-                const userEmail = window.Clerk.user.primaryEmailAddress?.emailAddress;
-                if (userEmail) {
-                    url.searchParams.append('customer_email', userEmail);
-                }
-                
-                setTimeout(() => {
-                    window.location.href = url.toString();
-                }, 600);
-            } catch (error) {
-                console.error('Payment URL error:', error);
-                showToast('Payment system error. Please try again.', 'error');
-                button.classList.remove('loading');
-            }
-        }
+       // =====================================================
+// REPLACE handlePaymentClick function in index.html
+// This ensures proper data flow to success page
+// =====================================================
 
+function handlePaymentClick(event, button, programName, amount, paymentUrl) {
+    event.preventDefault();
+    
+    if (button.classList.contains('loading')) return;
+    
+    // Check authentication
+    if (!window.Clerk || !window.Clerk.user) {
+        showToast('Please sign in to enroll.', 'error');
+        setTimeout(() => window.Clerk && Clerk.openSignIn(), 500);
+        return;
+    }
+    
+    button.classList.add('loading');
+    
+    // Track payment initiation
+    trackEvent('payment_initiate', { 
+        program: programName, 
+        amount: amount, 
+        currency: 'INR' 
+    });
+    
+    showToast('Redirecting to secure payment...', 'success');
+    
+    // CRITICAL: Store program and amount in sessionStorage
+    // This allows success.html to display details even if URL params are missing
+    sessionStorage.setItem('ugh_program', programName);
+    sessionStorage.setItem('ugh_amount', amount.toString());
+    sessionStorage.setItem('ugh_timestamp', Date.now().toString());
+    
+    try {
+        const url = new URL(paymentUrl);
+        
+        // Add Clerk user ID to metadata
+        url.searchParams.append('metadata[clerk_user_id]', window.Clerk.user.id);
+        
+        // Add program and amount to metadata for webhook
+        url.searchParams.append('metadata[program]', programName);
+        url.searchParams.append('metadata[amount]', amount.toString());
+        
+        // Add customer email
+        const userEmail = window.Clerk.user.primaryEmailAddress?.emailAddress;
+        if (userEmail) {
+            url.searchParams.append('customer_email', userEmail);
+        }
+        
+        // Set success redirect URL with params
+        const successUrl = new URL(window.location.origin + '/success.html');
+        successUrl.searchParams.append('program', programName);
+        successUrl.searchParams.append('amount', amount.toString());
+        url.searchParams.append('success_url', successUrl.toString());
+        
+        // Set cancel redirect URL
+        url.searchParams.append('cancel_url', window.location.origin + '/index.html#programs');
+        
+        console.log('💳 Redirecting to payment:', {
+            program: programName,
+            amount: amount,
+            email: userEmail,
+            userId: window.Clerk.user.id
+        });
+        
+        // Redirect after brief delay for UX
+        setTimeout(() => {
+            window.location.href = url.toString();
+        }, 600);
+        
+    } catch (error) {
+        console.error('❌ Payment URL error:', error);
+        showToast('Payment system error. Please try again.', 'error');
+        button.classList.remove('loading');
+        
+        // Clear session storage on error
+        sessionStorage.removeItem('ugh_program');
+        sessionStorage.removeItem('ugh_amount');
+        sessionStorage.removeItem('ugh_timestamp');
+    }
+}
         // === ANIMATED COUNTER ===
         function animateCounter(element) {
             const target = parseInt(element.getAttribute('data-count'));

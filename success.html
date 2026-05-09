@@ -2,25 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>Payment Successful — Urban Gliding Hyderabad</title>
     
-    <!-- Google Analytics 4 -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-K2PYP4J4DZ"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
         gtag('config', 'G-K2PYP4J4DZ');
-        
-        // Track conversion
-        gtag('event', 'conversion', {
-            'send_to': 'G-K2PYP4J4DZ/payment_success',
-            'transaction_id': new URLSearchParams(window.location.search).get('transaction_id')
-        });
     </script>
     
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Manrope:wght@500;600;700&display=swap" rel="stylesheet">
@@ -125,9 +117,7 @@
             border-bottom: 1px solid rgba(26,26,26,0.08);
         }
         
-        .detail-row:last-child {
-            border-bottom: none;
-        }
+        .detail-row:last-child { border-bottom: none; }
         
         .detail-label {
             font-weight: 600;
@@ -137,6 +127,9 @@
         .detail-value {
             font-weight: 700;
             color: var(--charcoal);
+            word-break: break-word;
+            text-align: right;
+            max-width: 60%;
         }
         
         .next-steps {
@@ -237,7 +230,7 @@
         </div>
         
         <h1>You're All Set!</h1>
-        <p class="program-name" id="program-name">Loading...</p>
+        <p class="program-name" id="program-name">Loading enrollment...</p>
         
         <div class="details-box">
             <div class="detail-row">
@@ -261,68 +254,88 @@
         <div class="next-steps">
             <h3>What Happens Next?</h3>
             <ol>
-                <li><strong>Check your email</strong> — Confirmation and receipt sent to your inbox</li>
-                <li><strong>Join WhatsApp Group</strong> — Get session schedules and updates</li>
+                <li><strong>Check your email</strong> — Confirmation and receipt sent to your inbox within 5 minutes</li>
+                <li><strong>Join WhatsApp Group</strong> — Get session schedules and real-time updates from Coach Leela</li>
                 <li><strong>Coach reaches out</strong> — Within 24 hours to schedule your first session</li>
-                <li><strong>Start gliding</strong> — Equipment and venue details shared before session</li>
+                <li><strong>Start gliding</strong> — Equipment and venue details shared before your session</li>
             </ol>
         </div>
         
         <div class="cta-buttons">
-            <a href="https://chat.whatsapp.com/CeSGQhqpUMX8XamdJ7Uf2N" class="btn btn-primary" target="_blank">Join WhatsApp Community →</a>
+            <a href="https://chat.whatsapp.com/CeSGQhqpUMX8XamdJ7Uf2N" class="btn btn-primary" target="_blank" rel="noopener">Join WhatsApp Community →</a>
             <a href="/index.html" class="btn btn-secondary">Back to Home</a>
         </div>
         
         <div class="email-notice">
-            📧 Confirmation email sent. Check spam if not received in 5 minutes.
+            📧 <strong>Confirmation email sent to your inbox.</strong> Check spam folder if not received in 5 minutes. Questions? Contact wworldwide.leelamadhav@gmail.com
         </div>
     </div>
     
     <script>
-        // Parse URL parameters
-        const params = new URLSearchParams(window.location.search);
+        // Program name mapping
         const programMap = {
-            'phase1': 'Phase 1 Summer Camp',
+            'summer_camp': 'Summer Camp',
             'elite_1on1': 'Elite 1-on-1 Coaching',
             'elite_duo': 'Elite Duo Training'
         };
         
-        const program = params.get('program') || 'phase1';
-        const amount = params.get('amount') || '3999';
-        const transactionId = params.get('transaction_id') || 'UGH' + Date.now();
+        // Parse URL parameters from SeedhaPe redirect
+        const params = new URLSearchParams(window.location.search);
         
-        // Display details
+        // Extract data (SeedhaPe should pass these after payment)
+        const orderId = params.get('order_id') || params.get('transaction_id') || 'UGH-' + Date.now();
+        const program = params.get('program') || sessionStorage.getItem('ugh_program') || 'summer_camp';
+        const amount = params.get('amount') || sessionStorage.getItem('ugh_amount') || '3999';
+        const status = params.get('status') || 'success';
+        
+        // Display program name
         document.getElementById('program-name').textContent = programMap[program] || 'Urban Gliding Program';
-        document.getElementById('transaction-id').textContent = transactionId;
+        
+        // Display transaction details
+        document.getElementById('transaction-id').textContent = orderId;
         document.getElementById('amount-paid').textContent = '₹' + new Intl.NumberFormat('en-IN').format(amount);
         document.getElementById('payment-date').textContent = new Date().toLocaleDateString('en-IN', {
             day: 'numeric',
             month: 'long',
-            year: 'numeric'
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
         });
         
-        // Simulate email send (in production, this would be server-side)
-        console.log('Email confirmation sent for:', {
-            program: programMap[program],
-            amount: amount,
-            transactionId: transactionId,
-            timestamp: new Date().toISOString()
-        });
-        
-        // Track conversion event
-        if (typeof gtag !== 'undefined') {
+        // Track conversion in Google Analytics
+        if (typeof gtag !== 'undefined' && status === 'success') {
             gtag('event', 'purchase', {
-                transaction_id: transactionId,
+                transaction_id: orderId,
                 value: parseFloat(amount),
                 currency: 'INR',
                 items: [{
                     item_id: program,
                     item_name: programMap[program],
                     price: parseFloat(amount),
-                    quantity: 1
+                    quantity: 1,
+                    category: 'Skate Coaching'
                 }]
             });
+            
+            gtag('event', 'conversion', {
+                send_to: 'G-K2PYP4J4DZ/purchase',
+                transaction_id: orderId,
+                value: parseFloat(amount),
+                currency: 'INR'
+            });
         }
+        
+        // Clear session storage
+        sessionStorage.removeItem('ugh_program');
+        sessionStorage.removeItem('ugh_amount');
+        
+        // Log for debugging
+        console.log('✅ Payment success page loaded:', {
+            orderId,
+            program: programMap[program],
+            amount: '₹' + amount,
+            timestamp: new Date().toISOString()
+        });
     </script>
 </body>
 </html>

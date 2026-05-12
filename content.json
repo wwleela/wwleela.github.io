@@ -1,0 +1,85 @@
+{
+  "meta": {
+    "lastUpdated": "2026-05-12T00:00:00Z",
+    "version": "1.0.0"
+  },
+  
+  "contact": {
+    "coachName": "Coach Leela",
+    "phone": "916304895686",
+    "email": "wworldwide.leelamadhav@gmail.com",
+    "whatsappGroup": "https://chat.whatsapp.com/CeSGQhqpUMX8XamdJ7Uf2N",
+    "googleBusiness": "https://g.page/r/your-google-business-id"
+  },
+  
+  "programs": {
+    "elite_1on1": {
+      "id": "elite_1on1",
+      "name": "Elite 1-on-1",
+      "displayName": "Elite 1-on-1 Coaching",
+      "price": 5999,
+      "currency": "INR",
+      "period": "per month",
+      "description": "Personalized curriculum with dedicated sessions and custom video analysis.",
+      "features": [
+        "2 physical sessions per week",
+        "2 custom video guides per week",
+        "Personal progression roadmap"
+      ],
+      "badge": "Most Popular",
+      "ctaText": "Start Training →"
+    },
+    "elite_duo": {
+      "id": "elite_duo",
+      "name": "Elite Duo",
+      "displayName": "Elite Duo Training",
+      "price": 8999,
+      "currency": "INR",
+      "period": "per month · shared",
+      "description": "Train with a partner — same quality, competitive energy, split investment.",
+      "features": [
+        "2 physical + 2 video guides",
+        "Competitive partner dynamic",
+        "₹4,499.50 per person"
+      ],
+      "badge": null,
+      "ctaText": "Book Duo →"
+    },
+    "summer_camp": {
+      "id": "summer_camp",
+      "name": "Summer Camp",
+      "displayName": "Summer Camp",
+      "price": 3999,
+      "currency": "INR",
+      "period": "per participant",
+      "description": "Group workshop at your society introducing fundamentals under certified supervision.",
+      "features": [
+        "IOC-certified coaching at your venue",
+        "Group learning motivation",
+        "Ages 5+ welcome"
+      ],
+      "badge": null,
+      "ctaText": "Register Now →"
+    }
+  },
+  
+  "whatsapp": {
+    "preFillTemplate": "Hi Coach Leela, I want to enroll in {{programName}} (₹{{price}}). I'll send payment confirmation shortly.",
+    "freeTrialTemplate": "Hi Coach Leela, I want a free trial session. Please share available slots."
+  },
+  
+  "paymentInstructions": {
+    "upiId": "leelamadhav@paytm",
+    "steps": [
+      "Send ₹{{price}} via UPI to leelamadhav@paytm",
+      "Take screenshot of payment confirmation",
+      "Send screenshot + your profile photo to Coach Leela on WhatsApp",
+      "Receive welcome kit within 30 minutes after verification"
+    ]
+  },
+  
+  "emailTemplates": {
+    "welcomeSubject": "✅ Welcome to UGH — {{programName}}",
+    "welcomeNote": "Your payment has been verified. Coach Leela will reach out within 24 hours to schedule your first session."
+  }
+}

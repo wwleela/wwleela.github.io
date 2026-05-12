@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;600&family=JetBrains+Mono:wght@700&family=Libre+Caslon+Text:wght@400;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Libre Caslon Text", serif;
+  --font-sans: "Geist", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  --color-vintage-cream: #fdf9f3;
+  --color-deep-teal: #00615f;
+  --color-burnt-orange: #E67E22;
+  --color-rust: #97381d;
+  --color-keyline: #1c1c18;
+
+  --radius-collector: 32px;
+}
+
+@layer base {
+  body {
+    @apply bg-vintage-cream text-keyline font-sans;
+  }
+}
+
+@layer components {
+  .btn-tactical {
+    @apply transition-all duration-200 border-3 border-keyline active:scale-95;
+    box-shadow: 4px 4px 0 theme('colors.keyline');
+  }
+  .btn-tactical:hover {
+    @apply -translate-x-1 -translate-y-1;
+    box-shadow: 8px 8px 0 theme('colors.burnt-orange');
+  }
+  
+  .card-tactical {
+    @apply transition-all duration-300 border-4 border-keyline rounded-collector;
+  }
+  .card-tactical:hover {
+    @apply -translate-x-1 -translate-y-1;
+    box-shadow: 8px 8px 0 theme('colors.deep-teal');
+  }
+}

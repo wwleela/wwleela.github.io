@@ -13,6 +13,22 @@
   },
   
   "programs": {
+    "summer_camp": {
+      "id": "summer_camp",
+      "name": "Summer Camp",
+      "displayName": "Summer Camp 2026",
+      "price": 3999,
+      "currency": "INR",
+      "period": "per participant",
+      "description": "Group workshop at your society introducing fundamentals under certified supervision.",
+      "features": [
+        "IOC-certified coaching at your venue",
+        "Group learning motivation",
+        "Ages 5+ welcome"
+      ],
+      "badge": "Summer Special",
+      "ctaText": "Register Now →"
+    },
     "elite_1on1": {
       "id": "elite_1on1",
       "name": "Elite 1-on-1",
@@ -44,22 +60,6 @@
       ],
       "badge": null,
       "ctaText": "Book Duo →"
-    },
-    "summer_camp": {
-      "id": "summer_camp",
-      "name": "Summer Camp",
-      "displayName": "Summer Camp",
-      "price": 3999,
-      "currency": "INR",
-      "period": "per participant",
-      "description": "Group workshop at your society introducing fundamentals under certified supervision.",
-      "features": [
-        "IOC-certified coaching at your venue",
-        "Group learning motivation",
-        "Ages 5+ welcome"
-      ],
-      "badge": null,
-      "ctaText": "Register Now →"
     }
   },
   
@@ -105,7 +105,7 @@
   "leaderboard": {
     "lastUpdated": "2026-05-12T00:00:00Z",
     "rankings": [
-      { "name": "Aman .", "points": 1450, "change": "up" },
+      { "name": "Aman R.", "points": 1450, "change": "up" },
       { "name": "Sarah K.", "points": 1320, "change": "down" },
       { "name": "Vikram S.", "points": 1280, "change": "up" },
       { "name": "Meera J.", "points": 1150, "change": "same" },

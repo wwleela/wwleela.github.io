@@ -89,18 +89,18 @@
 </head>
 <body>
     <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-K2PYP4J4DZ"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-        gtag('config', 'G-XXXXXXXXXX');
+        gtag('config', 'G-K2PYP4J4DZ');
     </script>
 
     <nav class="sticky top-0 z-50 bg-vintage-cream/80 backdrop-blur-md border md:border-b-3 border-keyline">
-        <div class="max-w-7xl mx-auto px-6 h-24 flex items-center justify-between">
+        <div class="max-w-7xl mx-auto px-6 h-16 md:h-24 flex items-center justify-between">
             <div class="flex items-center gap-2">
-                <a href="index.html" class="font-serif text-3xl md:text-4xl font-bold text-deep-teal transition-transform hover:scale-105 active:scale-95 block">UGH</a>
+                <a href="index.html" class="font-serif text-2xl md:text-4xl font-bold text-deep-teal transition-transform hover:scale-105 active:scale-95 block">UGH</a>
             </div>
 
             <div class="hidden md:flex items-center gap-12">
@@ -112,8 +112,8 @@
                 </button>
             </div>
 
-            <button class="md:hidden p-3 bg-burnt-orange text-white rounded-2xl border-3 border-keyline shadow-[4px_4px_0_#1c1c18] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none" onclick="toggleMenu()">
-                <i data-lucide="menu" id="menu-icon"></i>
+            <button class="md:hidden p-2 bg-burnt-orange text-white rounded-xl border-3 border-keyline shadow-[3px_3px_0_#1c1c18] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none" onclick="toggleMenu()">
+                <i data-lucide="menu" id="menu-icon" class="w-5 h-5"></i>
             </button>
         </div>
     </nav>
@@ -190,22 +190,21 @@
                         </div>
                     </div>
 
-                    <div class="bg-vintage-cream border-4 border-keyline rounded-[48px] p-10 md:p-14 flex flex-col justify-center items-center text-center relative overflow-hidden group shadow-inner">
+                    <div class="bg-vintage-cream border-4 border-keyline rounded-[48px] p-8 md:p-14 flex flex-col justify-center items-center text-center relative overflow-hidden group shadow-inner w-full max-w-full">
                         <span class="font-mono text-[11px] uppercase tracking-[3px] text-keyline/40 mb-4">Primary UPI ID</span>
                         <div class="relative w-full mb-10 overflow-hidden">
-                            <span id="upi-id" class="font-serif text-2xl md:text-3xl font-bold text-deep-teal break-all select-all cursor-pointer block leading-tight tracking-tighter"></span>
+                            <span id="upi-id" class="font-serif text-xl md:text-3xl font-bold text-deep-teal break-all select-all cursor-pointer block leading-tight tracking-tighter" style="overflow-wrap: anywhere;"></span>
                         </div>
                         
-                        <button onclick="toggleQR(true)" class="w-full mb-10 bg-white border-4 border-keyline px-8 py-5 rounded-2xl font-mono text-sm uppercase tracking-[2px] flex items-center justify-center gap-4 hover:bg-burnt-orange hover:text-white transition-all shadow-[8px_8px_0_#1c1c18] active:translate-y-1 active:shadow-none hover:scale-105">
-                            <i data-lucide="qr-code"></i>
-                            Generate Payment QR
-                        </button>
+                        <a href="upi://pay?pa=worldwide.leelamadhav@oksbi&pn=UGH%20Hyderabad&cu=INR" class="w-full mb-10 bg-burnt-orange text-white border-4 border-keyline px-6 py-5 rounded-2xl font-mono text-sm md:text-base uppercase tracking-[2px] font-bold flex items-center justify-center gap-4 hover:bg-deep-teal transition-all shadow-[8px_8px_0_#1c1c18] active:translate-y-1 active:shadow-none hover:scale-[1.02]">
+                            TAP TO PAY (GPAY / PHONEPE)
+                        </a>
 
-                        <div class="w-full p-8 bg-white border-3 border-keyline rounded-3xl mb-8 shadow-sm">
+                        <div class="w-full p-6 md:p-8 bg-white border-3 border-keyline rounded-3xl mb-8 shadow-sm">
                             <p class="text-[10px] font-mono text-keyline/60 uppercase tracking-[2px] mb-3">Expected Response Time</p>
-                            <p class="font-serif text-3xl font-bold">~30 Minutes</p>
+                            <p class="font-serif text-2xl md:text-3xl font-bold">~30 Minutes</p>
                         </div>
-                        <p class="text-xs text-keyline/40 font-mono tracking-widest uppercase">
+                        <p class="text-[10px] md:text-xs text-keyline/40 font-mono tracking-widest uppercase">
                             Verification window: 06:00 - 22:00 IST
                         </p>
                     </div>
@@ -213,31 +212,6 @@
             </div>
         </section>
     </main>
-
-    <!-- QR Modal -->
-    <div id="qr-modal" class="fixed inset-0 z-[60] flex items-center justify-center p-6 hidden">
-        <div onclick="toggleQR(false)" class="absolute inset-0 bg-keyline/95 backdrop-blur-2xl"></div>
-        <div class="relative bg-white border-4 border-keyline rounded-[56px] p-10 md:p-14 max-w-md w-full shadow-[24px_24px_0_#E67E22] transform transition-all duration-500 scale-90 opacity-0" id="qr-content">
-            <button onclick="toggleQR(false)" class="absolute -top-6 -right-6 bg-burnt-orange text-white w-14 h-14 rounded-full border-4 border-keyline shadow-xl flex items-center justify-center hover:rotate-90 transition-transform">
-                <i data-lucide="x" class="w-8 h-8"></i>
-            </button>
-            <div class="flex flex-col items-center">
-                <div class="bg-vintage-cream px-6 py-2 rounded-full border-3 border-keyline mb-10 font-mono text-xs uppercase tracking-[3px] font-bold">Tactical Authorization</div>
-                
-                <div class="w-full aspect-square border-4 border-keyline rounded-[40px] overflow-hidden bg-white mb-10 shadow-2xl p-4">
-                    <img src="1000101770.png" alt="GPay QR" class="w-full h-full object-contain">
-                </div>
-
-                <a id="deep-link-upi" href="upi://pay?pa=worldwide.leelamadhav@oksbi&pn=UGH%20Hyderabad&cu=INR" class="w-full bg-burnt-orange text-white py-6 rounded-2xl font-mono text-lg uppercase tracking-[3px] font-bold text-center border-4 border-keyline shadow-[10px_10px_0_#1c1c18] hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[14px_14px_0_#1c1c18] transition-all mb-6">
-                    Tap to Pay via UPI
-                </a>
-
-                <p class="font-mono text-[10px] uppercase tracking-[1px] text-keyline/40 text-center leading-loose">
-                    Automated redirect to your UPI app.<br>Send screenshot after transaction.
-                </p>
-            </div>
-        </div>
-    </div>
 
     <!-- Footer -->
     <footer class="bg-keyline text-white py-32 px-6">
@@ -415,24 +389,6 @@
                 `;
                 container.appendChild(el);
             });
-        }
-
-        function toggleQR(show) {
-            const modal = document.getElementById('qr-modal');
-            const content = document.getElementById('qr-content');
-            if (show) {
-                modal.classList.remove('hidden');
-                setTimeout(() => {
-                    content.classList.remove('scale-90', 'opacity-0');
-                    content.classList.add('scale-100', 'opacity-100');
-                }, 10);
-            } else {
-                content.classList.remove('scale-100', 'opacity-100');
-                content.classList.add('scale-90', 'opacity-0');
-                setTimeout(() => {
-                    modal.classList.add('hidden');
-                }, 300);
-            }
         }
 
         function handleEnroll(programId) {

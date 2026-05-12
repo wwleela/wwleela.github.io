@@ -86,6 +86,13 @@
             }
         }
     </style>
+    <script 
+        async 
+        crossorigin="anonymous" 
+        data-clerk-publishable-key="pk_test_cG93ZXJmdWwtcmVkZmlzaC01MC5jbGVyay5hY2NvdW50cy5kZXYk" 
+        src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js" 
+        type="text/javascript"
+    ></script>
 </head>
 <body>
     <!-- Google Analytics -->
@@ -97,34 +104,50 @@
         gtag('config', 'G-K2PYP4J4DZ');
     </script>
 
-    <nav class="sticky top-0 z-50 bg-vintage-cream/80 backdrop-blur-md border md:border-b-3 border-keyline">
-        <div class="max-w-7xl mx-auto px-6 h-16 md:h-24 flex items-center justify-between">
+    <nav class="sticky top-0 z-50 bg-vintage-cream/80 backdrop-blur-md border-b-3 border-keyline transition-all">
+        <div class="max-w-7xl mx-auto px-4 md:px-6 h-16 md:h-24 flex items-center justify-between">
             <div class="flex items-center gap-2">
-                <a href="index.html" class="font-serif text-2xl md:text-4xl font-bold text-deep-teal block transition-transform hover:scale-105 active:scale-95">UGH</a>
+                <a href="index.html" class="font-serif text-2xl md:text-3xl font-bold text-deep-teal transition-transform hover:scale-105 active:scale-95 block tracking-tighter">UGH</a>
             </div>
 
-            <div class="hidden md:flex items-center gap-12">
-                <a href="index.html#programs" class="nav-link">Programs</a>
-                <a href="leaderboard.html" class="nav-link">Summer Camp</a>
-                <a href="about.html" class="nav-link !text-burnt-orange">About</a>
-                <button onclick="handleTrial()" class="bg-burnt-orange text-white btn-tactical !px-8 !py-4">
+            <div class="hidden md:flex items-center gap-8 lg:gap-12">
+                <a href="index.html#programs" class="nav-link !text-base lg:!text-lg">Programs</a>
+                <a href="leaderboard.html" class="nav-link !text-base lg:!text-lg">Summer Camp</a>
+                <a href="about.html" class="nav-link !text-base lg:!text-lg !text-burnt-orange">About</a>
+                
+                <div class="h-8 w-[1px] bg-keyline/10"></div>
+
+                <div id="auth-links" class="flex items-center gap-6">
+                    <button id="sign-in-button" class="font-mono text-[10px] uppercase tracking-widest px-5 py-2.5 rounded-full border-2 border-keyline hover:bg-vintage-cream transition-all hidden font-bold">Sign In</button>
+                    <div id="user-button"></div>
+                </div>
+                <button onclick="handleTrial()" class="bg-burnt-orange text-white btn-tactical !px-6 lg:!px-8 !py-3 lg:!py-4 !text-[10px] lg:!text-xs font-bold">
                     Secure Your Spot
                 </button>
             </div>
 
-            <button class="md:hidden p-2 bg-burnt-orange text-white rounded-xl border-3 border-keyline shadow-[3px_3px_0_#1c1c18]" onclick="toggleMenu()">
+            <button class="md:hidden p-2 bg-burnt-orange text-white rounded-xl border-3 border-keyline shadow-[3px_3px_0_#1c1c18] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none" onclick="toggleMenu()">
                 <i data-lucide="menu" id="menu-icon" class="w-5 h-5"></i>
             </button>
         </div>
     </nav>
 
     <!-- Mobile Menu -->
-    <div id="mobile-menu" class="fixed inset-0 z-40 glass-menu pt-32 px-6 md:hidden hidden flex-col gap-10 items-center">
-        <a href="index.html#programs" onclick="toggleMenu()" class="font-serif text-4xl font-bold tracking-[1px]">Programs</a>
-        <a href="leaderboard.html" onclick="toggleMenu()" class="font-serif text-4xl font-bold tracking-[1px]">Summer Camp</a>
-        <a href="about.html" onclick="toggleMenu()" class="font-serif text-4xl font-bold tracking-[1px] !text-burnt-orange">About</a>
-        <button onclick="handleTrial()" class="w-full bg-burnt-orange text-white btn-tactical !py-6 mt-6">
+    <div id="mobile-menu" class="fixed inset-0 z-40 bg-vintage-cream/98 backdrop-blur-2xl px-6 md:hidden hidden flex-col items-center justify-center gap-8">
+        <a href="index.html#programs" onclick="toggleMenu()" class="font-serif text-3xl font-bold tracking-[1px] hover:text-burnt-orange">Programs</a>
+        <a href="leaderboard.html" onclick="toggleMenu()" class="font-serif text-3xl font-bold tracking-[1px] hover:text-burnt-orange">Summer Camp</a>
+        <a href="about.html" onclick="toggleMenu()" class="font-serif text-3xl font-bold tracking-[1px] !text-burnt-orange">About</a>
+        
+        <div class="w-full h-[1px] bg-keyline/10 my-2"></div>
+
+        <button id="sign-in-button-mobile" onclick="Clerk.openSignIn(); toggleMenu();" class="w-full font-mono text-xs uppercase tracking-widest py-4 rounded-full border-2 border-keyline font-bold hidden">Sign In</button>
+        
+        <button onclick="handleTrial()" class="w-full bg-burnt-orange text-white btn-tactical !py-5 font-bold">
             Secure Your Spot
+        </button>
+
+        <button onclick="toggleMenu()" class="mt-8 p-4 text-keyline/40 font-mono text-[10px] uppercase tracking-widest flex items-center gap-2">
+            <i data-lucide="x" class="w-4 h-4"></i> Close Menu
         </button>
     </div>
 
@@ -215,7 +238,7 @@
             lucide.createIcons();
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', async () => {
             document.getElementById('about-description').innerText = CONTENT.about.description;
             const container = document.getElementById('curriculum-container');
             CONTENT.about.curriculum.forEach((item, idx) => {
@@ -237,6 +260,24 @@
                 container.appendChild(el);
             });
             lucide.createIcons();
+
+            // Clerk Initialization
+            if (window.Clerk) {
+                try {
+                    await Clerk.load();
+                    const signInBtn = document.getElementById('sign-in-button');
+                    const userBtnDiv = document.getElementById('user-button');
+                    if (Clerk.user) {
+                        Clerk.mountUserButton(userBtnDiv);
+                    } else if (signInBtn) {
+                        signInBtn.classList.remove('hidden');
+                        signInBtn.addEventListener('click', () => Clerk.openSignIn());
+                        const mobileSignIn = document.getElementById('sign-in-button-mobile');
+                        if (mobileSignIn) mobileSignIn.classList.remove('hidden');
+                    }
+                } catch (e) { console.error(e); }
+            }
+
             document.querySelectorAll('.fade-in').forEach(el => el.classList.add('visible'));
         });
     </script>

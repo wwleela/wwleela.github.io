@@ -84,10 +84,19 @@
     </style>
 </head>
 <body>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-K2PYP4J4DZ"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-K2PYP4J4DZ');
+    </script>
+
     <nav class="sticky top-0 z-50 bg-vintage-cream/80 backdrop-blur-md border md:border-b-3 border-keyline">
-        <div class="max-w-7xl mx-auto px-6 h-24 flex items-center justify-between">
+        <div class="max-w-7xl mx-auto px-6 h-16 md:h-24 flex items-center justify-between">
             <div class="flex items-center gap-2">
-                <a href="index.html" class="font-serif text-3xl md:text-4xl font-bold text-deep-teal block transition-transform hover:scale-105 active:scale-95">UGH</a>
+                <a href="index.html" class="font-serif text-2xl md:text-4xl font-bold text-deep-teal block transition-transform hover:scale-105 active:scale-95">UGH</a>
             </div>
 
             <div class="hidden md:flex items-center gap-12">
@@ -99,8 +108,8 @@
                 </button>
             </div>
 
-            <button class="md:hidden p-3 bg-burnt-orange text-white rounded-2xl border-3 border-keyline shadow-[4px_4px_0_#1c1c18]" onclick="toggleMenu()">
-                <i data-lucide="menu" id="menu-icon"></i>
+            <button class="md:hidden p-2 bg-burnt-orange text-white rounded-xl border-3 border-keyline shadow-[3px_3px_0_#1c1c18]" onclick="toggleMenu()">
+                <i data-lucide="menu" id="menu-icon" class="w-5 h-5"></i>
             </button>
         </div>
     </nav>
@@ -160,7 +169,10 @@
 
     <script>
         const CONTENT = {
-            "contact": { "phone": "916304895686" },
+            "contact": { 
+                "phone": "916304895686",
+                "email": "worldwide.leelamadhav@gmail.com"
+            },
             "whatsapp": { "freeTrialTemplate": "Hi Coach Leela, I want a free trial session." },
             "leaderboard": {
                 "lastUpdated": "2026-05-12T00:00:00Z",
